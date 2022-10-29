@@ -3,22 +3,21 @@ from Acao import Acao
 from Item import Item
 
 class Personagem:
-    def __init__(self, nome:str, ataque:int, pontos_de_vida:int, amigo:bool,
-                defesa:int, equipamento:list, tecnicas:dict, raca:str):
+    def __init__(self, nome:str, ataque:int, saude:int, raca:str,
+                amigo:bool, equipamento:list, tecnicas:dict):
         self.__nome = nome
         self.__raca = raca
+        self.__saude = saude
         self.__amigo = amigo
         self.__ataque = ataque
-        self.__defesa = defesa
         self.__tecnicas = tecnicas
         self.__equipamento = equipamento
-        self.__pontos_de_vida = pontos_de_vida
     
-    def executar_acao(self, dado:int, acao: Acao): -> Acao
-        pass
+    def evoluir_tecnica(self, tecnica):
+        self.__tecnicas[tecnica].evolucao()
     
-    def evoluir_tecnica(self):
-        pass
-    
-    def evoluir_atributo(self):
-        pass
+    def evoluir_atributo(self, atributo: str):
+        if atributo == 'ataque':
+            self.__ataque += 5
+        if atributo == 'saude':
+            self.__saude += 5
