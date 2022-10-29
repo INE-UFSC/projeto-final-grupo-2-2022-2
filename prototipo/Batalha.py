@@ -7,8 +7,8 @@ class Batalha:
         self.__aliados = aliados
         self.__inimigos = inimigos
 
-    def ataque_aliado(self):
+    def acao_aliada(self):
         pass
 
-    def ataque_inimigo(self):
+    def acao_inimiga(self):
         pass

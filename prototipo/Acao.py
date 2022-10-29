@@ -6,7 +6,7 @@ from Jogo import Jogo
 # atributo ela vai afetar, e quantos alvos
 
 acoes = [
-    ['fireball', -5, 'saude', 1]
+    Acao('fireball', -5, 'saude', 1)
 ]
 
 class Acao:
@@ -18,7 +18,7 @@ class Acao:
         self.__n_de_alvos = n_de_alvos
 
     def evolucao(self):
-        if fator > 0:
+        if self.__fator > 0:
             self.__fator += 5
         else:
             self.__fator -= 5
