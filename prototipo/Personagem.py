@@ -37,6 +37,9 @@ class Personagem:
     def receber_dano(self, dano):
         self.__saude_at -= abs(dano)
     
+    def reduzir_ataque(self, dano):
+        self.__ataque_at -= abs(dano)
+    
     def boost_ataque(self, boost):
         self.__ataque_at += abs(boost)
     

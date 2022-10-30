@@ -10,20 +10,28 @@ class Batalha:
         self.__aliados = aliados
         self.__inimigos = inimigos
 
-    def ataque(self, amigo:bool, dano:int):
+    def ataque(self, amigo:bool, efeito:str, dano:int):
         if amigo: oponente = self.__inimigos
         else: oponente = self.__aliados
         a = r.random.choice(oponente)
-        a.receber_dano(dano)
-
+        if efeito.lower() == 'saude':
+            a.receber_dano(dano)
+        elif efeito.lower() == 'ataque':
+            a.reduzir_ataque(dano)
+        else: print('efeito invalido')
 
     def suporte(self, amigo:bool, efeito:str, boost:int):
         if amigo: oponente = self.__aliados
         else: oponente = self.__inimigos
+        a = r.random.choice(oponente)
         if efeito.lower() == 'saude':
-            a = r.random.choice(oponente)
             a.boost_saude(boost)
         elif efeito.lower() == 'ataque': 
-            a = r.random.choice(oponente)
             a.boost_ataque(boost)
         else: print('efeito invalido')
+    
+    def jogar_dados(self):
+        return r.randint(1, 20)
+    
+    def batalhar(self, ):
+        pass

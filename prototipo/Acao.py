@@ -3,15 +3,15 @@ from Jogo import Jogo
 # cada acao deve ter um nome, um fator
 # (quanto vai afetar, capaz de evoluir)
 # e os efeitos, consistindo em qual
-# atributo ela vai afetar, e quantos alvos
+# atributo ela vai afetar
 
 acoes = [
-    Acao('fireball', -5, 'saude', 1)
+    Acao('fireball', -5, 'saude')
 ]
 
 class Acao:
     def __init__(self, nome:str, fator: int,
-                efeito:str,):
+                efeito:str):
         self.__nome = nome
         self.__fator = fator
         self.__efeito = efeito
