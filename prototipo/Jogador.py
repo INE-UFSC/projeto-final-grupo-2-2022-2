@@ -9,6 +9,3 @@ class Jogador:
     
     def jogar_dados(self):
         return r.randint(1, 20)
-    
-    def executar_acao(self, dado:int, acao: Acao):
-        pass

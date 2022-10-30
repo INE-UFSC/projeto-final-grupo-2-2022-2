@@ -11,11 +11,10 @@ acoes = [
 
 class Acao:
     def __init__(self, nome:str, fator: int,
-                efeito:str, n_de_alvos:int):
+                efeito:str,):
         self.__nome = nome
         self.__fator = fator
         self.__efeito = efeito
-        self.__n_de_alvos = n_de_alvos
 
     def evolucao(self):
         if self.__fator > 0:
