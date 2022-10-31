@@ -5,10 +5,6 @@ from Jogo import Jogo
 # e os efeitos, consistindo em qual
 # atributo ela vai afetar
 
-acoes = [
-    ['fireball', -5, 'saude', 1]
-]
-
 class Acao:
     def __init__(self, nome:str, fator: int,
                 efeito:str):
@@ -31,5 +27,5 @@ class Acao:
 
 
 acoes = [
-    Acao('fireball', -5, 'saude', 1)
+    Acao('fireball', -5, 'saude')
 ]

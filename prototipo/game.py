@@ -1,3 +1,5 @@
+from random import Random, random
+from re import T
 from Acao import Acao, acoes
 import pygame
 import os
@@ -10,18 +12,34 @@ pygame.init()
 window = pygame.display.set_mode((900, 500), pygame.RESIZABLE)
 
 # Elementos a serem mostrados na tela
-char = Element(window, 'knight.png', 100, 300, CHAR_WIDTH, CHAR_HEIGHT)
-char2 = Element(window, 'knight_mirrored.png', 700, 300, CHAR_WIDTH, CHAR_HEIGHT)
+char = Element(window, 'knight.png', 100, 200, CHAR_WIDTH, CHAR_HEIGHT)
+char2 = Element(window, 'knight.png', 200, 100, CHAR_WIDTH, CHAR_HEIGHT)
+char3 = Element(window, 'knight.png', 200, 300, CHAR_WIDTH, CHAR_HEIGHT)
+
+
+enemy1 = Element(window, 'orc07.png', 700, 200, CHAR_WIDTH, CHAR_HEIGHT)
+enemy2 = Element(window, 'orc07.png', 600, 100, CHAR_WIDTH, CHAR_HEIGHT)
+enemy3 = Element(window, 'orc07.png', 600, 300, CHAR_WIDTH, CHAR_HEIGHT)
+
 
 # Lista de elementos
-elements = [
+team = [
     char,
     char2,
+    char3
+]
+
+enemies = [
+    enemy1,
+    enemy2,
+    enemy3
 ]
 
 def update_window(window):
     window.fill((255, 255, 255))
-    for element in elements:
+    for i, element in enumerate(team):
+        element.draw()
+    for i, element in enumerate(enemies):
         element.draw()
     pygame.display.update()
     
@@ -32,8 +50,6 @@ def main(window):
     clock = pygame.time.Clock()
     x_speed = 15
     y_speed = 15
-    jumping = False
-    jump_count = 0
     attack = False
     
 
@@ -60,17 +76,27 @@ def main(window):
         
         if event.type == pygame.MOUSEBUTTONDOWN or attack:
             if not attack:
+                rand = Random()
+                targetPos = rand.randint(0, 2)
+                target = enemies[targetPos]
                 x, y = char.rect.centerx - 10, char.rect.centery-10
                 fireball = Element(window, 'fireball.png', x, y, 20, 20)
-                elements.append(fireball)
+                team.append(fireball)
                 attack = True
             else:
                 fireball.rect.x += x_speed
-                if fireball.rect.collidepoint(char2.rect.center):
-                    attack = False
-                    elements.remove(fireball)
-                    print("char2 -5 vida")
+                match targetPos:
+                    case 0:
+                        pass
+                    case 1:
+                        fireball.rect.y -= x_speed/5
+                    case 2:
+                        fireball.rect.y += x_speed/5
 
+                if fireball.rect.collidepoint(target.rect.center):
+                    attack = False
+                    team.remove(fireball)
+                    print("char2 -5 vida")
         
         # if keys_pressed[pygame.K_UP] and not jumping:
         #     jumping = True
