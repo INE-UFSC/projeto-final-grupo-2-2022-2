@@ -46,10 +46,9 @@ def update_window(window):
 
 def main(window):
     winw, winh = window.get_size()
-    fps = 30
+    fps = 60
     clock = pygame.time.Clock()
     x_speed = 15
-    y_speed = 15
     attack = False
     
 

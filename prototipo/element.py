@@ -7,7 +7,7 @@ class Element:
         self.__width = width
         self.__height = height
         self.__rect = pygame.Rect(x, y, width, height)
-        self.__image = pygame.image.load(os.path.join('projeto-final-grupo-2-2022-2/prototipo/assets', file))
+        self.__image = pygame.image.load(os.path.join('prototipo/assets', file))
         self.__image = pygame.transform.scale(self.__image, (width, height))
         self.draw()
     
