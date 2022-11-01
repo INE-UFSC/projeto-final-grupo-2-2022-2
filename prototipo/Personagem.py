@@ -1,5 +1,6 @@
 from Jogo import Jogo
 from Acao import Acao
+import random as r
 
 class Personagem:
     def __init__(self, nome:str, ataque:int, saude:int,
@@ -19,14 +20,8 @@ class Personagem:
     def get_saude(self):
         return self.__saude_at
     
-    def set_saude(self, novo):
-        self.__saude_at = novo
-    
     def get_ataque(self):
         return self.__ataque_at
-    
-    def set_ataque(self, novo):
-        self.__ataque_at = novo
     
     def get_nome(self):
         return self.__nome
@@ -34,17 +29,11 @@ class Personagem:
     def get_raca(self):
         return self.__raca
     
-    def receber_dano(self, dano):
-        self.__saude_at -= abs(dano)
+    def afeta_saude(self, efeito):
+        self.__saude_at += efeito
     
-    def reduzir_ataque(self, dano):
-        self.__ataque_at -= abs(dano)
-    
-    def boost_ataque(self, boost):
-        self.__ataque_at += abs(boost)
-    
-    def boost_saude(self, boost):
-        self.__saude_at += abs(boost)
+    def afeta_ataque(self, efeito):
+        self.__ataque_at += efeito
     
     def fim_da_batalha(self):
         self.__saude_at = self.__saude_max
@@ -64,5 +53,5 @@ class Personagem:
         if atributo == 'saude':
             self.__saude += 5
     
-    def executar_acao(self, dado:int, acao:str):
-        pass
+    def get_acao(self):
+        return r.choice(self.__tecnicas)
