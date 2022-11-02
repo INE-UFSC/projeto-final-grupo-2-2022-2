@@ -1,5 +1,5 @@
 from Jogo import Jogo
-from Personagem import Personagem
+# from Personagem import Personagem
 
 # cada acao deve ter um nome, um fator
 # (quanto vai afetar, capaz de evoluir)
@@ -56,7 +56,7 @@ class Acao:
     def efeito(self, novo:str):
         self.__efeito = novo
     
-    def executar(self, alvo:Personagem):
+    def executar(self, alvo):
         if self.__efeito == 'saude':
             alvo.afeta_saude(self.__fator)
         elif self.__efeito == 'ataque':
@@ -65,5 +65,5 @@ class Acao:
 
 
 acoes = [
-    Acao('fireball', -5, 'saude')
+    Acao('fireball', -5, 'saude', 'projetil')
 ]

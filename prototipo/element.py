@@ -1,18 +1,23 @@
 import os
+
+from personagem import Personagem
 import pygame
 class Element:
-    def __init__(self, surface:pygame.Surface, file:str, x:float, y:float, width:float, height:float) -> None:
+    def __init__(self, surface:pygame.Surface, char:Personagem, x:float, y:float) -> None:
         self.__surface = surface
-        self.__file = file
-        self.__width = width
-        self.__height = height
-        self.__rect = pygame.Rect(x, y, width, height)
-        self.__image = pygame.image.load(os.path.join('prototipo/assets', file))
-        self.__image = pygame.transform.scale(self.__image, (width, height))
+        self.__char = char
+        self.__rect = pygame.Rect(x, y, char.size[0], char.size[1])
+        # self.__image = pygame.image.load(os.path.join('prototipo/assets', file))
+        # self.__image = pygame.transform.scale(self.__image, (width, height))
         self.draw()
     
     def draw(self):
-        self.__surface.blit(self.__image, (self.__rect.x, self.__rect.y))
+        self.__surface.blit(self.__char.image, (self.__rect.x, self.__rect.y))
+        health = str(self.__char.get_saude())
+        font = pygame.font.SysFont('Comic Sans MS', 20)
+        text = font.render(health, True, (0, 0, 0))
+        x, y, w = self.__rect.x, self.__rect.y, self.__rect.width
+        self.__surface.blit(text, text.get_rect(center=(x + w/2, y)))
     
 
 
@@ -39,18 +44,11 @@ class Element:
         self.__height = height
 
     @property
-    def image(self):
-        return self.__image
-    @image.setter
-    def image(self, image:pygame.Surface):
-        self.__image = image
-
-    @property
-    def file(self):
-        return self.__file
-    @file.setter
-    def file(self, file:str):
-        self.__file = file
+    def char(self):
+        return self.__char
+    @char.setter
+    def char(self, char:str):
+        self.__char = char
 
     @property
     def rect(self):
