@@ -14,15 +14,21 @@ pygame.init()
 window = pygame.display.set_mode((900, 500), pygame.RESIZABLE)
 
 # Elementos a serem mostrados na tela
-mago = Mago('belzebu', 5, 100, acoes)
+mago = Mago('aaaa', 5, 100, acoes)
+mago1 = Mago('aaaa', 5, 100, acoes)
+mago2 = Mago('aaaa', 5, 100, acoes)
+mago3 = Mago('aaaa', 5, 100, acoes)
+# mago4 = Mago('aaaa', 5, 100, acoes)
+# mago5 = Mago('aaaa', 5, 100, acoes)
+
 char = Element(window, mago, 100, 200)
-# char2 = Element(window, 'knight.png', 200, 100)
-# char3 = Element(window, 'knight.png', 200, 300)
+# char2 = Element(window, mago4, 200, 100)
+# char3 = Element(window, mago5, 200, 300)
 
 
-enemy1 = Element(window, mago, 700, 200)
-enemy2 = Element(window, mago, 600, 100)
-enemy3 = Element(window, mago, 600, 300)
+enemy1 = Element(window, mago1, 700, 200)
+enemy2 = Element(window, mago2, 600, 100)
+enemy3 = Element(window, mago3, 600, 300)
 
 
 # Lista de elementos

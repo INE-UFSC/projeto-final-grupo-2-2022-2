@@ -13,6 +13,11 @@ class Element:
     
     def draw(self):
         self.__surface.blit(self.__char.image, (self.__rect.x, self.__rect.y))
+        health = str(self.__char.get_saude())
+        font = pygame.font.SysFont('Comic Sans MS', 20)
+        text = font.render(health, True, (0, 0, 0))
+        x, y, w = self.__rect.x, self.__rect.y, self.__rect.width
+        self.__surface.blit(text, text.get_rect(center=(x + w/2, y)))
     
 
 
