@@ -87,14 +87,14 @@ def main(window):
         
         if event.type == pygame.MOUSEBUTTONDOWN and not click and not finished:
             click = True
+            if allies and enemies:
+                allies, enemies = battle.turno()
             if not enemies:
                 print("allies win")
                 finished = True
             elif not allies:
                 print("enemies win")
                 finished = True
-            else:
-                allies, enemies = battle.turno()
         
         if event.type == pygame.MOUSEBUTTONUP:
             click = False

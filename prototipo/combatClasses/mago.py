@@ -10,7 +10,7 @@ class Mago(Personagem):
         super().__init__(nome, ataque, saude, tecnicas, self.__image, self.__size)
     
     def set_image(self):
-        tempImage = pygame.image.load(os.path.join('prototipo/assets', 'mago.png'))
+        tempImage = pygame.image.load(os.path.join('prototipo/assets', 'troll.png'))
         self.__image = pygame.transform.scale(tempImage, (self.__size[0], self.__size[1]))
     
     @property
