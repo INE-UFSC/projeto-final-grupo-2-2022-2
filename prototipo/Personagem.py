@@ -2,18 +2,36 @@ from Jogo import Jogo
 from Acao import Acao
 import random as r
 
+from pygame import Surface
+
 class Personagem:
-    def __init__(self, nome:str, ataque:int, saude:int,
-                raca:str, amigo:bool, tecnicas:list):
+    def __init__(self, nome:str, ataque:int, 
+                saude:int, tecnicas:list, image:Surface, size:tuple):
         self.__nome = nome
-        self.__raca = raca
-        self.__amigo = amigo
+        # self.__raca = raca
+        # self.__amigo = amigo
         self.__saude_max = saude
         self.__ataque_max = ataque
         self.__saude_at = saude
         self.__ataque_at = ataque
         self.__tecnicas = tecnicas
-    
+        self.__image = image
+        self.__size = size
+
+    @property
+    def image(self):
+        return self.__image
+    @image.setter
+    def image(self, image) -> None:
+        self.__image = image
+
+    @property
+    def size(self):
+        return self.__size
+    @size.setter
+    def size(self, size) -> None:
+        self.__size = size
+
     def e_amigo(self):
         return self.__amigo
     
@@ -53,5 +71,5 @@ class Personagem:
         if atributo == 'saude':
             self.__saude += 5
     
-    def get_acao(self):
+    def get_acao(self) -> Acao:
         return r.choice(self.__tecnicas)
