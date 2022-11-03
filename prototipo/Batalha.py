@@ -24,11 +24,18 @@ class Batalha:
     def jogar_dados(self):
         return r.randint(1, 20)
 
+<<<<<<< HEAD
 # recebe o time que esta atacando e
 # o que esta defendendo, decidindo 
 # quem executa a ação e quem recebe,
 # aleatoriamente, executa e checa se
 # a saude chegou a 0 
+=======
+    def turno(self, executores:list[Personagem], alvos:list[Personagem]):
+        atacante:Personagem = r.choice(executores)
+        habilidade = atacante.get_acao()
+        troca = False
+>>>>>>> 6b3dd4bd64b3566e4fd45fb2258d47fdc46b822b
 
     def     turno(self, executores:list[Personagem],
               alvos:list[Personagem]):
@@ -41,6 +48,7 @@ class Batalha:
             troca = True
 
         alvo = r.choice(alvos)
+<<<<<<< HEAD
         habilidade.executar(alvo, 
                             self.jogar_dados())
 
@@ -50,6 +58,15 @@ class Batalha:
             executores.remove(alvo)
             alvo.fim_da_batalha()
         return alvos, executores
+=======
+        habilidade.executar(alvo)
+        if troca:
+            return alvos, executores
+        else:
+            if alvo.get_saude() <= 0:
+                alvos.remove(alvo)
+            return executores, alvos 
+>>>>>>> 6b3dd4bd64b3566e4fd45fb2258d47fdc46b822b
     
     def batalhar(self):
         x = True
