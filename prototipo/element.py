@@ -1,6 +1,6 @@
 import os
 
-from personagem import Personagem
+from Personagem import Personagem
 import pygame
 class Element:
     def __init__(self, surface:pygame.Surface, char:Personagem, x:float, y:float) -> None:
