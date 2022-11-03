@@ -20,23 +20,23 @@ class Batalha:
     def jogar_dados(self):
         return r.randint(1, 20)
 
-    def turno(self):#, executores:list[Personagem], alvos:list[Personagem]):
-        atacante:Personagem = r.choice(self.__aliados)
+    def turno(self, executores:list[Personagem], alvos:list[Personagem]):
+        atacante:Personagem = r.choice(executores)
         habilidade = atacante.get_acao()
         troca = False
 
         if habilidade.tipo == 'suporte':
-            self.__aliados, self.__inimigos = self.__inimigos, self.__aliados
+            executores, alvos = alvos, executores
             troca = True
 
-        alvo = r.choice(self.__inimigos)
+        alvo = r.choice(alvos)
         habilidade.executar(alvo)
         if troca:
-            return self.__inimigos, self.__aliados
+            return alvos, executores
         else:
             if alvo.get_saude() <= 0:
-                self.__inimigos.remove(alvo)
-            return self.__aliados, self.__inimigos 
+                alvos.remove(alvo)
+            return executores, alvos 
     
     def batalhar(self):
         x = True
