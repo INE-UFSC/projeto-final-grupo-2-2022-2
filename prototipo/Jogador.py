@@ -1,6 +1,6 @@
 from Jogo import Jogo
 from Acao import Acao
-from personagem import Personagem
+from Personagem import Personagem
 import random as r
 
 class Jogador:

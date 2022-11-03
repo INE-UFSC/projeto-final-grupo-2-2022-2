@@ -2,61 +2,79 @@ from Jogo import Jogo
 from Acao import Acao
 from Cenario import Cenario
 from Jogador import Jogador
-from personagem import Personagem
+from Personagem import Personagem
 import random as r
+
+# -*- coding: utf-8 -*-
 
 class Batalha:
 
-    def __init__(self, aliados:list[Personagem], inimigos:list[Personagem]):
+    def __init__(self, aliados:list[Personagem],
+                 inimigos:list[Personagem]):
         self.__aliados = aliados
         self.__inimigos = inimigos
-        self.__L = len(aliados)
-        i = 0
-        while self.__L > len(self.__inimigos):
-            h = inimigos[i]
-            self.__inimigos.append(h)
-            i += 1
+
+# para garantir que os dois times
+# sempre tenham o mesmo tamanho
+        while len(aliados) < len(self.__inimigos):
+            self.__inimigos.pop()
+        while len(aliados) > len(self.__inimigos):
+            self.__inimigos.append(inimigos[0])
 
     def jogar_dados(self):
         return r.randint(1, 20)
 
-    def turno(self):#, executores:list[Personagem], alvos:list[Personagem]):
-        atacante:Personagem = r.choice(self.__aliados)
-        habilidade = atacante.get_acao()
-        troca = False
+# recebe o time que esta atacando e
+# o que esta defendendo, decidindo 
+# quem executa a ação e quem recebe,
+# aleatoriamente, executa e checa se
+# a saude chegou a 0 
 
+    def     turno(self, executores:list[Personagem],
+              alvos:list[Personagem]):
+        atacante = r.choice(executores)
+        habilidade = atacante.get_acao()
+        
+        troca = False
         if habilidade.tipo == 'suporte':
-            self.__aliados, self.__inimigos = self.__inimigos, self.__aliados
+            executores, alvos = alvos, executores
             troca = True
 
-        alvo = r.choice(self.__inimigos)
-        habilidade.executar(alvo)
+        alvo = r.choice(alvos)
+        habilidade.executar(alvo, 
+                            self.jogar_dados())
+
         if troca:
-            return self.__inimigos, self.__aliados
-        else:
-            if alvo.get_saude() <= 0:
-                self.__inimigos.remove(alvo)
-            return self.__aliados, self.__inimigos 
+            return executores, alvos
+        if alvo.get_saude() <= 0:
+            executores.remove(alvo)
+            alvo.fim_da_batalha()
+        return alvos, executores
     
     def batalhar(self):
         x = True
         y = True
-        origem_a = self.__aliados
-        origem_b = self.__inimigos
-        while x and y:
-            self.__aliados, self.__inimigos = self.turno(self.__aliados,
-                                                         self.__inimigos)
-            self.__inimigos, self.__aliados = self.turno(self.__inimigos,
-                                                         self.__aliados)
-            x = len(self.__aliados) > 0
-            y = len(self.__inimigos) > 0
 
-        if x and not y:
-            print('Vitoria!!!')
-        else: 
-            print('Hoje Não')
+# enquanto os times mantém seus
+# integrantes com saude > 0,
+# turnos são alternados
 
-        for i in range(len(origem_a)):
-            origem_a[i].fim_da_batalha()
-        for i in range(len(origem_b)):
-            origem_b[i].fim_da_batalha()
+        while x > 0 and y > 0:
+            a = self.turno(self.__aliados,
+                           self.__inimigos)
+            self.__aliados, self.__inimigos = a
+
+            a = self.turno(self.__inimigos,
+                           self.__aliados)
+            self.__inimigos, self.__aliados = a
+    
+            x = len(self.__aliados)
+            y = len(self.__inimigos)
+
+        if x:
+            for i in self.__aliados:
+                i.fim_da_batalha()
+            return 'Vitoria!!!'
+# inimigos sobreviventes
+# não são recuperados
+        return 'Hoje Não'
