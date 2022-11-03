@@ -1,4 +1,4 @@
-from personagem import Personagem
+from Personagem import Personagem
 import pygame
 import os
 

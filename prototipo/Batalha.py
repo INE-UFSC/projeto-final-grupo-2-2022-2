@@ -2,7 +2,7 @@ from Jogo import Jogo
 from Acao import Acao
 from Cenario import Cenario
 from Jogador import Jogador
-from personagem import Personagem
+from Personagem import Personagem
 import random as r
 
 class Batalha:
