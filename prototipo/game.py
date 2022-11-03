@@ -1,13 +1,9 @@
-from random import Random, random
-from re import T
-
 from combatClasses.mago import Mago
 
 
 from Batalha import Batalha
 from Acao import Acao, acoes
 import pygame
-import os
 from element import Element
 
 pygame.init()
@@ -18,12 +14,12 @@ mago = Mago('aaaa', 5, 100, acoes)
 mago1 = Mago('aaaa', 5, 100, acoes)
 mago2 = Mago('aaaa', 5, 100, acoes)
 mago3 = Mago('aaaa', 5, 100, acoes)
-# mago4 = Mago('aaaa', 5, 100, acoes)
-# mago5 = Mago('aaaa', 5, 100, acoes)
+mago4 = Mago('aaaa', 5, 100, acoes)
+mago5 = Mago('aaaa', 5, 100, acoes)
 
 char = Element(window, mago, 100, 200)
-# char2 = Element(window, mago4, 200, 100)
-# char3 = Element(window, mago5, 200, 300)
+char2 = Element(window, mago4, 200, 100)
+char3 = Element(window, mago5, 200, 300)
 
 
 enemy1 = Element(window, mago1, 700, 200)
@@ -34,8 +30,8 @@ enemy3 = Element(window, mago3, 600, 300)
 # Lista de elementos
 team = [
     char,
-    # char2,
-    # char3
+    char2,
+    char3
 ]
 
 team2 = [
@@ -62,6 +58,7 @@ def main(window):
     allies, enemies = [i.char for i in team], [i.char for i in team2]
     battle = Batalha(allies, enemies)
     finished = False
+    player_turn = True
     
 
     run = True
@@ -85,20 +82,31 @@ def main(window):
         #     char.x += x_speed
         #     char.file = 'knight.png'
         
-        if event.type == pygame.MOUSEBUTTONDOWN and not click and not finished:
+        if event.type == pygame.MOUSEBUTTONDOWN and not click and not finished and player_turn:
             click = True
             if allies and enemies:
-                allies, enemies = battle.turno()
+                allies, enemies = battle.turno(allies, enemies)
             if not enemies:
                 print("allies win")
                 finished = True
             elif not allies:
                 print("enemies win")
                 finished = True
+            player_turn = False
         
         if event.type == pygame.MOUSEBUTTONUP:
             click = False
 
+        if not player_turn and not finished:
+            if allies and enemies:
+                enemies, allies = battle.turno(enemies, allies)
+            if not allies:
+                print("allies win")
+                finished = True
+            elif not enemies:
+                print("enemies win")
+                finished = True
+            player_turn = True
 
 
             # if not attack:
