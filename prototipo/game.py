@@ -28,7 +28,7 @@ enemy3 = Element(window, mago3, 600, 300)
 
 
 # Lista de elementos
-team = [
+team1 = [
     char,
     char2,
     char3
@@ -40,9 +40,14 @@ team2 = [
     enemy3
 ]
 
+def remove_dead(affected_team:list[Element], original_team:list[Element]):
+    for i in original_team:
+        if i.char not in affected_team:
+            original_team.remove(i)
+
 def update_window(window):
     window.fill((255, 255, 255))
-    for i, element in enumerate(team):
+    for i, element in enumerate(team1):
         element.draw()
     for i, element in enumerate(team2):
         element.draw()
@@ -55,7 +60,7 @@ def main(window):
     clock = pygame.time.Clock()
     x_speed = 15
     click = False
-    allies, enemies = [i.char for i in team], [i.char for i in team2]
+    allies, enemies = [i.char for i in team1], [i.char for i in team2]
     battle = Batalha(allies, enemies)
     finished = False
     player_turn = True
@@ -86,6 +91,9 @@ def main(window):
             click = True
             if allies and enemies:
                 allies, enemies = battle.turno(allies, enemies)
+                if len(allies) != len(team1): remove_dead(allies, team1)
+                if len(enemies) != len(team2): remove_dead(enemies, team2)
+
             if not enemies:
                 print("allies win")
                 finished = True
@@ -100,11 +108,14 @@ def main(window):
         if not player_turn and not finished:
             if allies and enemies:
                 enemies, allies = battle.turno(enemies, allies)
+                if len(allies) != len(team1): remove_dead(allies, team1)
+                if len(enemies) != len(team2): remove_dead(enemies, team2)
+
             if not allies:
-                print("allies win")
+                print("enemies win")
                 finished = True
             elif not enemies:
-                print("enemies win")
+                print("allies win")
                 finished = True
             player_turn = True
 

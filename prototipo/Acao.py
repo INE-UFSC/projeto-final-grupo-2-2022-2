@@ -5,7 +5,7 @@ from Jogo import Jogo
 # (quanto vai afetar, capaz de evoluir)
 # efeitos, consistindo em qual atributo
 # (saude ou ataque) ela vai afetar e
-# o tipo (suporte ou ataque)
+# o tipo (ofensivo ou suporte)
 
 class Acao:
     def __init__(self, nome:str, fator: int,
@@ -56,14 +56,15 @@ class Acao:
     def efeito(self, novo:str):
         self.__efeito = novo
     
-    def executar(self, alvo):
+    def executar(self, alvo, dado:int):
+        c = (self.__fator*(dado/20))//1
         if self.__efeito == 'saude':
-            alvo.afeta_saude(self.__fator)
+            alvo.afeta_saude(c)
         elif self.__efeito == 'ataque':
-            alvo.afeta_ataque(self.__fator)
+            alvo.afeta_ataque(c)
         else: print('efeito invalido')
 
 
 acoes = [
-    Acao('fireball', -5, 'saude', 'projetil')
+    Acao('fireball', -50, 'saude', 'ofensivo')
 ]
