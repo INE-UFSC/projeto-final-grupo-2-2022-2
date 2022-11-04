@@ -1,25 +1,27 @@
 from combatClasses.mago import Mago
-
-
 from Batalha import Batalha
-from Acao import Acao, acoes
+from Acao import Acao
 from BatalhaController import BatalhaController
-import pygame
 from personagem_view import PersonagemView
+import pygame
 
 pygame.init()
 window = pygame.display.set_mode((900, 500), pygame.RESIZABLE)
 
-# PersonagemViewos a serem mostrados na tela
-mago = Mago('aaaa', 5, 100, acoes)
-mago1 = Mago('aaaa', 5, 100, acoes)
-mago2 = Mago('aaaa', 5, 100, acoes)
-mago3 = Mago('aaaa', 5, 100, acoes)
-mago4 = Mago('aaaa', 5, 100, acoes)
-mago5 = Mago('aaaa', 5, 100, acoes)
+# Elementos a serem mostrados na tela
+acoes = [
+    Acao('fireball', -10, 'saude', 'ofensivo')
+]
+
+mago = Mago('aaaa', 5, 100, acoes[0])
+mago1 = Mago('aaaa', 5, 100, acoes[0])
+mago2 = Mago('aaaa', 5, 100, acoes[0])
+mago3 = Mago('aaaa', 5, 100, acoes[0])
+mago4 = Mago('aaaa', 5, 100, acoes[0])
+mago5 = Mago('aaaa', 5, 100, acoes[0])
 
 
-# Lista de PersonagemViewos
+# Lista de Elementos
 time = [
     PersonagemView(window, mago, 100, 200),
     PersonagemView(window, mago4, 200, 100),

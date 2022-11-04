@@ -61,8 +61,3 @@ class Acao:
         elif self.__efeito == 'ataque':
             alvo.afeta_ataque(c)
         else: print('efeito invalido')
-
-
-acoes = [
-    Acao('fireball', -10, 'saude', 'ofensivo')
-]
