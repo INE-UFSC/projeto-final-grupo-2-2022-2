@@ -1,4 +1,3 @@
-from Jogo import Jogo
 # from Personagem import Personagem
 
 # cada acao deve ter um nome, um fator
@@ -66,5 +65,5 @@ class Acao:
 
 
 acoes = [
-    Acao('fireball', -50, 'saude', 'ofensivo')
+    Acao('fireball', -10, 'saude', 'ofensivo')
 ]
