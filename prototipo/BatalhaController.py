@@ -1,10 +1,10 @@
-from element import Element
+from personagem_view import PersonagemView
 from Batalha import Batalha
 from Personagem import Personagem
 import pygame
 class BatalhaController(Batalha):
-    def __init__(self, time:list[Element],
-                 inimigos:list[Element]) -> None:
+    def __init__(self, time:list[PersonagemView],
+                 inimigos:list[PersonagemView]) -> None:
         self.__time = time
         self.__inimigos = inimigos
         self.__allies = [i.char for i in self.__time]
@@ -32,7 +32,7 @@ class BatalhaController(Batalha):
             click = False
 
         if not self.__player_turn and not finished:
-            finished = self.turn(battle, enemies, allies,
+            finished = self.turn(self.__enemies, self.__allies,
                                  self.__inimigos, self.__time)
         
         return finished
@@ -40,8 +40,8 @@ class BatalhaController(Batalha):
     def turn(self,
             attackers:list[Personagem], 
             targets:list[Personagem],
-            original_attackers:list[Element],
-            original_targets:list[Element]):
+            original_attackers:list[PersonagemView],
+            original_targets:list[PersonagemView]):
         finished = False
         if attackers and targets:
             targets, attackers = super().turno(targets, attackers)
@@ -56,7 +56,7 @@ class BatalhaController(Batalha):
         return finished
     
 
-    def remove_dead(self, affected_team:list[Element], original_team:list[Element]):
+    def remove_dead(self, affected_team:list[PersonagemView], original_team:list[PersonagemView]):
         for i in original_team:
             if i.char not in affected_team:
                 original_team.remove(i)

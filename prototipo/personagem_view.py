@@ -2,7 +2,7 @@ import os
 from Personagem import Personagem
 import pygame
 
-class Element:
+class PersonagemView:
     def __init__(self, surface:pygame.Surface,
                  char:Personagem, x:float, y:float) -> None:
         self.__surface = surface
