@@ -18,9 +18,7 @@ in_mapa = True
 in_lugar = False
 
 sprites_jogo = pygame.sprite.Group()
-
-mapa = Mapa({"direita": Cenario("lado_direito",500,400,400,125,400,0),
-         "esquerda": Cenario("lado_esquerdo",500,400,400,375,0,0)},"mapa",500,800,400,250)
+mapa = Mapa({"Saffron": Cenario("Saffron.jpg",800,500,400,250,431,148,75,83)},"mapa.jpg",500,800,400,250)
 
 while rodando:
 
