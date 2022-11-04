@@ -10,12 +10,11 @@ class Batalha:
         self.__aliados = aliados
         self.__inimigos = inimigos
 
-# para garantir que os dois times
-# sempre tenham o mesmo tamanho
-        while len(aliados) < len(self.__inimigos):
-            self.__inimigos.pop()
-        while len(aliados) > len(self.__inimigos):
-            self.__inimigos.append(inimigos[0])
+    def get_allies(self):
+        return self.__aliados
+
+    def get_enemies(self):
+        return self.__inimigos
 
     def jogar_dados(self):
         return r.randint(1, 20)

@@ -1,9 +1,10 @@
 import os
-
 from Personagem import Personagem
 import pygame
+
 class Element:
-    def __init__(self, surface:pygame.Surface, char:Personagem, x:float, y:float) -> None:
+    def __init__(self, surface:pygame.Surface,
+                 char:Personagem, x:float, y:float) -> None:
         self.__surface = surface
         self.__char = char
         self.__rect = pygame.Rect(x, y, char.size[0], char.size[1])
