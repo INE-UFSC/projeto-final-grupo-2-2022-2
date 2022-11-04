@@ -1,4 +1,3 @@
-from Jogo import Jogo
 from Acao import Acao
 import random as r
 

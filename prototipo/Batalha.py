@@ -1,7 +1,3 @@
-from Jogo import Jogo
-from Acao import Acao
-from Cenario import Cenario
-from Jogador import Jogador
 from Personagem import Personagem
 import random as r
 
@@ -60,9 +56,9 @@ class Batalha:
         x = True
         y = True
 
-# enquanto os times mantém seus
-# integrantes com saude > 0,
-# turnos são alternados
+        # enquanto os times mantém seus
+        # integrantes com saude > 0,
+        # turnos são alternados
 
         while x > 0 and y > 0:
             a = self.turno(self.__aliados,
@@ -80,6 +76,6 @@ class Batalha:
             for i in self.__aliados:
                 i.fim_da_batalha()
             return 'Vitoria!!!'
-# inimigos sobreviventes
-# não são recuperados
+        # inimigos sobreviventes
+        # não são recuperados
         return 'Hoje Não'
