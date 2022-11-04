@@ -25,9 +25,11 @@ mapa = Mapa({"direita": Cenario("lado_direito",500,400,400,125,400,0),
 while rodando:
 
     clock.tick(QUADROS_POR_SEGUNDO)
-    imagem_tela = mapa
-    sprites_jogo.add(imagem_tela)
     if in_mapa:
+        for i in sprites_jogo:
+            sprites_jogo.remove(i)
+        imagem_tela = mapa
+        sprites_jogo.add(imagem_tela)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 rodando = False
@@ -42,13 +44,19 @@ while rodando:
                 if mapa.locais[lugar].clicked:
                         in_mapa = False
                         in_lugar = True
+                        mapa.locais[lugar].clicked = False
                         prox_lugar = mapa.locais[lugar]
     elif in_lugar:
+        for i in sprites_jogo:
+            sprites_jogo.remove(i)
+        sprites_jogo.add(prox_lugar)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 rodando = False
-        sprites_jogo.remove(imagem_tela)
-        sprites_jogo.add(prox_lugar)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                in_mapa = True
+                in_lugar = False
+
 
 
 
