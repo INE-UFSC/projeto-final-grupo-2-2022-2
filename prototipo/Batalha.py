@@ -24,11 +24,7 @@ class Batalha:
 # o que esta defendendo, decidindo 
 # quem executa a ação e quem recebe,
 # aleatoriamente, executa e checa se
-# a saude chegou a 0 
-    # def turno(self, executores:list[Personagem], alvos:list[Personagem]):
-    #     atacante:Personagem = r.choice(executores)
-    #     habilidade = atacante.get_acao()
-    #     troca = False
+# a saude chegou a 0
 
     def turno(self, executores:list[Personagem],
                     alvos:list[Personagem]):

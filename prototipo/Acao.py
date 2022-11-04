@@ -1,4 +1,3 @@
-# from Personagem import Personagem
 
 # cada acao deve ter um nome, um fator
 # (quanto vai afetar, capaz de evoluir)
