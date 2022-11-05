@@ -2,15 +2,19 @@ from button import Button
 import pygame
 from window import Window
 from panel import Panel
+from tela import main
 
 def menuElements(menu:Window) -> dict[str, pygame.Surface]:
     menuW, menuH = menu.surface.get_size()
     btnW, btnH = 200, 50
     btnPos_x, btnPos_y = menuW/2 - btnW/2, menuH/4 - btnH/2
 
-    elements = {'buttonPlay': Button(btnW, btnH, btnPos_x, btnPos_y, menu, 'PLAY').draw(),
-                'buttonOptions': Button(btnW, btnH, btnPos_x, btnPos_y + 2*btnH, menu, 'OPTIONS').draw(),
-                'buttonQuit': Button(btnW, btnH, btnPos_x, btnPos_y + 4*btnH, menu, 'QUIT').draw()}
+    elements = {'buttonPlay': Button(btnW, btnH, btnPos_x, btnPos_y, menu, 'PLAY'),
+                'buttonOptions': Button(btnW, btnH, btnPos_x, btnPos_y + 2*btnH, menu, 'OPTIONS'),
+                'buttonQuit': Button(btnW, btnH, btnPos_x, btnPos_y + 4*btnH, menu, 'QUIT')}
+    
+    for element in elements.values():
+        element.draw()
 
     pygame.display.update()
 
@@ -32,12 +36,10 @@ def menu():
             if event.type == pygame.VIDEORESIZE:
                 menu.updateSize(event.w, event.h)
                 elements = menuElements(menu)
-            for element in elements:
-                if elements[element].collidepoint(pygame.mouse.get_pos()):
-                    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-                else:
-                    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
-
+            if event.type == pygame.MOUSEBUTTONDOWN and elements['buttonPlay'].button.collidepoint(pygame.mouse.get_pos()):
+                main()
+            if event.type == pygame.MOUSEBUTTONDOWN and elements['buttonQuit'].button.collidepoint(pygame.mouse.get_pos()):
+                run = False
                 
             # if elements['buttonPlay'].collidepoint(pygame.mouse.get_pos()):
             #     print("play")
