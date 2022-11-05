@@ -1,3 +1,5 @@
-Nesse diretório, o grupo irá trabalhar em cima do primeiro protótipo do jogo.
+O arquivo principal, que apresenta a mecânica principal do jogo, é o main.py. Esse arquivo é o que executa uma batalha entre duas equipes.
 
-A ideia do protótipo não é que ele seja uma versão demo do jogo completo, mas sim que o principal mecanismo do jogo esteja implementado com certo grau de sucesso. Exemplo: em um jogo do tipo plataforma 2D, basta mostrar um retângulo colidindo com objetos e saltando/destruindo com alguma comando do usuário. A interface gráfica (com sprites) é opcional nessa etapa.
+O arquivo menu.py executa o menu do jogo, que atualmente está incompleto. O botão "play" abre o mapa do jogo, que possui só uma localidade funcional. Futuramente, um clique em um local do mapa abrirá uma batalha. O botão quit fecha a aplicação.
+
+Não é necessário instalar nenhuma biblioteca além do pygame.
