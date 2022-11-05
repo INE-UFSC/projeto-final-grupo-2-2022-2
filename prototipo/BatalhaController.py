@@ -25,23 +25,21 @@ class BatalhaController(Batalha):
         
         var = not click and not finished and self.__player_turn
         if event.type == pygame.MOUSEBUTTONDOWN and var:
-            finished = self.turn(self.__allies, self.__enemies,
-                                 self.__time, self.__inimigos)
+            finished = self.batalhar(self.__time, self.__inimigos)
         
         if event.type == pygame.MOUSEBUTTONUP:
             click = False
 
         if not self.__player_turn and not finished:
-            finished = self.turn(self.__enemies, self.__allies,
-                                 self.__inimigos, self.__time)
+            finished = self.batalhar(self.__inimigos, self.__time)
         
         return finished
             
-    def turn(self,
-            attackers:list[Personagem], 
-            targets:list[Personagem],
-            original_attackers:list[PersonagemView],
+    def batalhar(self, original_attackers:list[PersonagemView],
             original_targets:list[PersonagemView]):
+        
+        attackers = [i.char for i in original_attackers]
+        targets = [i.char for i in original_targets]
         finished = False
         if attackers and targets:
             targets, attackers = super().turno(targets, attackers)
@@ -50,28 +48,16 @@ class BatalhaController(Batalha):
             if len(targets) != len(original_targets):
                 self.remove_dead(targets, original_targets)
 
-        finished = self.check_winner(attackers, targets)
+        finished = super().check_winner(attackers, targets)
 
         self.__player_turn = not self.__player_turn
         return finished
     
 
-    def remove_dead(self, affected_team:list[PersonagemView], original_team:list[PersonagemView]):
+    def remove_dead(self, affected_team:list[PersonagemView],
+                    original_team:list[PersonagemView]):
         for i in original_team:
             if i.char not in affected_team:
                 original_team.remove(i)
-    
-    def check_winner(self, team1, team2):
-        finished = False
-        if ((not team1 and team1 == self.__time) or
-             not team2 and team2 == self.__time):
-            print("enemies win")
-            finished = True
-        elif ((not team1 and team1 == self.__inimigos) or 
-             (not team2 and team2 == self.__inimigos)):
-            print("allies win")
-            finished = True
-        
-        return finished
 
     

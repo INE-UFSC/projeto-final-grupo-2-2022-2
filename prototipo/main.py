@@ -13,12 +13,12 @@ acoes = [
     Acao('fireball', -10, 'saude', 'ofensivo')
 ]
 
-mago = Mago('aaaa', 5, 100, acoes[0])
-mago1 = Mago('aaaa', 5, 100, acoes[0])
-mago2 = Mago('aaaa', 5, 100, acoes[0])
-mago3 = Mago('aaaa', 5, 100, acoes[0])
-mago4 = Mago('aaaa', 5, 100, acoes[0])
-mago5 = Mago('aaaa', 5, 100, acoes[0])
+mago = Mago('aaaa', 5, 100, acoes)
+mago1 = Mago('aaaa', 5, 100, acoes)
+mago2 = Mago('aaaa', 5, 100, acoes)
+mago3 = Mago('aaaa', 5, 100, acoes)
+mago4 = Mago('aaaa', 5, 100, acoes)
+mago5 = Mago('aaaa', 5, 100, acoes)
 
 
 # Lista de Elementos
@@ -34,7 +34,7 @@ inimigos = [
     PersonagemView(window, mago3, 600, 300)
 ]
 
-jogo = BatalhaController(time, inimigos, window)
+jogo = BatalhaController(time, inimigos)
 
 
 def update_window(window):
@@ -49,16 +49,14 @@ def update_window(window):
 def main(window):
     fps = 60
     clock = pygame.time.Clock()
-    allies, enemies = [i.char for i in time], [i.char for i in inimigos]
-    battle = Batalha(allies, enemies)
-    
+
 
     run = True
     finished = False
     while run:
         clock.tick(fps)
         for event in pygame.event.get():
-            finished = jogo.watch(battle, event, finished)
+            finished = jogo.watch(event, finished)
             if event.type == pygame.QUIT:
                 return False
 
