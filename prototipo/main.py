@@ -2,7 +2,7 @@ from combatClasses.mago import Mago
 from Batalha import Batalha
 from Acao import Acao
 from BatalhaController import BatalhaController
-from personagem_view import PersonagemView
+from PersonagemView import PersonagemView
 import pygame
 
 pygame.init()

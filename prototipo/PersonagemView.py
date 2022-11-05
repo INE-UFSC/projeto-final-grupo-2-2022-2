@@ -57,4 +57,3 @@ class PersonagemView:
     @rect.setter
     def rect(self, rect:pygame.Rect):
         self.__rect = rect
-    

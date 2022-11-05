@@ -1,4 +1,4 @@
-from personagem_view import PersonagemView
+from PersonagemView import PersonagemView
 from Batalha import Batalha
 from Personagem import Personagem
 import pygame
@@ -15,7 +15,7 @@ class BatalhaController(Batalha):
     def jogar(self):
         pass
 
-    def watch(self, battle, event, finished):
+    def watch(self, event, finished):
         
         click = False
         if event.type == pygame.VIDEORESIZE:

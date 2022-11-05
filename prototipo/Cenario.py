@@ -1,4 +1,3 @@
-from BatalhaController import BatalhaController
 import pygame
 import os
 class Cenario(pygame.sprite.Sprite):

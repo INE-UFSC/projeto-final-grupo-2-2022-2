@@ -1,4 +1,3 @@
-from Jogo import Jogo
 from Cenario import Cenario
 import pygame
 import os
@@ -20,13 +19,15 @@ class Mapa(pygame.sprite.Sprite):
     @property
     def id_imagem(self):
         return self.__id_image
-    @property
-    def locais(self):
-        return self.__locais
-    def escolher_local(self, destino: str):
-        local_escolhido = self.__locais[destino]
-        return local_escolhido
 
     @property
     def imagem(self):
         return self.image
+    
+    @property
+    def locais(self):
+        return self.__locais
+
+    def escolher_local(self, destino: str) -> Cenario:
+        local_escolhido = self.__locais[destino]
+        return local_escolhido
