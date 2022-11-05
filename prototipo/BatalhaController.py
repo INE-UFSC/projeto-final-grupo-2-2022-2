@@ -16,7 +16,6 @@ class BatalhaController(Batalha):
         pass
 
     def watch(self, event, finished):
-        
         click = False
         if event.type == pygame.VIDEORESIZE:
             window = pygame.display.set_mode((event.w, event.h),
@@ -37,7 +36,7 @@ class BatalhaController(Batalha):
             
     def batalhar(self, original_attackers:list[PersonagemView],
             original_targets:list[PersonagemView]):
-        
+
         attackers = [i.char for i in original_attackers]
         targets = [i.char for i in original_targets]
         finished = False
@@ -48,7 +47,7 @@ class BatalhaController(Batalha):
             if len(targets) != len(original_targets):
                 self.remove_dead(targets, original_targets)
 
-        finished = super().check_winner(attackers, targets)
+        finished = self.check_winner(attackers, targets)
 
         self.__player_turn = not self.__player_turn
         return finished
@@ -59,5 +58,21 @@ class BatalhaController(Batalha):
         for i in original_team:
             if i.char not in affected_team:
                 original_team.remove(i)
+    
+    def check_winner(self, team1, team2):
+        vencedor:str = ''
+        finished = False
+        if ((not team1 and team1 == self.__time) or
+             not team2 and team2 == self.__time):
+            print("enemies win")
+            finished = True
+        elif ((not team1 and team1 == self.__inimigos) or 
+             (not team2 and team2 == self.__inimigos)):
+            print("allies win")
+            for i in self.__allies:
+                i.fim_da_batalha()
+            finished = True
+        
+        return finished
 
     

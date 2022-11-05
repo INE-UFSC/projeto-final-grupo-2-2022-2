@@ -47,17 +47,4 @@ class Batalha:
             alvo.fim_da_batalha()
         return executores, alvos
     
-    def check_winner(self, team1, team2):
-        finished = False
-        if ((not team1 and team1 == self.__time) or
-             not team2 and team2 == self.__time):
-            print("enemies win")
-            finished = True
-        elif ((not team1 and team1 == self.__inimigos) or 
-             (not team2 and team2 == self.__inimigos)):
-            print("allies win")
-            for i in self.__aliados:
-                i.fim_da_batalha()
-            finished = True
-        
-        return finished
+    
