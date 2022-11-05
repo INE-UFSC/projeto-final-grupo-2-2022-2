@@ -11,7 +11,7 @@ class Mapa(pygame.sprite.Sprite):
         self.__eixo_y = eixo_y
         self.__locais = locais
         self.__id_image = id_image
-        self.image = pygame.image.load(os.path.join("assets",f'{id_image}')).convert()
+        self.image = pygame.image.load(os.path.join("prototipo/assets",f'{id_image}')).convert()
         self.image = pygame.transform.scale(self.image, (largura, altura))
         self.rect = self.image.get_rect()
         self.rect.center = (eixo_x), (eixo_y)

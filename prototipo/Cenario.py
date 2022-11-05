@@ -8,7 +8,7 @@ class Cenario(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.__clicked = False
         self.__identificador = identificador
-        self.image = pygame.image.load(os.path.join("assets",
+        self.image = pygame.image.load(os.path.join("prototipo/assets",
                                 f'{identificador}')).convert()
         self.image = pygame.transform.scale(self.image,
                                             (largura, altura))
