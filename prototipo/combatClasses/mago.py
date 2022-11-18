@@ -12,8 +12,7 @@ class Mago(Personagem):
                          self.__image, self.__size)
     
     def set_image(self):
-        tempImage = pygame.image.load(os.path.join("prototipo/assets",
-                                                   'mago.png'))
+        tempImage = pygame.image.load(os.path.join('assets', 'mago.png'))
         self.__image = pygame.transform.scale(tempImage,
                                               (self.__size[0],
                                                self.__size[1]))

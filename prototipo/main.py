@@ -22,25 +22,25 @@ mago3 = Mago('aaaa', 5, 100, acoes)
 mago4 = Mago('aaaa', 5, 100, acoes)
 mago5 = Mago('aaaa', 5, 100, acoes)
 retangulo = pygame.transform.scale(
-    pygame.image.load(os.path.join('prototipo/assets', 'retangulo.png')),
+    pygame.image.load(os.path.join('assets', 'retangulo.png')),
     (50, 50))
 retangulo2 = pygame.transform.scale(
-    pygame.image.load(os.path.join('prototipo/assets', 'retangulo.png')),
+    pygame.image.load(os.path.join('assets', 'retangulo.png')),
     (50, 50))
 retangulo3 = pygame.transform.scale(
-    pygame.image.load(os.path.join('prototipo/assets', 'retangulo.png')),
+    pygame.image.load(os.path.join('assets', 'retangulo.png')),
     (50, 50))
 retangulo4 = pygame.transform.scale(
-    pygame.image.load(os.path.join('prototipo/assets', 'retangulo.png')),
+    pygame.image.load(os.path.join('assets', 'retangulo.png')),
     (50, 50))
 retangulo5 = pygame.transform.scale(
-    pygame.image.load(os.path.join('prototipo/assets', 'retangulo.png')),
+    pygame.image.load(os.path.join('assets', 'retangulo.png')),
     (50, 50))
 retangulo6 = pygame.transform.scale(
-    pygame.image.load(os.path.join('prototipo/assets', 'retangulo.png')),
+    pygame.image.load(os.path.join('assets', 'retangulo.png')),
     (50, 50))
 retangulo7 = pygame.transform.scale(
-    pygame.image.load(os.path.join('prototipo/assets', 'retangulo.png')),
+    pygame.image.load(os.path.join('assets', 'retangulo.png')),
     (50, 50))
 
 
@@ -104,7 +104,7 @@ def main(window: pygame.Surface):
                 return False
             if finished:
                 result = pygame.transform.scale(
-                    pygame.image.load(os.path.join('prototipo/assets', f'allies.png')),
+                    pygame.image.load(os.path.join('assets', f'allies.png')),
                     (winw/2, winh/2))
                 resultado.append(result)
                 

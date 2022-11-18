@@ -1,6 +1,7 @@
 import pygame
 from Cenario import Cenario
 from Mapa import Mapa
+import os
 
 def main():
     LARGURA = 800
@@ -76,5 +77,5 @@ def main():
     pygame.quit()
 
 
-
+main()
 
