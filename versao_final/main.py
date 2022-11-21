@@ -1,6 +1,7 @@
 from Controller.Jogo import Jogo
 
 jogo = Jogo()
+jogo.main()
 
 '''
 from Model.Personagem import Personagem
