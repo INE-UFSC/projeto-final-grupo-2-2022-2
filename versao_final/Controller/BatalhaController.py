@@ -1,6 +1,6 @@
-from PersonagemView import PersonagemView
-from Batalha import Batalha
-from Personagem import Personagem
+from View.PersonagemView import PersonagemView
+from Model.Batalha import Batalha
+from Model.Personagem import Personagem
 import pygame
 class BatalhaController(Batalha):
     def __init__(self, time:list[PersonagemView],

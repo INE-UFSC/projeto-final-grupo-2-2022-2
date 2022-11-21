@@ -1,8 +1,8 @@
-from button import Button
+from View.button import Button
 import pygame
-from window import Window
-from panel import Panel
-from tela_mapa import main
+from View.window import Window
+from View.panel import Panel
+from View.tela_mapa import main
 
 def menuElements(menu:Window) -> dict[str, pygame.Surface]:
     menuW, menuH = menu.surface.get_size()

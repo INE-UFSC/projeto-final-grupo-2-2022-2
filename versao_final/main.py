@@ -1,9 +1,9 @@
-from combatClasses.mago import Mago
-from Batalha import Batalha
-from Acao import Acao
+from Model.Personagem import Personagem
+from Model.Batalha import Batalha
+from Model.Acao import Acao
 import os
-from BatalhaController import BatalhaController
-from PersonagemView import PersonagemView
+from Controller.BatalhaController import BatalhaController
+from View.PersonagemView import PersonagemView
 import pygame
 
 pygame.init()
@@ -15,12 +15,12 @@ acoes = [
     Acao('fireball', -5, 'saude', 'ofensivo')
 ]
 
-mago = Mago('aaaa', 5, 100, acoes)
-mago1 = Mago('aaaa', 5, 100, acoes)
-mago2 = Mago('aaaa', 5, 100, acoes)
-mago3 = Mago('aaaa', 5, 100, acoes)
-mago4 = Mago('aaaa', 5, 100, acoes)
-mago5 = Mago('aaaa', 5, 100, acoes)
+mago0 = Personagem('aaaa', 5, 100, acoes, 'mago.png', (70, 80))
+mago1 = Personagem('aaaa', 5, 100, acoes, 'mago.png', (70, 80))
+mago2 = Personagem('aaaa', 5, 100, acoes, 'mago.png', (70, 80))
+mago3 = Personagem('aaaa', 5, 100, acoes, 'mago.png', (70, 80))
+mago4 = Personagem('aaaa', 5, 100, acoes, 'mago.png', (70, 80))
+mago5 = Personagem('aaaa', 5, 100, acoes, 'mago.png', (70, 80))
 retangulo = pygame.transform.scale(
     pygame.image.load(os.path.join('assets', 'retangulo.png')),
     (50, 50))
@@ -47,7 +47,7 @@ retangulo7 = pygame.transform.scale(
 
 # Lista de Elementos
 time = [
-    PersonagemView(window, mago, 100, 200),
+    PersonagemView(window, mago0, 100, 200),
     PersonagemView(window, mago4, 200, 100),
     PersonagemView(window, mago5, 200, 300)
 ]

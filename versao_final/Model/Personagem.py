@@ -1,18 +1,18 @@
 from Acao import Acao
 import random as r
-
-from pygame import Surface
+import pygame
+import os
 
 class Personagem:
     def __init__(self, nome:str, ataque:int,  saude:int,
-                 tecnicas:list, image:Surface, size:tuple):
+                 tecnicas:list, classe:str.png, size:tuple):
         self.__nome = nome
         self.__saude_max = saude
         self.__ataque_max = ataque
         self.__saude_at = saude
         self.__ataque_at = ataque
         self.__tecnicas = tecnicas
-        self.__image = image
+        self.__image = self.set_image(classe)
         self.__size = size
 
     @property
@@ -21,6 +21,13 @@ class Personagem:
     @image.setter
     def image(self, image) -> None:
         self.__image = image
+
+    def set_image(self, origem='mago.png'):
+        tempImage = pygame.image.load(os.path.join('assets',
+                                                   origem))
+        return pygame.transform.scale(tempImage,
+                                      (self.__size[0],
+                                       self.__size[1]))
 
     @property
     def size(self):

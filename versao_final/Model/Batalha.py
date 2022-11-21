@@ -45,6 +45,4 @@ class Batalha:
         if alvo.get_saude() <= 0:
             alvos.remove(alvo)
             alvo.fim_da_batalha()
-        return executores, alvos
-    
-    
+        return executores, alvos 

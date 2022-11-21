@@ -7,7 +7,6 @@ class Mago(Personagem):
                  saude:float, tecnicas:list) -> None:
         self.__size = (70, 80)
         self.__image = None
-        self.set_image()
         super().__init__(nome, ataque, saude, tecnicas,
                          self.__image, self.__size)
     
