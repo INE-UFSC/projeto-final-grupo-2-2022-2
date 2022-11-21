@@ -12,65 +12,31 @@ winw, winh = window.get_size()
 
 # Elementos a serem mostrados na tela
 acoes = [
-    Acao('fireball', -5, 'saude', 'ofensivo')
+    Acao('fireball', -5, 'saude', 'ofensivo'),
+    Acao('boost', 5, 'ataque', 'suporte')
 ]
 
-mago0 = Personagem('aaaa', 5, 100, acoes, 'mago.png', (70, 80))
-mago1 = Personagem('aaaa', 5, 100, acoes, 'mago.png', (70, 80))
-mago2 = Personagem('aaaa', 5, 100, acoes, 'mago.png', (70, 80))
-mago3 = Personagem('aaaa', 5, 100, acoes, 'mago.png', (70, 80))
-mago4 = Personagem('aaaa', 5, 100, acoes, 'mago.png', (70, 80))
-mago5 = Personagem('aaaa', 5, 100, acoes, 'mago.png', (70, 80))
-retangulo = pygame.transform.scale(
-    pygame.image.load(os.path.join('assets', 'retangulo.png')),
-    (50, 50))
-retangulo2 = pygame.transform.scale(
-    pygame.image.load(os.path.join('assets', 'retangulo.png')),
-    (50, 50))
-retangulo3 = pygame.transform.scale(
-    pygame.image.load(os.path.join('assets', 'retangulo.png')),
-    (50, 50))
-retangulo4 = pygame.transform.scale(
-    pygame.image.load(os.path.join('assets', 'retangulo.png')),
-    (50, 50))
-retangulo5 = pygame.transform.scale(
-    pygame.image.load(os.path.join('assets', 'retangulo.png')),
-    (50, 50))
-retangulo6 = pygame.transform.scale(
-    pygame.image.load(os.path.join('assets', 'retangulo.png')),
-    (50, 50))
-retangulo7 = pygame.transform.scale(
+elements = ['']*7
+for i in range(7):
+    elements[i] = pygame.transform.scale(
     pygame.image.load(os.path.join('assets', 'retangulo.png')),
     (50, 50))
 
+magos = ['']*6
+for i in range(6):
+   magos[i] = Personagem('Joao', 5, 100, acoes, 'mago.png', (70, 80))
 
+time = ['']*3
+inimigos = ['']*3
+for i in range(3):
+    time[i] = PersonagemView(window, magos[0], 100, 200)
+    #PersonagemView(window, magos[4], 200, 100),
+    #PersonagemView(window, magos[5], 200, 300)
+    inimigos[i] =  PersonagemView(window, magos[1], 700, 200)
+    #PersonagemView(window, magos[2], 600, 100),
+    #PersonagemView(window, magos[3], 600, 300)
 
-# Lista de Elementos
-time = [
-    PersonagemView(window, mago0, 100, 200),
-    PersonagemView(window, mago4, 200, 100),
-    PersonagemView(window, mago5, 200, 300)
-]
-
-inimigos = [
-    PersonagemView(window, mago1, 700, 200),
-    PersonagemView(window, mago2, 600, 100),
-    PersonagemView(window, mago3, 600, 300)
-]
-
-elements = [
-    retangulo,
-    retangulo2,
-    retangulo3,
-    retangulo4,
-    retangulo5,
-    retangulo6,
-    retangulo7,
-]
-
-resultado = [
-
-]
+resultado = []
 
 jogo = BatalhaController(time, inimigos)
 
@@ -81,7 +47,7 @@ def update_window(window:pygame.Surface):
     for PersonagemView in inimigos:
         PersonagemView.draw()
     cont = 7
-    for i, elemento in enumerate(elements):
+    for elemento in elements:
         window.blit(elemento, (winw/22*cont, winh-50))
         cont += 1
     for i in resultado:

@@ -1,11 +1,12 @@
 from Acao import Acao
 import random as r
-import pygame
 import os
+import pygame
 
 class Personagem:
     def __init__(self, nome:str, ataque:int,  saude:int,
-                 tecnicas:list, classe:str.png, size:tuple):
+                 tecnicas:list, classe:str='mago.png',
+                 size:tuple=(70, 80)):
         self.__nome = nome
         self.__saude_max = saude
         self.__ataque_max = ataque
@@ -22,7 +23,7 @@ class Personagem:
     def image(self, image) -> None:
         self.__image = image
 
-    def set_image(self, origem='mago.png'):
+    def set_image(self, origem:str='mago.png'):
         tempImage = pygame.image.load(os.path.join('assets',
                                                    origem))
         return pygame.transform.scale(tempImage,
@@ -47,10 +48,10 @@ class Personagem:
     def get_ataque(self):
         return self.__ataque_at
 
-# escolhe uma teçnica aleatoria
+# escolhe uma tecnica 
 
-    def get_acao(self) -> Acao:
-        return r.choice(self.__tecnicas)
+    def get_acao(self, num:int=0) -> Acao:
+        return self.__tecnicas[num]
 
 # recebem o efeito ofensivo ou de suporte
 
@@ -60,14 +61,22 @@ class Personagem:
     def afeta_ataque(self, efeito):
         self.__ataque_at += efeito
 
-# resetam os status depois da batalha
-
-    def fim_da_batalha(self):
-        self.__saude_at = self.__saude_max
-        self.__ataque_at = self.__ataque_max
+# expande as tecnicas
 
     def aprender_tecnica(self, novo: Acao):
         self.__tecnicas.append(novo)
+
+# resetam os status e evoluem depois da batalha
+
+    def fim_da_batalha(self):
+        var = r.choice(['ataque', 'saude'])
+        self.evoluir_atributo(var)
+
+        self.__saude_at = self.__saude_max
+        self.__ataque_at = self.__ataque_max
+
+        var = r.choice(self.__tecnicas)
+        self.evoluir_tecnica(var)
     
     def evoluir_tecnica(self, tecnica: Acao):
         if tecnica in self.__tecnicas:
@@ -76,6 +85,6 @@ class Personagem:
 
     def evoluir_atributo(self, atributo: str):
         if atributo == 'ataque':
-            self.__ataque += 5
+            self.__ataque_max += 5
         if atributo == 'saude':
-            self.__saude += 5
+            self.__saude_max += 5
