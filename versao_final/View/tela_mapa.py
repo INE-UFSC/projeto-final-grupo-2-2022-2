@@ -20,7 +20,9 @@ def main():
     in_lugar = False
 
     sprites_jogo = pygame.sprite.Group()
-    mapa = Mapa({"Saffron": Cenario("Saffron.jpg",800,500,400,250,431,148,75,83)},"mapa.jpg",500,800,400,250)
+    mapa = Mapa({"Saffron": Cenario("Saffron.jpg",
+                                    800,500,400,250,431,148,75,83)},
+                "mapa.jpg",500,800,400,250)
 
     while rodando:
 

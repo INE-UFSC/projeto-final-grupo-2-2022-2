@@ -1,19 +1,21 @@
 import os
-from Personagem import Personagem
+from Model.Personagem import Personagem
 import pygame
 
 class PersonagemView:
     def __init__(self, surface:pygame.Surface,
-                 char:Personagem, x:float, y:float) -> None:
+                 char:Personagem, x:float, y:float,
+                 width:int, height:int):
         self.__surface = surface
         self.__char = char
-        self.__rect = pygame.Rect(x, y, char.size[0], char.size[1])
-        # self.__image = pygame.image.load(os.path.join('prototipo/assets', file))
-        # self.__image = pygame.transform.scale(self.__image, (width, height))
+        self.__width = width
+        self.__height = height
+        self.__rect = pygame.Rect(x, y, width, height)
+        self.__image = self.set_image()
         self.draw()
     
     def draw(self):
-        self.__surface.blit(self.__char.image, (self.__rect.x, self.__rect.y))
+        self.__surface.blit(self.__image, (self.__rect.x, self.__rect.y))
         health = str(self.__char.get_saude())
         font = pygame.font.SysFont('Comic Sans MS', 20)
         text = font.render(health, True, (0, 0, 0))
@@ -21,6 +23,14 @@ class PersonagemView:
         self.__surface.blit(text, text.get_rect(center=(x + w/2, y)))
     
 
+
+    def set_image(self):
+        var = self.__char.classe + '.png'
+        tempImage = pygame.image.load(os.path.join('assets',
+                                                   var))
+        return pygame.transform.scale(tempImage,
+                                      (self.__width,
+                                       self.__height))
 
     @property
     def surface(self):
@@ -34,21 +44,21 @@ class PersonagemView:
     def width(self):
         return self.__width
     @width.setter
-    def width(self, width:float):
+    def width(self, width:int):
         self.__width = width
 
     @property
     def height(self):
         return self.__height
     @height.setter
-    def height(self, height:float):
+    def height(self, height:int):
         self.__height = height
 
     @property
     def char(self):
         return self.__char
     @char.setter
-    def char(self, char:str):
+    def char(self, char:Personagem):
         self.__char = char
 
     @property

@@ -1,12 +1,11 @@
 import pygame
-from Batalha import Batalha
-from combatClasses.mago import Mago
+from Model.Batalha import Batalha
 from PersonagemView import PersonagemView
-from BatalhaController import BatalhaController
+from Controller.BatalhaController import BatalhaController
 
 class BatalhaView(Batalha):
     def __init__(self, aliados: list[PersonagemView],
-                 inimigos: list[PersonagemView]) -> None:
+                 inimigos: list[PersonagemView]):
         self.__aliados_view = aliados
         self.__inimigos_view = inimigos
         self.__allies = [i.char for i in aliados]

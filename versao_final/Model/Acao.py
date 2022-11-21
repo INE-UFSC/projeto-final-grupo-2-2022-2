@@ -1,4 +1,3 @@
-
 # cada acao deve ter um nome, um fator
 # (quanto vai afetar, capaz de evoluir)
 # efeitos, consistindo em qual atributo

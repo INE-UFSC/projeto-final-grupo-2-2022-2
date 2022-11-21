@@ -1,5 +1,6 @@
-from View.button import Button
 import pygame
+
+from View.button import Button
 from View.window import Window
 from View.panel import Panel
 from View.tela_mapa import main

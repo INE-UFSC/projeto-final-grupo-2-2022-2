@@ -1,5 +1,6 @@
 import pygame
 import os
+
 class Cenario(pygame.sprite.Sprite):
     def __init__(self, identificador:str, largura:int, altura:int,
                  eixo_x:int, eixo_y:int, x_hit, y_hit, hit_largura,
