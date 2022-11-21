@@ -1,3 +1,8 @@
+from Controller.Jogo import Jogo
+
+jogo = Jogo()
+
+'''
 from Model.Personagem import Personagem
 from Model.Batalha import Batalha
 from Model.Acao import Acao
@@ -24,7 +29,7 @@ for i in range(7):
 
 magos = ['']*6
 for i in range(6):
-   magos[i] = Personagem('Joao', 5, 100, acoes, 'mago.png', (70, 80))
+   magos[i] = Personagem('Joao', 5, 100, acoes, 'mago', (70, 80))
 
 time = ['']*3
 inimigos = ['']*3
@@ -79,3 +84,4 @@ def main(window: pygame.Surface):
 
 if __name__ == "__main__":
     main(window)
+'''

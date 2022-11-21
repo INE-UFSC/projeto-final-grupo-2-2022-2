@@ -5,7 +5,7 @@ import pygame
 
 class Personagem:
     def __init__(self, nome:str, ataque:int,  saude:int,
-                 tecnicas:list, classe:str='mago.png',
+                 tecnicas:list, classe:str='mago',
                  size:tuple=(70, 80)):
         self.__nome = nome
         self.__saude_max = saude
@@ -13,7 +13,8 @@ class Personagem:
         self.__saude_at = saude
         self.__ataque_at = ataque
         self.__tecnicas = tecnicas
-        self.__image = self.set_image(classe)
+        self.__classe = classe
+        self.__image = self.set_image()
         self.__size = size
 
     @property
@@ -23,9 +24,10 @@ class Personagem:
     def image(self, image) -> None:
         self.__image = image
 
-    def set_image(self, origem:str='mago.png'):
+    def set_image(self):
+        var = self.__classe + '.png'
         tempImage = pygame.image.load(os.path.join('assets',
-                                                   origem))
+                                                   var))
         return pygame.transform.scale(tempImage,
                                       (self.__size[0],
                                        self.__size[1]))
@@ -33,12 +35,17 @@ class Personagem:
     @property
     def size(self):
         return self.__size
+
     @size.setter
     def size(self, size) -> None:
         self.__size = size
-    
-    def get_nome(self):
+
+    @property
+    def nome(self):
         return self.__nome
+
+    def get_classe(self):
+        return self.__
 
 # retornam a saude e o ataque atual, em batalha
 

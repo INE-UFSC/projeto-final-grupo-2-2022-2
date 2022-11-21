@@ -20,7 +20,7 @@ class Batalha:
         return r.randint(1, 20)
 
 # recebe o time que esta atacando e
-# o que esta defendendo, decidindo 
+# o que esta defendendo, decidindo
 # quem executa a ação e quem recebe,
 # aleatoriamente, executa e checa se
 # a saude chegou a 0
@@ -37,7 +37,7 @@ class Batalha:
             troca = True
 
         alvo = r.choice(alvos)
-        habilidade.executar(alvo, 
+        habilidade.executar(alvo,
                             self.jogar_dados())
 
         if troca:
