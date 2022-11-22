@@ -34,19 +34,19 @@ class Jogo:
         self.__time = ['']*3
         self.__inimigos = ['']*3
         for i in range(3):
-            self.__orcs[i] = Personagem('Mateus' + str(i), 10,
-                                       100, self.__acoes, 'orc')
             self.__inimigos[i] = PersonagemView(self.__window,
-                                          self.__orcs[i],
                                           600, 100 + i*100,
                                           70, 80)
-            self.__magos[i] = Personagem('Joao' + str(i), 10,
-                                       100, self.__acoes, 'mago')
+            self.__orcs[i] = Personagem('Mateus' + str(i), 10,
+                                       100, self.__acoes, 'orc',
+                                       self.__inimigos[i])
             self.__time[i] = PersonagemView(self.__window,
-                                          self.__magos[i],
                                           200, 100 + i*100,
                                           70, 80)
-            self.__save.add(self.__time[i])
+            self.__magos[i] = Personagem('Joao' + str(i), 10,
+                                       100, self.__acoes, 'mago',
+                                       self.__time[i])
+            self.__save.add(self.__magos[i])
             
         self.__resultado = []
 
