@@ -1,4 +1,4 @@
-from DAO import DAO
+from Controller.DAO import DAO
 from View.PersonagemView import PersonagemView
 
 class JogoDAO(DAO):
