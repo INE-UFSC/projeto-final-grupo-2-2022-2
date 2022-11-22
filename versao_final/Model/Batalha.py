@@ -1,4 +1,4 @@
-from Personagem import Personagem
+from Model.Personagem import Personagem
 import random as r
 
 # -*- coding: utf-8 -*-
