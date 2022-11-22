@@ -19,7 +19,7 @@ class DAO(ABC):
     @abstractmethod
     def add(self, key, obj):
         if key in self.__cache.keys():
-            print(''Já adicionado!!!')
+            print('Já adicionado!!!')
             return None
         self.__cache[key] = obj
         self.__dump()

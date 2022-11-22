@@ -11,6 +11,7 @@ class Personagem:
         self.__ataque_at = ataque
         self.__tecnicas = tecnicas
         self.__classe = classe
+        self.__batalhas = []
 
     @property
     def nome(self):
@@ -26,6 +27,13 @@ class Personagem:
     def classe(self, novo):
         self.__classe = novo
 
+    @property
+    def batalhas(self):
+        return self.__batalhas
+    @batalhas.setter
+    def batalhas(self, novo):
+        self.__batalhas = novo
+
 # retornam a saude e o ataque atual, em batalha
 
     def get_saude(self):
@@ -36,7 +44,7 @@ class Personagem:
 
 # escolhe uma tecnica 
 
-    def get_acao(self, num:int=0) -> Acao:
+    def get_acao(self, num=0) -> Acao:
         return self.__tecnicas[num]
 
 # recebem o efeito ofensivo ou de suporte
@@ -54,7 +62,9 @@ class Personagem:
 
 # resetam os status e evoluem depois da batalha
 
-    def fim_da_batalha(self):
+    def fim_da_batalha(self, id_battle: int):
+        self.__batalhas.append(id_battle)
+
         var = r.choice(['ataque', 'saude'])
         self.evoluir_atributo(var)
 
@@ -63,6 +73,7 @@ class Personagem:
 
         var = r.choice(self.__tecnicas)
         self.evoluir_tecnica(var)
+
     
     def evoluir_tecnica(self, tecnica: Acao):
         if tecnica in self.__tecnicas:

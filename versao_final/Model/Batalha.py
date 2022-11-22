@@ -4,7 +4,6 @@ import random as r
 # -*- coding: utf-8 -*-
 
 class Batalha:
-
     def __init__(self, aliados:list[Personagem],
                  inimigos:list[Personagem]):
         self.__aliados = aliados
@@ -44,5 +43,5 @@ class Batalha:
             return alvos, executores
         if alvo.get_saude() <= 0:
             alvos.remove(alvo)
-            alvo.fim_da_batalha()
+            alvo.fim_da_batalha(id(self))
         return executores, alvos 

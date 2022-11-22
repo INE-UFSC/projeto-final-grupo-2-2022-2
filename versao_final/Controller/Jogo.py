@@ -1,6 +1,7 @@
 from Model.Personagem import Personagem
 from Model.Batalha import Batalha
 from Model.Acao import Acao
+from JogoDAO import JogoDAO
 import os
 from BatalhaController import BatalhaController
 from View.PersonagemView import PersonagemView
@@ -26,29 +27,31 @@ class Jogo:
                                                       'retangulo.png')),
                                                       (50, 50))
 
+        self.__save = JogoDAO('PersonagensView')
+
         self.__magos = ['']*3
         self.__orcs = ['']*3
         self.__time = ['']*3
         self.__inimigos = ['']*3
         for i in range(3):
-            self.__magos[i] = Personagem('Joao' + str(i), 10,
-                                       100, self.__acoes, 'mago')
             self.__orcs[i] = Personagem('Mateus' + str(i), 10,
                                        100, self.__acoes, 'orc')
-            self.__time[i] = PersonagemView(self.__window,
-                                          self.__magos[i],
-                                          200, 100 + i*100,
-                                          70, 80)
             self.__inimigos[i] = PersonagemView(self.__window,
                                           self.__orcs[i],
                                           600, 100 + i*100,
                                           70, 80)
+            self.__magos[i] = Personagem('Joao' + str(i), 10,
+                                       100, self.__acoes, 'mago')
+            self.__time[i] = PersonagemView(self.__window,
+                                          self.__magos[i],
+                                          200, 100 + i*100,
+                                          70, 80)
+            self.__save.add(self.__time[i])
+            
         self.__resultado = []
 
         self.__jogo = BatalhaController(self.__time,
                                       self.__inimigos)
-        #if __name__ == "__main__":
-        #    self.__main()
 
     def update_window(self):
         self.__window.fill((255, 255, 255))

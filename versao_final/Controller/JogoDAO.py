@@ -1,18 +1,18 @@
 from DAO import DAO
-from Model.Personagem import Personagem
+from View.PersonagemView import PersonagemView
 
 class JogoDAO(DAO):
     def __init__(self, datasource=''):
         super().__init__(datasource)
 
-    def add(self, obj:Personagem):
-        c1 = isinstance(obj, Personagem)
+    def add(self, obj:PersonagemView):
+        c1 = isinstance(obj, PersonagemView)
         c2 = c1 and isinstance(obj.nome, str)
         if not c2:
             return None
         return super().add(obj.nome, obj)
 
-    def get(self, nome:str):
+    def get(self, nome:str) -> PersonagemView:
         if isinstance(nome, str):
             return super().get(nome)
 

@@ -62,6 +62,13 @@ class PersonagemView:
         self.__char = char
 
     @property
+    def nome(self):
+        return self.__char.nome
+    @nome.setter
+    def nome(self, novo):
+        self.__char.nome = novo
+
+    @property
     def rect(self):
         return self.__rect
     @rect.setter
