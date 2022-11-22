@@ -2,7 +2,7 @@ from DAO import DAO
 from Model.Personagem import Personagem
 
 class JogoDAO(DAO):
-    def __init__(self, datasource=''):
+    def __init__(self, datasource='Personagem'):
         super().__init__(datasource)
 
     def add(self, obj:Personagem):

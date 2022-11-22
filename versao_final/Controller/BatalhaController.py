@@ -1,17 +1,22 @@
 from View.PersonagemView import PersonagemView
 from Model.Batalha import Batalha
+from View.BatalhaView import BatalhaView, window
 from Model.Personagem import Personagem
+from Model.Acao import Acao
+from JogoDAO import JogoDAO
+from PersonagemController import PersonagemController
 import pygame
+
 class BatalhaController(Batalha):
-    def __init__(self, time:list[PersonagemView],
-                 inimigos:list[PersonagemView]) -> None:
-        self.__time = time
-        self.__inimigos = inimigos
-        self.__allies = [i.char for i in self.__time]
-        self.__enemies = [i.char for i in self.__inimigos]
+    def __init__(self, time:list[Personagem],
+                 inimigos:list[Personagem]) -> None:
+        self.__allies = time
+        self.__enemies = inimigos
+        self.__time = [i.controller.view for i in self.__time]
+        self.__inimigos = [i.controller.view for i in self.__inimigos]
         super().__init__(self.__allies, self.__enemies)
         self.__player_turn = True
-    
+
     def jogar(self):
         pass
 
@@ -75,4 +80,30 @@ class BatalhaController(Batalha):
         
         return finished
 
-    
+save = JogoDAO('Personagem')
+
+acoes = [
+        Acao('fireball', -5, 'saude', 'ofensivo'),
+        Acao('boost', 5, 'ataque', 'suporte')
+        ]
+
+magos = ['']*3
+orcs = ['']*3
+time = ['']*3
+inimigos = ['']*3
+for i in range(3):
+    inimigos[i] = PersonagemView(window,
+                                    600, 100 + i*100,
+                                    70, 80)
+    orcs[i] = Personagem('Mateus' + str(i), 10,
+                                100, acoes, 'orc',
+                                PersonagemController(inimigos[i]) )
+    time[i] = PersonagemView(window,
+                                    200, 100 + i*100,
+                                    70, 80)
+    magos[i] = Personagem('Joao' + str(i), 10,
+                                100, acoes, 'mago',
+                                PersonagemController(time[i]))
+    save.add(magos[i])
+view = BatalhaView(magos, orcs)
+jogo = BatalhaController(magos, orcs)

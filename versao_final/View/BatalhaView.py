@@ -3,6 +3,8 @@ from Model.Batalha import Batalha
 from Model.Personagem import Personagem
 from Controller.BatalhaController import BatalhaController
 
+window = pygame.display.set_mode((900, 500), pygame.RESIZABLE)
+
 class BatalhaView(Batalha):
     def __init__(self, aliados: list[Personagem],
                  inimigos: list[Personagem]):
@@ -11,7 +13,7 @@ class BatalhaView(Batalha):
         self.__allies = aliados
         self.__enemies = inimigos
         super().__init__(self.__allies, self.__enemies)
-    
+
     def draw(self):
         self.__window.fill((255, 255, 255))
         for personagem in self.__aliados_view:
@@ -22,7 +24,7 @@ class BatalhaView(Batalha):
     
     def start(self):
         pygame.init()
-        self.__window = pygame.display.set_mode((900, 500), pygame.RESIZABLE)
+        self.__window = window # pygame.display.set_mode((900, 500), pygame.RESIZABLE)
         self.draw()
 
     
@@ -42,3 +44,4 @@ class BatalhaView(Batalha):
                     return False
 
             self.draw(self.__window)
+

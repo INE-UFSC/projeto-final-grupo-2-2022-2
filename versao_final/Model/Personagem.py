@@ -25,11 +25,11 @@ class Personagem:
         self.__nome = novo
 
     @property
-    def view(self) -> PersonagemController:
-        return self.__view
-    @view.setter
-    def view(self, novo:PersonagemController):
-        self.__view = novo
+    def controller(self) -> PersonagemController:
+        return self.__controller
+    @controller.setter
+    def controller(self, novo:PersonagemController):
+        self.__controller = novo
 
     @property
     def classe(self) -> str:

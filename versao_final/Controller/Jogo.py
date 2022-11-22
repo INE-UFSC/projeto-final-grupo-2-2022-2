@@ -1,9 +1,7 @@
 from Model.Personagem import Personagem
 from Model.Batalha import Batalha
-from Model.Acao import Acao
-from Controller.JogoDAO import JogoDAO
 import os
-from Controller.BatalhaController import BatalhaController
+from Controller.BatalhaController import time, inimigos, jogo, view
 from Controller.PersonagemController import PersonagemController
 from View.PersonagemView import PersonagemView
 import pygame
@@ -16,10 +14,8 @@ class Jogo:
         self.__winw, self.__winh = self.__window.get_size()
 
         # Elementos a serem mostrados na tela
-        self.__acoes = [
-            Acao('fireball', -5, 'saude', 'ofensivo'),
-            Acao('boost', 5, 'ataque', 'suporte')
-        ]
+            
+        self.__resultado = []
 
         self.__elements = ['']*7
         for i in range(7):
@@ -28,37 +24,11 @@ class Jogo:
                                                       'retangulo.png')),
                                                       (50, 50))
 
-        self.__save = JogoDAO('Personagens')
-
-        self.__magos = ['']*3
-        self.__orcs = ['']*3
-        self.__time = ['']*3
-        self.__inimigos = ['']*3
-        for i in range(3):
-            self.__inimigos[i] = PersonagemView(self.__window,
-                                          600, 100 + i*100,
-                                          70, 80)
-            self.__orcs[i] = Personagem('Mateus' + str(i), 10,
-                                       100, self.__acoes, 'orc',
-                                       PersonagemController(self.__inimigos[i]) )
-            self.__time[i] = PersonagemView(self.__window,
-                                          200, 100 + i*100,
-                                          70, 80)
-            self.__magos[i] = Personagem('Joao' + str(i), 10,
-                                       100, self.__acoes, 'mago',
-                                       PersonagemController(self.__time[i]))
-            self.__save.add(self.__magos[i])
-            
-        self.__resultado = []
-
-        self.__jogo = BatalhaController(self.__time,
-                                      self.__inimigos)
-
     def update_window(self):
         self.__window.fill((255, 255, 255))
-        for PersonagemView in self.__time:
+        for PersonagemView in time:
             PersonagemView.draw()
-        for PersonagemView in self.__inimigos:
+        for PersonagemView in inimigos:
             PersonagemView.draw()
         cont = 7
         for elemento in self.__elements:
