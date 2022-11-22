@@ -26,7 +26,7 @@ class PersonagemView:
 
     def set_image(self):
         var = self.__char.classe + '.png'
-        tempImage = pygame.image.load(os.path.join('assets',
+        tempImage = pygame.image.load(os.path.join('versao_final/assets',
                                                    var))
         return pygame.transform.scale(tempImage,
                                       (self.__width,

@@ -3,7 +3,7 @@ from Model.Batalha import Batalha
 from Model.Acao import Acao
 from JogoDAO import JogoDAO
 import os
-from BatalhaController import BatalhaController
+from Controller.BatalhaController import BatalhaController
 from View.PersonagemView import PersonagemView
 import pygame
 
@@ -23,7 +23,7 @@ class Jogo:
         self.__elements = ['']*7
         for i in range(7):
             self.__elements[i] = pygame.transform.scale(pygame.image.load(
-                                                      os.path.join('assets',
+                                                      os.path.join('versao_final/assets',
                                                       'retangulo.png')),
                                                       (50, 50))
 

@@ -1,4 +1,4 @@
-from Acao import Acao
+from Model.Acao import Acao
 import random as r
 
 class Personagem:
