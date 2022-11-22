@@ -1,7 +1,7 @@
 import pygame
 import os
-#from abc import ABC, abstractmethod
-class Cenario:
+from abc import ABC,abstractmethod
+class Cenario(ABC):
     def __init__(self, identificador:str, largura:int, altura:int,eixo_x:int, eixo_y:int):
         self.__id = identificador
         self.__identificador = identificador
@@ -21,7 +21,6 @@ class Cenario:
     @property
     def rect(self):
         return self.__rect
-
 class CenarioIcone():
     def __init__(self, x_hit, y_hit, hit_largura,hit_altura,lugar):
         self.__clicked = False
