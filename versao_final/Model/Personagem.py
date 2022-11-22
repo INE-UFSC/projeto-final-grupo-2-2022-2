@@ -32,7 +32,7 @@ class Personagem:
         return self.__batalhas
     @batalhas.setter
     def batalhas(self, novo):
-        self.__batalhas = novo
+        print('Não envie parâmetros!!!')
 
 # retornam a saude e o ataque atual, em batalha
 
