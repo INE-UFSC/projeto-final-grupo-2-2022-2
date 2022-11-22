@@ -1,6 +1,6 @@
 import pygame
-from panel import Panel
-from window import Window
+from View.panel import Panel
+from View.window import Window
 
 class Button(Panel):
     def __init__(self, width, height, pos_x, pos_y, window:Window, text:str) -> None:

@@ -1,4 +1,4 @@
-from panel import Panel
+from View.panel import Panel
 import pygame
 
 class Window(Panel):
