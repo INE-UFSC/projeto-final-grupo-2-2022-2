@@ -1,9 +1,11 @@
 from Model.Acao import Acao
 import random as r
+from View.PersonagemView import PersonagemView
 
 class Personagem:
     def __init__(self, nome:str, ataque:int, saude:int,
-                 tecnicas:list, classe:str):
+                 tecnicas:list, classe:str,
+                 view:PersonagemView):
         self.__nome = nome
         self.__saude_max = saude
         self.__ataque_max = ataque
@@ -11,6 +13,9 @@ class Personagem:
         self.__ataque_at = ataque
         self.__tecnicas = tecnicas
         self.__classe = classe
+        self.__view = view
+        self.__view.set_image
+        self.__view.set_health(self.__saude_max)
         self.__batalhas = []
 
     @property
@@ -19,6 +24,13 @@ class Personagem:
     @nome.setter
     def nome(self, novo):
         self.__nome = novo
+
+    @property
+    def view(self) -> PersonagemView:
+        return self.__view
+    @view.setter
+    def view(self, novo:PersonagemView):
+        self.__view = novo
 
     @property
     def classe(self):
@@ -51,6 +63,7 @@ class Personagem:
 
     def afeta_saude(self, efeito):
         self.__saude_at += efeito
+        self.__view.set_health(self.__saude_at)
     
     def afeta_ataque(self, efeito):
         self.__ataque_at += efeito
