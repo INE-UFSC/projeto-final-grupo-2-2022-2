@@ -4,6 +4,7 @@ from Model.Acao import Acao
 from JogoDAO import JogoDAO
 import os
 from Controller.BatalhaController import BatalhaController
+from Controller.PersonagemController import PersonagemController
 from View.PersonagemView import PersonagemView
 import pygame
 
@@ -27,7 +28,7 @@ class Jogo:
                                                       'retangulo.png')),
                                                       (50, 50))
 
-        self.__save = JogoDAO('PersonagensView')
+        self.__save = JogoDAO('Personagens')
 
         self.__magos = ['']*3
         self.__orcs = ['']*3
@@ -39,13 +40,13 @@ class Jogo:
                                           70, 80)
             self.__orcs[i] = Personagem('Mateus' + str(i), 10,
                                        100, self.__acoes, 'orc',
-                                       self.__inimigos[i])
+                                       PersonagemController(self.__inimigos[i]) )
             self.__time[i] = PersonagemView(self.__window,
                                           200, 100 + i*100,
                                           70, 80)
             self.__magos[i] = Personagem('Joao' + str(i), 10,
                                        100, self.__acoes, 'mago',
-                                       self.__time[i])
+                                       PersonagemController(self.__time[i]))
             self.__save.add(self.__magos[i])
             
         self.__resultado = []

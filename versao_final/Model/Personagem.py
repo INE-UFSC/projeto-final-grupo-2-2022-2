@@ -18,10 +18,10 @@ class Personagem:
         self.__batalhas = []
 
     @property
-    def nome(self):
+    def nome(self) -> str:
         return self.__nome
     @nome.setter
-    def nome(self, novo):
+    def nome(self, novo:str):
         self.__nome = novo
 
     @property
@@ -32,14 +32,14 @@ class Personagem:
         self.__view = novo
 
     @property
-    def classe(self):
+    def classe(self) -> str:
         return self.__classe
     @classe.setter
-    def classe(self, novo):
+    def classe(self, novo:str):
         self.__classe = novo
 
     @property
-    def batalhas(self):
+    def batalhas(self) -> list:
         return self.__batalhas
     @batalhas.setter
     def batalhas(self, novo):
@@ -47,10 +47,10 @@ class Personagem:
 
 # retornam a saude e o ataque atual, em batalha
 
-    def get_saude(self):
+    def get_saude(self) -> int:
         return self.__saude_at
     
-    def get_ataque(self):
+    def get_ataque(self) -> int:
         return self.__ataque_at
 
 # escolhe uma tecnica 
@@ -60,11 +60,11 @@ class Personagem:
 
 # recebem o efeito ofensivo ou de suporte
 
-    def afeta_saude(self, efeito):
+    def afeta_saude(self, efeito:int):
         self.__saude_at += efeito
         self.__controller.set_health(self.__saude_at)
     
-    def afeta_ataque(self, efeito):
+    def afeta_ataque(self, efeito:int):
         self.__ataque_at += efeito
 
 # expande as tecnicas

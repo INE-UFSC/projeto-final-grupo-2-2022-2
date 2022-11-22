@@ -1,4 +1,3 @@
-from Model.Personagem import Personagem
 from View.PersonagemView import PersonagemView
 
 class PersonagemController:
