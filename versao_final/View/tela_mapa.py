@@ -1,72 +1,68 @@
 import pygame
-from Cenario import Cenario,CenarioIcone
-from Mapa import Mapa
+from View.Cenario import Cenario, CenarioIcone
+from View.Mapa import Mapa
 import os
 
-def main():
-    LARGURA = 800
-    ALTURA = 500
-    QUADROS_POR_SEGUNDO = 60
+class TelaMapa:
+    def __init__(self):
+        self.__LARGURA = 800
+        self.__ALTURA = 500
+        self.__QUADROS_POR_SEGUNDO = 60
 
-    preto = pygame.Color(0, 0, 0)
+        self.__preto = pygame.Color(0, 0, 0)
 
-    pygame.init()
-    tela = pygame.display.set_mode((LARGURA, ALTURA))
-    pygame.display.set_caption("mapa")
-    clock = pygame.time.Clock()
-    tela.fill(preto)
+        pygame.init()
+        self.__tela = pygame.display.set_mode((self.__LARGURA, self.__ALTURA))
+        pygame.display.set_caption("mapa")
+        self.__clock = pygame.time.Clock()
+        self.__tela.fill(self.__preto)
 
-    rodando = True
-    in_mapa = True
-    in_lugar = False
+        self.__rodando = True
+        self.__in_mapa = True
+        self.__in_lugar = False
 
-    sprites_jogo = pygame.sprite.Group()
-    mapa = Mapa({"Saffron": CenarioIcone(431,148,75,83,CenarioLoot("Saffron.jpg",800,500,400,250))},"mapa.jpg",500,800,400,250)
-
-    while rodando:
-
-        clock.tick(QUADROS_POR_SEGUNDO)
-        if in_mapa:
-            for i in sprites_jogo:
-                sprites_jogo.remove(i)
-            imagem_tela = mapa
-            tela.blit(imagem_tela.imagem, imagem_tela.rect)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    rodando = False
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    posicao = pygame.mouse.get_pos()
-                    if event.button == 1:
-                        for lugar in mapa.locais.keys():
-                            if mapa.locais[lugar].hitbox.collidepoint(posicao):
-                                mapa.locais[lugar].clicked = True
-
-                for lugar in mapa.locais.keys():
-                    if mapa.locais[lugar].clicked:
-                            in_mapa = False
-                            in_lugar = True
-                            mapa.locais[lugar].clicked = False
-                            prox_lugar = mapa.locais[lugar].cenario
-        elif in_lugar:
-            for i in sprites_jogo:
-                sprites_jogo.remove(i)
-            tela.blit(prox_lugar.imagem, prox_lugar.rect)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    rodando = False
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    in_mapa = True
-                    in_lugar = False
-
-
-
-
-
-
+        self.__sprites_jogo = pygame.sprite.Group()
+        self.__mapa = Mapa({"Saffron": Cenario("Saffron.jpg",
+                                               800,500,400,250,
+                                               431,148,75,83)},
+                           "mapa.jpg",500,800,400,250)
+        self.main()
         pygame.display.flip()
+        pygame.quit()
 
-    pygame.quit()
+    def main(self):
 
+        while self.__rodando:
 
-main()
+            self.__clock.tick(self.__QUADROS_POR_SEGUNDO)
+            if self.__in_mapa:
+                for i in self.__sprites_jogo:
+                    self.__sprites_jogo.remove(i)
+                imagem_tela = self.__mapa
+                self.__tela.blit(imagem_tela.imagem, imagem_tela.rect)
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.__rodando = False
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        posicao = pygame.mouse.get_pos()
+                        if event.button == 1:
+                            for lugar in self.__mapa.locais.keys():
+                                if self.__mapa.locais[lugar].hitbox.collidepoint(posicao):
+                                    self.__mapa.locais[lugar].clicked = True
 
+                    for lugar in self.__mapa.locais.keys():
+                        if self.__mapa.locais[lugar].clicked:
+                                self.__in_mapa = False
+                                self.__in_lugar = True
+                                self.__mapa.locais[lugar].clicked = False
+                                prox_lugar = self.__mapa.locais[lugar].cenario
+            elif self.__in_lugar:
+                for i in self.__sprites_jogo:
+                    self.__sprites_jogo.remove(i)
+                self.__tela.blit(prox_lugar.imagem, prox_lugar.rect)
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.__rodando = False
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        self.__in_mapa = True
+                        self.__in_lugar = False
