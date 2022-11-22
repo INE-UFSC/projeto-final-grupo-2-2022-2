@@ -1,7 +1,7 @@
 from Model.Personagem import Personagem
 from Model.Batalha import Batalha
 from Model.Acao import Acao
-from JogoDAO import JogoDAO
+from Controller.JogoDAO import JogoDAO
 import os
 from Controller.BatalhaController import BatalhaController
 from Controller.PersonagemController import PersonagemController
