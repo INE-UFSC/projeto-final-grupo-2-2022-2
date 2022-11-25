@@ -22,7 +22,7 @@ class Cenario(ABC):
     def rect(self):
         return self.__rect
 class CenarioIcone():
-    def __init__(self, x_hit, y_hit, hit_largura,hit_altura,lugar):
+    def __init__(self, lugar, x_hit, y_hit, hit_largura,hit_altura):
         self.__clicked = False
         self.__lugar = lugar
         self.__x_hit = x_hit
@@ -44,3 +44,26 @@ class CenarioIcone():
     @property
     def cenario(self):
         return self.__lugar
+
+class CenarioBatalha(Cenario):
+    def __init__(self,identificador:str, largura:int, altura:int,eixo_x:int, eixo_y:int):
+        super().__init__(identificador,largura,altura,eixo_x,eixo_y)
+
+#esta aqui apenas para indicar que vai existir essa classe, mas no momento, nao tem nada implementado
+
+class CenarioLoja(Cenario):
+    def __init__(self,identificador:str, largura:int, altura:int,eixo_x:int, eixo_y:int,itens: dict):
+        super().__init__(identificador,largura,altura,eixo_x,eixo_y)
+        self.__itens = itens
+    @property
+    def itens(self):
+        return self.__itens
+
+    def compra_item(self,item_pego):
+        return self.__itens.pop(item_pego)
+
+    def get_item(self,item_pego):
+        return self.__itens[item_pego]
+
+
+
