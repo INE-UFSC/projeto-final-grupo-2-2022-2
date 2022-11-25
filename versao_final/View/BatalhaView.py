@@ -8,8 +8,8 @@ window = pygame.display.set_mode((900, 500), pygame.RESIZABLE)
 class BatalhaView(Batalha):
     def __init__(self, aliados: list[Personagem],
                  inimigos: list[Personagem]):
-        self.__aliados_view = [i.controller.view for i in aliados]
-        self.__inimigos_view = [i.controller.view for i in inimigos]
+        self.__aliados_view = [i.view for i in aliados]
+        self.__inimigos_view = [i.view for i in inimigos]
         self.__allies = aliados
         self.__enemies = inimigos
         super().__init__(self.__allies, self.__enemies)
