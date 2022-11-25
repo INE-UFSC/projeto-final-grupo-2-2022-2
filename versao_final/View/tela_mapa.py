@@ -96,4 +96,4 @@ class TelaMapa:
 
 t = TelaMapa()
 
-#back está mal implementado, ainda nao pensei em uma boa maneira de coloca-lo no codigo
+#back está mal implementado, ainda nao pensei em uma boa maneira de coloca-lo no codigo.
