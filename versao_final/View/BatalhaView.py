@@ -14,11 +14,10 @@ class BatalhaView():
 
         self.__skillSlots = [None]*7
 
-        for i in range(7):
-            self.__skillSlots[i] = pygame.transform.scale(
-                pygame.image.load(
-                    os.path.join('versao_final/assets', 'retangulo.png')),
-                    (50, 50))
+        self.__skillSlots = [pygame.transform.scale(
+            pygame.image.load(
+                os.path.join('versao_final/assets', 'retangulo.png')),
+                (50, 50))] * 7
 
     def draw(self):
         self.__window.fill((255, 255, 255))
@@ -27,12 +26,11 @@ class BatalhaView():
         for personagem in self.__inimigos_view:
             personagem.draw()
 
-        winw, winh = self.__window.get_size()
         
+        winw, winh = self.__window.get_size()
         cont = 7
         for elemento in self.__skillSlots:
-            self.__window.blit(elemento, (winw/22*cont,
-                                        winh-50))
+            self.__window.blit(elemento, (winw/22*cont, winh-50))
             cont += 1
 
         pygame.display.update()
@@ -40,8 +38,13 @@ class BatalhaView():
     def start(self):
         pygame.init()
         self.draw()
-
     
+    def showResult(self, winner:str):
+        winw, winh = self.__window.get_size()
+        result = pygame.image.load(os.path.join('versao_final/assets', f'{winner}.png'))
+        self.__window.blit(result, (winw/4, winh/4))
+        pygame.display.update()
+
     def main(self):
         fps = 60
         clock = pygame.time.Clock()
@@ -49,15 +52,22 @@ class BatalhaView():
         
         while run:
             clock.tick(fps)
+
             for event in pygame.event.get():
                 if event.type == pygame.VIDEORESIZE:
                     window = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
                     pygame.display.update()
 
-                self.__aliados_view, self.__inimigos_view = self.__controller.watch(event)
+                if self.__controller.finished:
+                    if not self.__aliados_view:
+                        self.showResult('enemies')
+                    else:
+                        self.showResult('allies')
+                else:
+                    self.__aliados_view, self.__inimigos_view = self.__controller.watch(event)
+                    self.draw() 
 
                 if event.type == pygame.QUIT:
                     return False
 
-            self.draw()
 
