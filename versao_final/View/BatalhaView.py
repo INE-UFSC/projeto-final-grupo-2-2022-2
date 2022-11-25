@@ -7,13 +7,10 @@ class BatalhaView():
                  inimigos: list[Personagem]):
         self.__aliados_view = [i.controller.view for i in aliados]
         self.__inimigos_view = [i.controller.view for i in inimigos]
-        self.__allies = aliados
-        self.__enemies = inimigos
         self.__window = pygame.display.set_mode((900, 500), pygame.RESIZABLE)
         self.__controller = BatalhaController(aliados, inimigos)
 
         self.__skillSlots = [None]*7
-
         self.__skillSlots = [pygame.transform.scale(
             pygame.image.load(
                 os.path.join('versao_final/assets', 'retangulo.png')),
@@ -34,10 +31,6 @@ class BatalhaView():
             cont += 1
 
         pygame.display.update()
-    
-    def start(self):
-        pygame.init()
-        self.draw()
     
     def showResult(self, winner:str):
         winw, winh = self.__window.get_size()
