@@ -11,14 +11,13 @@ class PersonagemView:
         self.__rect = pygame.Rect(x, y, width, height)
         self.__image = None
         self.__health = 100
-        self.draw()
     
     def draw(self):
         self.__surface.blit(self.__image, (self.__rect.x, self.__rect.y))
         font = pygame.font.SysFont('Comic Sans MS', 20)
-        text = font.render(self.__health, True, (0, 0, 0))
+        text = font.render(str(self.__health), True, (0, 0, 0))
         x, y, w = self.__rect.x, self.__rect.y, self.__rect.width
-        self.__surface.blit(text, text.get_rect(center=(x + w/2, y)))
+        self.__surface.blit(text, text.get_rect(center=(x + w/2, y-10)))
     
 
 

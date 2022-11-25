@@ -1,109 +1,151 @@
-from View.PersonagemView import PersonagemView
-from Model.Batalha import Batalha
-from View.BatalhaView import BatalhaView, window
 from Model.Personagem import Personagem
-from Model.Acao import Acao
-from JogoDAO import JogoDAO
-from PersonagemController import PersonagemController
-import pygame
 
-class BatalhaController(Batalha):
+import pygame
+import random as r
+
+class BatalhaController():
     def __init__(self, time:list[Personagem],
                  inimigos:list[Personagem]) -> None:
-        self.__allies = time
-        self.__enemies = inimigos
-        self.__time = [i.controller.view for i in self.__time]
-        self.__inimigos = [i.controller.view for i in self.__inimigos]
-        super().__init__(self.__allies, self.__enemies)
+        self.__alliesPersonagens = time
+        self.__enemiesPersonagens = inimigos
+        self.__alliesView = [i.controller.view for i in self.__alliesPersonagens]
+        self.__enemiesView = [i.controller.view for i in self.__enemiesPersonagens]
         self.__player_turn = True
+        self.__finished = False
+    
+    @property
+    def finished(self) -> bool:
+        return self.__finished
 
-    def jogar(self):
-        pass
+    def updateViews(self):
+        self.__alliesView = [i.controller.view for i in self.__alliesPersonagens]
+        self.__enemiesView = [i.controller.view for i in self.__enemiesPersonagens]
 
-    def watch(self, event, finished):
-        click = False
-        if event.type == pygame.VIDEORESIZE:
-            window = pygame.display.set_mode((event.w, event.h),
-                                             pygame.RESIZABLE)
-            pygame.display.update()
+
+    def watch(self, event):
+        click = False  
         
-        var = not click and not finished and self.__player_turn
-        if event.type == pygame.MOUSEBUTTONDOWN and var:
-            finished = self.batalhar(self.__time, self.__inimigos)
+        condicaoAliados = not click and self.__player_turn and not self.__finished
+        condicaoInimigos = not click and not self.__player_turn and not self.__finished
+
+        if event.type == pygame.MOUSEBUTTONDOWN and condicaoAliados:
+            self.turno(self.__alliesPersonagens, self.__enemiesPersonagens)
+            click = True
+
+        if event.type == pygame.MOUSEBUTTONDOWN and condicaoInimigos:
+            self.turno(self.__enemiesPersonagens, self.__alliesPersonagens)
+            click = True
         
         if event.type == pygame.MOUSEBUTTONUP:
             click = False
 
-        if not self.__player_turn and not finished:
-            finished = self.batalhar(self.__inimigos, self.__time)
+        return self.__alliesView, self.__enemiesView
+
+    
+    def clear_screen(self):
+        for i in range (3):
+            if len(self.__alliesPersonagens) > i and self.__alliesPersonagens[i].get_saude() <= 0:
+                self.__alliesPersonagens.pop(i)
+
+            if len(self.__enemiesPersonagens) > i and self.__enemiesPersonagens[i].get_saude() <= 0:
+                self.__enemiesPersonagens.pop(i)
         
-        return finished
-            
-    def batalhar(self, original_attackers:list[PersonagemView],
-            original_targets:list[PersonagemView]):
+        self.updateViews()
 
-        attackers = [i.char for i in original_attackers]
-        targets = [i.char for i in original_targets]
-        finished = False
-        if attackers and targets:
-            targets, attackers = super().turno(targets, attackers)
-            if len(attackers) != len(original_attackers):
-                self.remove_dead(attackers, original_attackers)
-            if len(targets) != len(original_targets):
-                self.remove_dead(targets, original_targets)
+        if not self.__enemiesPersonagens:
+            print('allies win')
+            self.__finished = True
+        elif not self.__alliesPersonagens:
+            print('enemies win')
+            self.__finished = True
+    
 
-        finished = self.check_winner(attackers, targets)
+
+    def turno(self, executores:list[Personagem],
+                    alvos:list[Personagem]):
+
+        atacante = r.choice(executores)
+        habilidade = atacante.get_acao()
+        
+        troca = False
+        if habilidade.tipo == 'suporte':
+            executores, alvos = alvos, executores
+            troca = True
+
+        alvo = r.choice(alvos)
+        multiplicador = r.randint(1, 20)
+        habilidade.executar(alvo, multiplicador)
 
         self.__player_turn = not self.__player_turn
-        return finished
+        self.clear_screen()
+
+
+
+    # def batalhar(self):
+    #     pass
+    #     attackers = [i.char for i in self.__alliesPersonagens]
+    #     targets = [i.char for i in original_targets]
+    #     finished = False
+    #     if attackers and targets:
+    #         targets, attackers = super().turno(targets, attackers)
+    #         if len(attackers) != len(self.__alliesPersonagens):
+    #             self.remove_dead(attackers, self.__alliesPersonagens)
+    #         if len(targets) != len(original_targets):
+    #             self.remove_dead(targets, original_targets)
+
+    #     finished = self.check_winner(attackers, targets)
+
+    #     self.__player_turn = not self.__player_turn
+    #     return finished
     
 
-    def remove_dead(self, affected_team:list[PersonagemView],
-                    original_team:list[PersonagemView]):
-        for i in original_team:
-            if i.char not in affected_team:
-                original_team.remove(i)
+    # def remove_dead(self, affected_team:list[PersonagemView],
+    #                 original_team:list[PersonagemView]):
+    #     for i in original_team:
+    #         if i.char not in affected_team:
+    #             original_team.remove(i)
     
-    def check_winner(self, team1, team2):
-        vencedor:str = ''
-        finished = False
-        if ((not team1 and team1 == self.__time) or
-             not team2 and team2 == self.__time):
-            print("enemies win")
-            finished = True
-        elif ((not team1 and team1 == self.__inimigos) or 
-             (not team2 and team2 == self.__inimigos)):
-            print("allies win")
-            for i in self.__allies:
-                i.fim_da_batalha()
-            finished = True
+    # def check_winner(self, team1, team2):
+    #     finished = False
+    #     if ((not team1 and team1 == self.__alliesView) or
+    #          not team2 and team2 == self.__alliesView):
+    #         print("enemies win")
+    #         finished = True
+    #     elif ((not team1 and team1 == self.__enemiesView) or 
+    #          (not team2 and team2 == self.__enemiesView)):
+    #         print("allies win")
+    #         for i in self.__alliesPersonagens:
+    #             i.fim_da_batalha()
+    #         finished = True
         
-        return finished
+    #     return finished
+    
 
-save = JogoDAO('Personagem')
 
-acoes = [
-        Acao('fireball', -5, 'saude', 'ofensivo'),
-        Acao('boost', 5, 'ataque', 'suporte')
-        ]
+# save = JogoDAO('Personagem')
 
-magos = ['']*3
-orcs = ['']*3
-time = ['']*3
-inimigos = ['']*3
-for i in range(3):
-    inimigos[i] = PersonagemView(window,
-                                    600, 100 + i*100,
-                                    70, 80)
-    orcs[i] = Personagem('Mateus' + str(i), 10,
-                                100, acoes, 'orc',
-                                PersonagemController(inimigos[i]) )
-    time[i] = PersonagemView(window,
-                                    200, 100 + i*100,
-                                    70, 80)
-    magos[i] = Personagem('Joao' + str(i), 10,
-                                100, acoes, 'mago',
-                                PersonagemController(time[i]))
-    save.add(magos[i])
-view = BatalhaView(magos, orcs)
-jogo = BatalhaController(magos, orcs)
+# acoes = [
+#         Acao('fireball', -5, 'saude', 'ofensivo'),
+#         Acao('boost', 5, 'ataque', 'suporte')
+#         ]
+
+# magos = ['']*3
+# orcs = ['']*3
+# time = ['']*3
+# inimigos = ['']*3
+# for i in range(3):
+#     inimigos[i] = PersonagemView(window,
+#                                     600, 100 + i*100,
+#                                     70, 80)
+#     orcs[i] = Personagem('Mateus' + str(i), 10,
+#                                 100, acoes, 'orc',
+#                                 PersonagemController(inimigos[i]) )
+#     time[i] = PersonagemView(window,
+#                                     200, 100 + i*100,
+#                                     70, 80)
+#     magos[i] = Personagem('Joao' + str(i), 10,
+#                                 100, acoes, 'mago',
+#                                 PersonagemController(time[i]))
+#     save.add(magos[i])
+# view = BatalhaView(magos, orcs)
+# jogo = BatalhaController(magos, orcs)

@@ -23,3 +23,7 @@ class Window(Panel):
     
     def add(self, element, coordinates:tuple) -> None:
         self.__surface.blit(element, coordinates)
+    
+    @property
+    def surface(self) -> pygame.Surface:
+        return self.__surface

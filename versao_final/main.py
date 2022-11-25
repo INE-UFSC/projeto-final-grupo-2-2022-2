@@ -1,7 +1,71 @@
+from Model.Acao import Acao
+from Model.Personagem import Personagem
+
 from Controller.Jogo import Jogo
+from Controller.PersonagemController import PersonagemController
+from Controller.BatalhaController import BatalhaController
+
+from View.PersonagemView import PersonagemView
+from View.BatalhaView import BatalhaView
+
+import pygame
+
+window = pygame.display.set_mode((900, 500), pygame.RESIZABLE)
+
+acoes = [
+        Acao('fireball', -50, 'saude', 'ofensivo'),
+        Acao('boost', 5, 'ataque', 'suporte')
+        ]
+
+magos = ['']*3
+orcs = ['']*3
+time = ['']*3
+inimigos = ['']*3
+for i in range(3):
+    inimigos[i] = PersonagemView(surface = window,
+                                 x = 600, 
+                                 y = 100 + i*100,
+                                 width = 70, 
+                                 height = 80)
+
+    orcs[i] = Personagem(nome = 'Mateus' + str(i), 
+                         ataque = 10,
+                         saude = 100, 
+                         tecnicas = acoes, 
+                         classe = 'orc',
+                         controller = PersonagemController(inimigos[i]))
+
+    time[i] = PersonagemView(surface = window,
+                             x = 200, 
+                             y = 100 + i*100,
+                             width = 70, 
+                             height = 80)
+    magos[i] = Personagem(nome = 'Joao' + str(i), 
+                          ataque = 10,
+                          saude = 100, 
+                          tecnicas = acoes, 
+                          classe = 'mago',
+                          controller = PersonagemController(time[i]))
+    # save.add(magos[i])
+# view = BatalhaView(magos, orcs)
+# jogo = BatalhaController(magos, orcs)
+
+
 
 jogo = Jogo()
-jogo.main()
+
+# !!!!! Parâmetros são temporários 
+# Time deve ser armazenado em serialização
+# Inimigos devem vir do mapa
+jogo.run(magos, orcs)
+
+
+
+
+
+
+
+
 
 '''
 from combatClasses.mago import Mago
