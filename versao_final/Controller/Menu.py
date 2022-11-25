@@ -8,7 +8,6 @@ class Menu():
     def __init__(self) -> None:
         # self.__mapa = TelaMapa()
         self.__play = False
-        self.runMenu()
 
     def showElements(self, menu:Window) -> dict[str, pygame.Surface]:
         menuW, menuH = menu.surface.get_size()
@@ -44,7 +43,7 @@ class Menu():
                     elements = self.showElements(menu)
                 if event.type == pygame.MOUSEBUTTONDOWN and elements['buttonPlay'].button.collidepoint(pygame.mouse.get_pos()):
                     # self.__mapa.main()
-                    self.__play = True
+                    return True
                 if event.type == pygame.MOUSEBUTTONDOWN and elements['buttonQuit'].button.collidepoint(pygame.mouse.get_pos()):
                     run = False
                     

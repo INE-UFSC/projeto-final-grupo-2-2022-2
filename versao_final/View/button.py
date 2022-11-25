@@ -22,7 +22,6 @@ class Button(Panel):
         btnRect = btn.get_rect()
         btnRect.left, btnRect.top = x, y
         # Atualização da tela com o texto
-        print(btn.get_rect(center=(x + w/2, y + h/2)))
         self.__window.add(btn, btn.get_rect(center=(x + w/2, y + h/2)))
         # Atualização do display
         pygame.display.update()
