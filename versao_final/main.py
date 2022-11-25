@@ -22,8 +22,12 @@ orcs = ['']*3
 time = ['']*3
 inimigos = ['']*3
 for i in range(3):
+    shift = 0
+    if i == 1:
+        shift = 100
+    
     inimigos[i] = PersonagemView(surface = window,
-                                 x = 600, 
+                                 x = 600 + shift, 
                                  y = 100 + i*100,
                                  width = 70, 
                                  height = 80)
@@ -36,7 +40,7 @@ for i in range(3):
                          controller = PersonagemController(inimigos[i]))
 
     time[i] = PersonagemView(surface = window,
-                             x = 200, 
+                             x = 200 - shift, 
                              y = 100 + i*100,
                              width = 70, 
                              height = 80)
@@ -47,8 +51,6 @@ for i in range(3):
                           classe = 'mago',
                           controller = PersonagemController(time[i]))
     # save.add(magos[i])
-# view = BatalhaView(magos, orcs)
-# jogo = BatalhaController(magos, orcs)
 
 
 
