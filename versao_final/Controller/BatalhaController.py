@@ -8,8 +8,8 @@ class BatalhaController():
                  inimigos:list[Personagem]) -> None:
         self.__alliesPersonagens = time
         self.__enemiesPersonagens = inimigos
-        self.__alliesView = [i.controller.view for i in self.__alliesPersonagens]
-        self.__enemiesView = [i.controller.view for i in self.__enemiesPersonagens]
+        # self.__alliesView = [i.controller.view for i in self.__alliesPersonagens]
+        # self.__enemiesView = [i.controller.view for i in self.__enemiesPersonagens]
         self.__player_turn = True
         self.__finished = False
     
@@ -17,9 +17,9 @@ class BatalhaController():
     def finished(self) -> bool:
         return self.__finished
 
-    def updateViews(self):
-        self.__alliesView = [i.controller.view for i in self.__alliesPersonagens]
-        self.__enemiesView = [i.controller.view for i in self.__enemiesPersonagens]
+    # def updateViews(self):
+    #     self.__alliesView = [i.controller.view for i in self.__alliesPersonagens]
+    #     self.__enemiesView = [i.controller.view for i in self.__enemiesPersonagens]
 
 
     def watch(self, event):
@@ -39,25 +39,24 @@ class BatalhaController():
         if event.type == pygame.MOUSEBUTTONUP:
             click = False
 
-        return self.__alliesView, self.__enemiesView
+        return self.__alliesPersonagens, self.__enemiesPersonagens
 
     
-    def clear_screen(self):
-        for i in range (3):
-            if len(self.__alliesPersonagens) > i and self.__alliesPersonagens[i].get_saude() <= 0:
-                self.__alliesPersonagens.pop(i)
-
-            if len(self.__enemiesPersonagens) > i and self.__enemiesPersonagens[i].get_saude() <= 0:
-                self.__enemiesPersonagens.pop(i)
-        
-        self.updateViews()
-
-        if not self.__enemiesPersonagens:
-            print('allies win')
+    def checkForWinner(self):
+        cont = 0
+        for i in self.__alliesPersonagens:
+            if i.get_saude() >= 0:
+                cont += 1
+        if cont == 0:
             self.__finished = True
-        elif not self.__alliesPersonagens:
-            print('enemies win')
+            return
+        cont = 0
+        for i in self.__enemiesPersonagens:
+            if i.get_saude() >= 0:
+                cont += 1
+        if cont == 0:
             self.__finished = True
+            return
     
 
 
@@ -77,7 +76,7 @@ class BatalhaController():
         habilidade.executar(alvo, multiplicador)
 
         self.__player_turn = not self.__player_turn
-        self.clear_screen()
+        self.checkForWinner()
 
 
 

@@ -1,10 +1,3 @@
-from Model.Personagem import Personagem
-import os
-from Controller.BatalhaController import BatalhaController
-from Controller.PersonagemController import PersonagemController
-from View.PersonagemView import PersonagemView
-
-
 from Model.Batalha import Batalha
 from Controller.Menu import Menu
 from View.Mapa import Mapa
