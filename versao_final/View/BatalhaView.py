@@ -127,7 +127,7 @@ class BatalhaView():
                     pygame.display.update()
 
                 if self.__controller.finished:
-                    if not self.__aliados_view:
+                    if self.__controller.winner == 0:
                         self.showResult('enemies')
                     else:
                         self.showResult('allies')
@@ -135,7 +135,6 @@ class BatalhaView():
                     self.__aliadosPersonagens, self.__inimigosPersonagens = self.__controller.watch(event)
                     self.createSprites()
                     self.draw()
-                    print('a')
 
                 if event.type == pygame.QUIT:
                     return False

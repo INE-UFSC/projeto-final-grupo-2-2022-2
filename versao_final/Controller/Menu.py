@@ -27,7 +27,7 @@ class Menu():
 
     def runMenu(self):
         run = True
-        menu = Window(800, 600)
+        menu = Window(900, 500)
         fps = 10
         clock = pygame.time.Clock()
 

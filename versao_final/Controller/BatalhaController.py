@@ -12,10 +12,14 @@ class BatalhaController():
         # self.__enemiesView = [i.controller.view for i in self.__enemiesPersonagens]
         self.__player_turn = True
         self.__finished = False
+        self.__winner = -1
     
     @property
     def finished(self) -> bool:
         return self.__finished
+    @property
+    def winner(self) -> int:
+        return self.__winner
 
     # def updateViews(self):
     #     self.__alliesView = [i.controller.view for i in self.__alliesPersonagens]
