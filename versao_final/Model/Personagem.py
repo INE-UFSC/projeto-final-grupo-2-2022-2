@@ -12,8 +12,6 @@ class Personagem:
         self.__ataque_at = ataque
         self.__tecnicas = tecnicas
         self.__classe = classe
-        # self.__controller = controller
-        # self.__controller.set_image(classe)
         self.__batalhas = []
 
     @property
@@ -22,13 +20,6 @@ class Personagem:
     @nome.setter
     def nome(self, novo:str):
         self.__nome = novo
-
-    # @property
-    # def controller(self) -> PersonagemController:
-    #     return self.__controller
-    # @controller.setter
-    # def controller(self, novo:PersonagemController):
-    #     self.__controller = novo
 
     @property
     def classe(self) -> str:
@@ -59,7 +50,9 @@ class Personagem:
 # escolhe uma tecnica 
 
     def get_acao(self, num=0) -> Acao:
-        return self.__tecnicas[num]
+        if len(self.__tecnicas) > num:
+            return self.__tecnicas[num]
+        return None
 
 # recebem o efeito ofensivo ou de suporte
 

@@ -1,17 +1,7 @@
 import os
 import pygame
 
-
 class Sprite(pygame.sprite.Sprite):
-    # def __init__(self, surface:pygame.Surface,
-    #              x:float, y:float,
-    #              width:int, height:int):
-    #     self.__surface = surface
-    #     self.__width = width
-    #     self.__height = height
-    #     self.__rect = pygame.Rect(x, y, width, height)
-    #     self.__image = None
-    #     self.__health = 100
 
     def __init__(self, filename:str, width:float, height:float, x:float, y:float) -> None:
         super().__init__()
@@ -57,17 +47,3 @@ class Sprite(pygame.sprite.Sprite):
     @height.setter
     def height(self, height:int):
         self.__height = height
-
-    # @property
-    # def rect(self):
-    #     return self.rect
-    # @rect.setter
-    # def rect(self, rect:pygame.Rect):
-    #     self.rect = rect
-
-    # def draw(self):
-    #     self.__surface.blit(self.image, (self.x, self.y))
-    #     font = pygame.font.SysFont('Comic Sans MS', 20)
-    #     text = font.render(str(self.__health), True, (0, 0, 0))
-    #     x, y, w = self.x, self.y, self.width
-    #     self.__surface.blit(text, text.get_rect(center=(x + w/2, y-10)))

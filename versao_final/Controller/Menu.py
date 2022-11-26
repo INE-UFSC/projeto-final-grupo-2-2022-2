@@ -42,7 +42,6 @@ class Menu():
                     menu.updateSize(event.w, event.h)
                     elements = self.showElements(menu)
                 if event.type == pygame.MOUSEBUTTONDOWN and elements['buttonPlay'].button.collidepoint(pygame.mouse.get_pos()):
-                    # self.__mapa.main()
                     return True
                 if event.type == pygame.MOUSEBUTTONDOWN and elements['buttonQuit'].button.collidepoint(pygame.mouse.get_pos()):
                     run = False
