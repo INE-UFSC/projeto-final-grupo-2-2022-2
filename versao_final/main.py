@@ -2,15 +2,9 @@ from Model.Acao import Acao
 from Model.Personagem import Personagem
 
 from Controller.Jogo import Jogo
-from Controller.PersonagemController import PersonagemController
-from Controller.BatalhaController import BatalhaController
-
-from View.Sprite import Sprite
-from View.BatalhaView import BatalhaView
 
 import pygame
 
-window = pygame.display.set_mode((900, 500), pygame.RESIZABLE)
 
 acoes = [
         Acao('fireball', -50, 'saude', 'ofensivo'),
