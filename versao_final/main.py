@@ -2,15 +2,9 @@ from Model.Acao import Acao
 from Model.Personagem import Personagem
 
 from Controller.Jogo import Jogo
-from Controller.PersonagemController import PersonagemController
-from Controller.BatalhaController import BatalhaController
-
-from View.PersonagemView import PersonagemView
-from View.BatalhaView import BatalhaView
 
 import pygame
 
-window = pygame.display.set_mode((900, 500), pygame.RESIZABLE)
 
 acoes = [
         Acao('fireball', -50, 'saude', 'ofensivo'),
@@ -26,30 +20,31 @@ for i in range(3):
     if i == 1:
         shift = 100
     
-    inimigos[i] = PersonagemView(surface = window,
-                                 x = 600 + shift, 
-                                 y = 100 + i*100,
-                                 width = 70, 
-                                 height = 80)
+
+    # inimigos[i] = PersonagemView(surface = window,
+    #                              x = 600 + shift, 
+    #                              y = 100 + i*100,
+    #                              width = 70, 
+    #                              height = 80)
 
     orcs[i] = Personagem(nome = 'Mateus' + str(i), 
                          ataque = 10,
                          saude = 100, 
                          tecnicas = acoes, 
-                         classe = 'orc',
-                         controller = PersonagemController(inimigos[i]))
+                         classe = 'mago')
+                        #  controller = PersonagemController(inimigos[i]))
 
-    time[i] = PersonagemView(surface = window,
-                             x = 200 - shift, 
-                             y = 100 + i*100,
-                             width = 70, 
-                             height = 80)
+    # time[i] = PersonagemView(surface = window,
+    #                          x = 200 - shift, 
+    #                          y = 100 + i*100,
+    #                          width = 70, 
+    #                          height = 80)
     magos[i] = Personagem(nome = 'Joao' + str(i), 
                           ataque = 10,
                           saude = 100, 
                           tecnicas = acoes, 
-                          classe = 'mago',
-                          controller = PersonagemController(time[i]))
+                          classe = 'mago')
+                        #   controller = PersonagemController(time[i]))
     # save.add(magos[i])
 
 

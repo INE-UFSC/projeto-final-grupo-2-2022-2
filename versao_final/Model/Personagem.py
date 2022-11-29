@@ -1,11 +1,10 @@
 from Model.Acao import Acao
 import random as r
-from Controller.PersonagemController import PersonagemController
+# from Controller.PersonagemController import PersonagemController
 
 class Personagem:
     def __init__(self, nome:str, ataque:int, saude:int,
-                 tecnicas:list, classe:str,
-                 controller:PersonagemController):
+                 tecnicas:list, classe:str):
         self.__nome = nome
         self.__saude_max = saude
         self.__ataque_max = ataque
@@ -13,8 +12,6 @@ class Personagem:
         self.__ataque_at = ataque
         self.__tecnicas = tecnicas
         self.__classe = classe
-        self.__controller = controller
-        self.__controller.set_image(classe)
         self.__batalhas = []
 
     @property
@@ -23,13 +20,6 @@ class Personagem:
     @nome.setter
     def nome(self, novo:str):
         self.__nome = novo
-
-    @property
-    def controller(self) -> PersonagemController:
-        return self.__controller
-    @controller.setter
-    def controller(self, novo:PersonagemController):
-        self.__controller = novo
 
     @property
     def classe(self) -> str:
@@ -44,6 +34,10 @@ class Personagem:
     @batalhas.setter
     def batalhas(self, novo):
         print('Não envie parâmetros!!!')
+    
+    @property
+    def saude_max(self) -> int:
+        return self.__saude_max
 
 # retornam a saude e o ataque atual, em batalha
 
@@ -56,13 +50,14 @@ class Personagem:
 # escolhe uma tecnica 
 
     def get_acao(self, num=0) -> Acao:
-        return self.__tecnicas[num]
+        if len(self.__tecnicas) > num:
+            return self.__tecnicas[num]
+        return None
 
 # recebem o efeito ofensivo ou de suporte
 
     def afeta_saude(self, efeito:int):
         self.__saude_at += efeito
-        self.__controller.set_health(self.__saude_at)
     
     def afeta_ataque(self, efeito:int):
         self.__ataque_at += efeito
