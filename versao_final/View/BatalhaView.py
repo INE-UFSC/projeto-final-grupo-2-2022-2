@@ -2,6 +2,7 @@ import pygame
 from Model.Personagem import Personagem
 from View.Sprite import Sprite
 from Controller.BatalhaController import BatalhaController
+from Model.Acao import Acao
 import os
 import time
 import random as r
@@ -18,10 +19,11 @@ class BatalhaView():
         self.__elements = pygame.sprite.Group()
 
         self.__playerTurn = True
+        self.__finished = False
+        self.__winner = -1
 
         self.createSprites()
 
-        self.__controller = BatalhaController(aliados, inimigos)
 
     def createSprites(self):
 
@@ -48,6 +50,7 @@ class BatalhaView():
                                 height = default_height, 
                                 x = winw/5 - shift, 
                                 y = winh/5 * (i+1))
+            aliado.sprite = aliadoSprite
             self.__timeAliado.add(aliadoSprite)
 
             default_width, default_height = 60, 80
@@ -62,6 +65,7 @@ class BatalhaView():
                                 height = default_height, 
                                 x = winw - (winw/5 - shift + 60), 
                                 y = winh/5 * (i+1))
+            inimigo.sprite = inimigoSprite
             if aliado.get_saude() <= 0:
                 aliadoSprite.width = 0
                 aliadoSprite.height = 0
@@ -76,6 +80,67 @@ class BatalhaView():
             self.__elements.add(skill)
             cont += 1
     
+    def animation(self, atacante:Personagem, alvo:Personagem, habilidade:Acao):
+        atacanteSprite = atacante.sprite
+        alvoSprite = alvo.sprite
+
+        for i in range (10):
+            atacanteSprite.rect.x += 2
+            self.draw()
+            
+            # pygame.sprite.Group(atacante.sprite).draw(self.__window)
+            # pygame.display.flip()
+            
+        time.sleep(0.5)
+        multiplicador = r.randint(1, 20)
+        habilidade.executar(alvo, multiplicador)
+
+        for i in range (10):
+            if i%2 == 0:
+                alvoSprite.rect.x += 4
+                alvoSprite.rect.y += 4
+            else:
+                alvoSprite.rect.x -= 4
+                alvoSprite.rect.y -= 4
+
+            self.draw()
+            # pygame.sprite.Group(alvo.sprite).draw(self.__window)
+            # pygame.display.flip()
+
+
+    def checkForWinner(self):
+        cont = 0
+        for i in self.__aliadosPersonagens:
+            if i.get_saude() >= 0:
+                cont += 1
+        if cont == 0:
+            self.__finished = True
+            self.__winner = 0
+            return
+        cont = 0
+        for i in self.__inimigosPersonagens:
+            if i.get_saude() >= 0:
+                cont += 1
+        if cont == 0:
+            self.__finished = True
+            self.__winner = 1
+            return
+    
+    def turno(self, atacante: Personagem,
+                    alvos:list[Personagem]):
+
+        habilidade = atacante.get_acao()
+        
+        troca = False
+        if habilidade.tipo == 'suporte':
+            executores, alvos = alvos, executores
+            troca = True
+
+        alvo = r.choice(alvos)
+        self.animation(atacante, alvo, habilidade)
+
+        self.__playerTurn = not self.__playerTurn
+        self.checkForWinner()
 
     def drawHealthBars(self):
         for i, (aliado, inimigo) in enumerate(zip(self.__timeAliado, self.__timeInimigo)):
@@ -133,8 +198,8 @@ class BatalhaView():
                     window = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
                     pygame.display.update()
                 
-                if self.__controller.finished:
-                    if self.__controller.winner == 0:
+                if self.__finished:
+                    if self.__winner == 0:
                         self.showResult('enemies')
                     else:
                         self.showResult('allies')
@@ -145,14 +210,12 @@ class BatalhaView():
 
                         for i, sprite in enumerate(sprites):
                             if event.type == pygame.MOUSEBUTTONDOWN and sprite.rect.collidepoint(pygame.mouse.get_pos()):
-                                self.__controller.turno(atacantes[i], alvos)
-                                self.__playerTurn = not self.__playerTurn
+                                self.turno(atacantes[i], alvos)
                     else:
-                        atacante = r.choice(self.__aliadosPersonagens)
+                        atacante = r.choice(self.__inimigosPersonagens)
                         alvos = self.__aliadosPersonagens
                         time.sleep(0.5)
-                        self.__controller.turno(atacante, alvos)
-                        self.__playerTurn = not self.__playerTurn
+                        self.turno(atacante, alvos)
 
                     
                     self.createSprites()
