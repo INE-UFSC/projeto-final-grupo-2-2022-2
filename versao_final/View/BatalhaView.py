@@ -137,6 +137,9 @@ class BatalhaView():
             troca = True
 
         alvo = r.choice(alvos)
+        while alvo.get_saude() <= 0:
+            alvo = r.choice(alvos)
+
         self.animation(atacante, alvo, habilidade)
 
         self.__playerTurn = not self.__playerTurn
@@ -186,7 +189,7 @@ class BatalhaView():
         pygame.display.update()
 
     def main(self):
-        fps = 60
+        fps = 30
         clock = pygame.time.Clock()
         run = True
         
@@ -213,11 +216,13 @@ class BatalhaView():
                                 self.turno(atacantes[i], alvos)
                     else:
                         atacante = r.choice(self.__inimigosPersonagens)
+                        while atacante.get_saude() <= 0:
+                            atacante = r.choice(self.__inimigosPersonagens)
+
                         alvos = self.__aliadosPersonagens
                         time.sleep(0.5)
                         self.turno(atacante, alvos)
 
-                    
                     self.createSprites()
                     self.draw()
 
