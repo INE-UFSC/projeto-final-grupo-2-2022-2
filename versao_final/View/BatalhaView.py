@@ -30,6 +30,7 @@ class BatalhaView():
         self.__timeAliado = pygame.sprite.Group()
         self.__timeInimigo = pygame.sprite.Group()
         self.__elements = pygame.sprite.Group()
+        self.__skills = pygame.sprite.Group()
 
         winw, winh = self.__window.get_size()
 
@@ -77,12 +78,14 @@ class BatalhaView():
             self.__elements.add(ret)
             # if self.__aliadosPersonagens[i].get_acao()
             skill = Sprite('fireball', 46, 46, winw/22*cont - 2, winh-52)
-            self.__elements.add(skill)
+            self.__skills.add(skill)
             cont += 1
     
     def animation(self, atacante:Personagem, alvo:Personagem, habilidade:Acao):
         atacanteSprite = atacante.sprite
         alvoSprite = alvo.sprite
+
+        default_width, default_height = 60, 80
 
         for i in range (10):
             atacanteSprite.rect.x += 2
@@ -93,6 +96,27 @@ class BatalhaView():
             
         time.sleep(0.5)
         multiplicador = r.randint(1, 20)
+
+        habilidadeSprite = Sprite(filename = habilidade.nome, 
+                                  width = default_width,
+                                  height = default_height,
+                                  x = atacante.sprite.rect.x,
+                                  y = atacante.sprite.rect.y)
+
+        if atacanteSprite in self.__timeAliado:    
+            atacantePos = self.__timeAliado.sprites().index(atacanteSprite)
+            alvoPos = self.__timeInimigo.sprites().index(alvoSprite)
+        else:
+            atacantePos = self.__timeInimigo.sprites().index(atacanteSprite)
+            alvoPos = self.__timeAliado.sprites().index(alvoSprite)
+        
+        hit = False
+        while not hit:
+            hit, habilidadeSprite = habilidade.animation(atacanteSprite, alvoSprite, habilidadeSprite, atacantePos, alvoPos)
+            self.__skills.add(habilidadeSprite)
+            self.draw()
+        habilidadeSprite.kill()
+
         habilidade.executar(alvo, multiplicador)
 
         for i in range (10):
@@ -131,14 +155,12 @@ class BatalhaView():
 
         habilidade = atacante.get_acao()
         
-        troca = False
-        if habilidade.tipo == 'suporte':
-            executores, alvos = alvos, executores
-            troca = True
-
         alvo = r.choice(alvos)
         while alvo.get_saude() <= 0:
             alvo = r.choice(alvos)
+
+        if habilidade.tipo == 'suporte':
+            pass
 
         self.animation(atacante, alvo, habilidade)
 
@@ -172,12 +194,10 @@ class BatalhaView():
 
     def draw(self):
         self.__window.fill((255, 255, 255))
-        self.__timeAliado.update(self.__window)
         self.__timeAliado.draw(self.__window)
-        self.__timeInimigo.update(self.__window)
         self.__timeInimigo.draw(self.__window)
-        self.__elements.update(self.__window)
         self.__elements.draw(self.__window)
+        self.__skills.draw(self.__window)
         self.drawHealthBars()
         pygame.display.flip()
     
