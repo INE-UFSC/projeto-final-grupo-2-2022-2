@@ -12,7 +12,7 @@ class Sprite(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-    
+
     def setImage(self):
         img = pygame.image.load(os.path.join('versao_final', 'assets', f'{self.__filename}.png'))
         image = pygame.transform.scale(img, (self.__width, self.__height))
