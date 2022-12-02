@@ -23,8 +23,10 @@ class BatalhaController():
     # def watch(self, event):
     #     click = False  
         
-    #     condicaoAliados = not click and self.__player_turn and not self.__finished
-    #     condicaoInimigos = not click and not self.__player_turn and not self.__finished
+    #     condicaoAliados = not click and self.__player_turn
+    # and not self.__finished
+    #     condicaoInimigos = not click and not self.__pl]yer_turn
+    # and not self.__finished
 
     #     if event.type == pygame.MOUSEBUTTONDOWN and condicaoAliados:
     #         self.turno(self.__alliesPersonagens, self.__enemiesPersonagens)
@@ -61,7 +63,7 @@ class BatalhaController():
 
 
     def turno(self, atacante: Personagem,
-                    alvos:list[Personagem]):
+              alvos:list[Personagem]):
 
         habilidade = atacante.get_acao()
         
