@@ -1,11 +1,11 @@
-from View.PersonagemView import PersonagemView
+from View.Sprite import Sprite
 
 class PersonagemController:
-    def __init__(self, view: PersonagemView):
+    def __init__(self, view: Sprite):
         self.__view = view
 
     @property
-    def view(self) -> PersonagemView:
+    def view(self) -> Sprite:
         return self.__view
 
     @view.setter
