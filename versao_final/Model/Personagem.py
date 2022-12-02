@@ -3,13 +3,13 @@ import random as r
 # from Controller.PersonagemController import PersonagemController
 
 class Personagem:
-    def __init__(self, nome:str, ataque:int, saude:int,
+    def __init__(self, nome:str, nivel:int,
                  tecnicas:list, classe:str):
         self.__nome = nome
-        self.__saude_max = saude
-        self.__ataque_max = ataque
-        self.__saude_at = saude
-        self.__ataque_at = ataque
+        self.__saude_max = (100 + 100*nivel/10)/1
+        self.__ataque_max = (100 + 100*nivel/10)/1
+        self.__saude_at = (100 + 100*nivel/10)/1
+        self.__ataque_at = (100 + 100*nivel/10)/1
         self.__tecnicas = tecnicas
         self.__classe = classe
         self.__batalhas = []
