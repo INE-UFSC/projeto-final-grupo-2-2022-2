@@ -46,8 +46,13 @@ class CenarioIcone():
         return self.__lugar
 
 class CenarioBatalha(Cenario):
-    def __init__(self,identificador:str, largura:int, altura:int,eixo_x:int, eixo_y:int):
+    def __init__(self,identificador:str, largura:int, altura:int,eixo_x:int, eixo_y:int,inimigos):
         super().__init__(identificador,largura,altura,eixo_x,eixo_y)
+        self.__inimigos = inimigos
+
+    @property
+    def inimigos(self):
+        return self.__inimigos
 
 #esta aqui apenas para indicar que vai existir essa classe, mas no momento, nao tem nada implementado
 
