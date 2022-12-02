@@ -91,8 +91,8 @@ class BatalhaView():
             skill = Sprite(filename = 'fireball', 
                            width = 46, 
                            height = 46, 
-                           x = winw/22*cont - 2, 
-                           y = winh-52)
+                           x = winw/22*cont + 2, 
+                           y = winh-48)
             self.__skills.add(skill)
 
             cont += 1

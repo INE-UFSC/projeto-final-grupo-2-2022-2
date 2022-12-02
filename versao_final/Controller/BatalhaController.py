@@ -19,27 +19,7 @@ class BatalhaController():
     def winner(self) -> int:
         return self.__winner
 
-
-    # def watch(self, event):
-    #     click = False  
-        
-    #     condicaoAliados = not click and self.__player_turn and not self.__finished
-    #     condicaoInimigos = not click and not self.__player_turn and not self.__finished
-
-    #     if event.type == pygame.MOUSEBUTTONDOWN and condicaoAliados:
-    #         self.turno(self.__alliesPersonagens, self.__enemiesPersonagens)
-    #         click = True
-
-    #     if event.type == pygame.MOUSEBUTTONDOWN and condicaoInimigos:
-    #         self.turno(self.__enemiesPersonagens, self.__alliesPersonagens)
-    #         click = True
-        
-    #     if event.type == pygame.MOUSEBUTTONUP:
-    #         click = False
-
-    #     return self.__alliesPersonagens, self.__enemiesPersonagens
-
-    
+  
     def checkForWinner(self):
         cont = 0
         for i in self.__alliesPersonagens:
