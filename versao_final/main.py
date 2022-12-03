@@ -7,7 +7,7 @@ import pygame
 
 
 acoes = [
-        Acao('fireball', -50, 'saude', 'ofensivo'),
+        Acao('fireball', -200, 'saude', 'ofensivo'),
         Acao('boost', 5, 'ataque', 'suporte')
         ]
 
@@ -28,8 +28,7 @@ for i in range(3):
     #                              height = 80)
 
     orcs[i] = Personagem(nome = 'Mateus' + str(i), 
-                         ataque = 10,
-                         saude = 100, 
+                         nivel = 1,
                          tecnicas = acoes, 
                          classe = 'mago')
                         #  controller = PersonagemController(inimigos[i]))
@@ -40,8 +39,7 @@ for i in range(3):
     #                          width = 70, 
     #                          height = 80)
     magos[i] = Personagem(nome = 'Joao' + str(i), 
-                          ataque = 10,
-                          saude = 100, 
+                          nivel = 10,
                           tecnicas = acoes, 
                           classe = 'mago')
                         #   controller = PersonagemController(time[i]))

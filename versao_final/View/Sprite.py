@@ -12,16 +12,21 @@ class Sprite(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.__defaultSize = (x, y)
+
+    def draw(self, screen:pygame.Surface):
+        screen.blit(self.image, self.rect)
+        pygame.display.update()
 
     def setImage(self):
         img = pygame.image.load(os.path.join('versao_final', 'assets', f'{self.__filename}.png'))
         image = pygame.transform.scale(img, (self.__width, self.__height))
         return image
 
-    def set_image(self, filename):
-        filename += '.png'
-        tempImage = pygame.image.load(os.path.join('versao_final/assets', filename))
-        self.image = pygame.transform.scale(tempImage, (self.__width, self.__height))
+    # def set_image(self, filename):
+    #     filename += '.png'
+    #     tempImage = pygame.image.load(os.path.join('versao_final/assets', filename))
+    #     self.image = pygame.transform.scale(tempImage, (self.__width, self.__height))
     
     def set_health(self, health:int):
         self.__health = health
@@ -46,3 +51,10 @@ class Sprite(pygame.sprite.Sprite):
     @height.setter
     def height(self, height:int):
         self.__height = height
+
+    @property
+    def defaultSize(self):
+        return self.__defaultSize
+    @defaultSize.setter
+    def defaultSize(self, defaultSize:int):
+        self.__defaultSize = defaultSize

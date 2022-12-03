@@ -2,6 +2,7 @@ import pygame
 from Model.Personagem import Personagem
 from View.Sprite import Sprite
 from Model.Acao import Acao
+from Controller.Controller import Controller
 import os
 import time
 import random as r
@@ -22,6 +23,8 @@ class BatalhaView():
         self.__playerTurn = True
         self.__finished = False
         self.__winner = -1
+
+        self.__controller = Controller(aliados, inimigos)
 
         self.createSprites()
 
@@ -98,36 +101,73 @@ class BatalhaView():
 
             cont += 1
     
+    def animaAtacante(self, atacante:Sprite, alvo:Sprite):
+        for i in range (10):
+            if atacante.rect.x > alvo.rect.x:
+                atacante.rect.x -= 2
+            else:
+                atacante.rect.x += 2
+            self.draw()
+    
+    def animaAlvo(self, alvo:Sprite):
+        for i in range (10):
+            if i%2 == 0:
+                alvo.rect.x += 4
+                alvo.rect.y += 4
+            else:
+                alvo.rect.x -= 4
+                alvo.rect.y -= 4
+
+            self.draw()
+
+    def obterPosicoes(self, atacante:Sprite, alvo:Sprite):
+        if atacante in self.__timeAliado:    
+            posicaoAtacante = self.__timeAliado.sprites().index(atacante)
+            posicaoAlvo = self.__timeInimigo.sprites().index(alvo)
+        else:
+            posicaoAtacante = self.__timeInimigo.sprites().index(atacante)
+            posicaoAlvo = self.__timeAliado.sprites().index(alvo)
+        return posicaoAtacante, posicaoAlvo
+
+    def verificaAcerto(self, 
+                       habilidade:Acao,
+                       habilidadeSprite: Sprite, 
+                       atacante: Sprite, 
+                       alvo: Sprite,
+                       posicaoAtacante: int,
+                       posicaoAlvo: int):
+        hit = False
+
+        while not hit:
+            hit, habilidadeSprite = habilidade.animation(atacante, 
+                                                         alvo, 
+                                                         habilidadeSprite,
+                                                         posicaoAtacante,
+                                                         posicaoAlvo)
+            self.__skills.add(habilidadeSprite)
+            self.draw()
+
+        habilidadeSprite.kill()    
+        atacante.rect.x = atacante.defaultSize[0]
+
     '''
-    animation é responsável pelas animações da tela, tanto dos personagens quanto das habilidades
+    animacao é responsável pelas animações da tela, tanto dos personagens quanto das habilidades
     @params atacante: Personagem => o personagem que executa a ação
     @params alvo: Personagem => o personagem atacado
     @params habilidade: Acao => a habilidade utilizada
     @return None
     '''
-    def animation(self, atacante:Personagem, alvo:Personagem, habilidade:Acao):
+    def animacao(self, atacante:Personagem, alvo:Personagem, habilidade:Acao):
+        
+        default_width, default_height = 60, 80
+
         atacanteSprite = atacante.sprite
         alvoSprite = alvo.sprite
 
-        '''
-        O personagem se desloca para frente antes de atacar
-        '''
-        for i in range (10):
-            if atacanteSprite.rect.x > alvoSprite.rect.x:
-                atacanteSprite.rect.x -= 2
-            else:
-                atacanteSprite.rect.x += 2
-            self.draw()
+        self.animaAtacante(atacanteSprite, alvoSprite)
             
         time.sleep(0.5)
         multiplicador = r.randint(1, 20)
-
-        
-        '''
-        Renderiza o sprite da habilidade
-        '''
-
-        default_width, default_height = 60, 80
 
         habilidadeSprite = Sprite(filename = habilidade.nome, 
                                   width = default_width,
@@ -135,43 +175,19 @@ class BatalhaView():
                                   x = atacante.sprite.rect.x,
                                   y = atacante.sprite.rect.y)
 
-        '''
-        Registra a posição da tela do atacante e do alvo
-        '''
-        if atacanteSprite in self.__timeAliado:    
-            atacantePos = self.__timeAliado.sprites().index(atacanteSprite)
-            alvoPos = self.__timeInimigo.sprites().index(alvoSprite)
-        else:
-            atacantePos = self.__timeInimigo.sprites().index(atacanteSprite)
-            alvoPos = self.__timeAliado.sprites().index(alvoSprite)
-        
-        '''
-        Move a habilidade até ela atingir o alvo
-        '''
-        hit = False
-        while not hit:
-            hit, habilidadeSprite = habilidade.animation(atacanteSprite, alvoSprite, habilidadeSprite, atacantePos, alvoPos)
-            self.__skills.add(habilidadeSprite)
-            self.draw()
-        habilidadeSprite.kill()
+        posicaoAtacante, posicaoAlvo = self.obterPosicoes(atacanteSprite, alvoSprite)
 
-        '''
-        Registra o dano da habilidade
-        '''
+        self.verificaAcerto(habilidade = habilidade,
+                            habilidadeSprite = habilidadeSprite,
+                            atacante = atacanteSprite,
+                            alvo = alvoSprite,
+                            posicaoAtacante = posicaoAtacante,
+                            posicaoAlvo = posicaoAlvo)
+
         habilidade.executar(alvo, multiplicador)
 
-        '''
-        O alvo treme quando é atingido pela habilidade
-        '''
-        for i in range (10):
-            if i%2 == 0:
-                alvoSprite.rect.x += 4
-                alvoSprite.rect.y += 4
-            else:
-                alvoSprite.rect.x -= 4
-                alvoSprite.rect.y -= 4
-
-            self.draw()
+        self.animaAlvo(alvoSprite)
+        
 
     '''
     checkForWinner verifica se existe alguma equipe cujos personagens estão todos sem vida
@@ -181,7 +197,7 @@ class BatalhaView():
     def checkForWinner(self):
         cont = 0
         for i in self.__aliadosPersonagens:
-            if i.get_saude() >= 0:
+            if i.get_saude() > 0:
                 cont += 1
         if cont == 0:
             self.__finished = True
@@ -189,7 +205,7 @@ class BatalhaView():
             return
         cont = 0
         for i in self.__inimigosPersonagens:
-            if i.get_saude() >= 0:
+            if i.get_saude() > 0:
                 cont += 1
         if cont == 0:
             self.__finished = True
@@ -215,7 +231,7 @@ class BatalhaView():
         if habilidade.tipo == 'suporte':
             pass
 
-        self.animation(atacante, alvo, habilidade)
+        self.animacao(atacante, alvo, habilidade)
 
         self.__playerTurn = not self.__playerTurn
         self.checkForWinner()
@@ -235,7 +251,7 @@ class BatalhaView():
 
             for j in range (2):
                 saude = personagens[i].get_saude()
-                if saude >= 0:
+                if saude > 0:
                     pygame.draw.rect(self.__window, (0, 0, 0), pygame.Rect(x, y, w, h), 1)
                     progresso = saude / personagens[i].saude_max
 
@@ -268,10 +284,9 @@ class BatalhaView():
     '''
     def showResult(self, winner:str):
         winw, winh = self.__window.get_size()
-        result = pygame.image.load(os.path.join('versao_final/assets', f'{winner}.png'))
-        result = pygame.transform.scale(result, (winw/2, winh/2))
-        self.__window.blit(result, (winw/4, winh/4))
-        pygame.display.update()
+
+        result = Sprite(winner, winw/2, winh/2, winw/4, winh/4)
+        result.draw(self.__window)
 
     '''
     main é a função principal da classe, que executa o loop
@@ -283,6 +298,7 @@ class BatalhaView():
         fps = 30
         clock = pygame.time.Clock()
         run = True
+        self.draw()
         
         while run:
             clock.tick(fps)
@@ -291,6 +307,8 @@ class BatalhaView():
                 if event.type == pygame.VIDEORESIZE:
                     window = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
                     pygame.display.update()
+                    self.createSprites()
+                    self.draw()
                 
                 if self.__finished:
                     if self.__winner == 0:
@@ -314,8 +332,10 @@ class BatalhaView():
                         time.sleep(0.5)
                         self.turn(atacante, alvos)
 
-                    self.createSprites()
-                    self.draw()
-
                 if event.type == pygame.QUIT:
                     return False
+
+            if not self.__finished:
+                self.createSprites()
+                self.draw()
+

@@ -4,6 +4,7 @@
 # (saude ou ataque) ela vai afetar e
 # o tipo (ofensivo ou suporte)
 
+from Model.Personagem import Personagem
 from View.Sprite import Sprite
 
 class Acao:
@@ -96,7 +97,7 @@ class Acao:
     def efeito(self, novo:str):
         self.__efeito = novo
     
-    def executar(self, alvo, dado:int):
+    def executar(self, alvo:Personagem, dado:int):
         c = (self.__fator*(dado/20))//1
         if self.__efeito == 'saude':
             alvo.afeta_saude(c)

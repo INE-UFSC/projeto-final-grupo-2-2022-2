@@ -3,7 +3,7 @@ from Model.Personagem import Personagem
 import pygame
 import random as r
 
-class BatalhaController():
+class Controller():
     def __init__(self, time:list[Personagem],
                  inimigos:list[Personagem]) -> None:
         self.__alliesPersonagens = time
