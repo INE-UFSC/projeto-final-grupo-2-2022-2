@@ -19,7 +19,6 @@ class BatalhaController():
     def winner(self) -> int:
         return self.__winner
 
-  
     def checkForWinner(self):
         cont = 0
         for i in self.__alliesPersonagens:
@@ -41,7 +40,7 @@ class BatalhaController():
 
 
     def turno(self, atacante: Personagem,
-                    alvos:list[Personagem]):
+              alvos:list[Personagem]):
 
         habilidade = atacante.get_acao()
         

@@ -5,6 +5,7 @@ from Model.Acao import Acao
 import os
 import time
 import random as r
+
 class BatalhaView():
     def __init__(self, aliados: list[Personagem],
                  inimigos: list[Personagem]):

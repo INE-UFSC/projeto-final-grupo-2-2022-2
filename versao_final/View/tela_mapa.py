@@ -64,18 +64,5 @@ class TelaMapa:
                     if event.type == pygame.QUIT:
                         self.__rodando = False
                     elif event.type == pygame.MOUSEBUTTONDOWN:
-                    
-                        posicao = pygame.mouse.get_pos()
-                        if event.button == 1:
-                            temp = self.back(posicao)
-                            self.__in_mapa = temp
-                            self.__in_lugar = not temp
-            self.__sprites_jogo.update()
-
-        # desenha
-            self.__sprites_jogo.draw(self.__tela)
-            pygame.display.flip()
-        pygame.quit()
-
-
-#back está mal implementado, ainda nao pensei em uma boa maneira de coloca-lo no codigo.
+                        self.__in_mapa = True
+                        self.__in_lugar = False
