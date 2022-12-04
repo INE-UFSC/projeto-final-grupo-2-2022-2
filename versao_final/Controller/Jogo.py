@@ -1,5 +1,5 @@
 from View.BatalhaView import BatalhaView
-from Controller.Menu import Menu
+from View.Menu import Menu
 from View.Mapa import Mapa
 from View.tela_mapa import TelaMapa
 

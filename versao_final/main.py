@@ -27,7 +27,7 @@ for i in range(3):
     orcs[i] = Personagem(nome = 'Mateus' + str(i), 
                          nivel = 1,
                          tecnicas = acoes, 
-                         classe = 'mago')
+                         classe = 'troll')
                         #  controller = PersonagemController(inimigos[i]))
 
     # time[i] = PersonagemView(surface = window,
@@ -37,7 +37,7 @@ for i in range(3):
     #                          height = 80)
     magos[i] = Personagem(nome = 'Joao' + str(i), 
                           nivel = 10,
-                          tecnicas = acoes, 
+                          tecnicas = [acoes[i-1], acoes[i]], 
                           classe = 'mago')
                         #   controller = PersonagemController(time[i]))
     # save.add(magos[i])

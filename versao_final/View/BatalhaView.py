@@ -12,6 +12,7 @@ class BatalhaView():
     def __init__(self, aliados: list[Personagem],
                  inimigos: list[Personagem]):
         self.__screenSize = Singleton().screenSize
+        self.__larguraTela, self.__alturaTela = self.__screenSize
         self.__window = pygame.display.set_mode(self.__screenSize, pygame.RESIZABLE)
 
         self.__aliadosPersonagens = aliados
@@ -21,6 +22,8 @@ class BatalhaView():
         self.__spritesInimigos = pygame.sprite.Group()
         self.__spritesElementos = pygame.sprite.Group()
         self.__spritesHabilidades = pygame.sprite.Group()
+
+        self.__defaultWidth, self.__defaultHeight = 60, 80
 
         self.__playerTurn = True
         self.__winner = -1
@@ -40,9 +43,8 @@ class BatalhaView():
         self.__spritesAliados.empty()
         self.__spritesInimigos.empty()
         self.__spritesElementos.empty()
-        self.__spritesHabilidades.empty()
 
-        larguraTela, alturaTela = self.__window.get_size()
+        self.__larguraTela, self.__alturaTela = self.__window.get_size()
 
         # Instancia os 3 personagens de cada lado
         for i in range (3):
@@ -50,14 +52,14 @@ class BatalhaView():
             # Shift serve para deslocar a posição do personagem do meio
             mover = 0
             if i == 1:
-                mover = larguraTela/10
+                mover = self.__larguraTela/10
             
 
             # Renderiza todos os personagens na tela
             grupo = self.__spritesAliados
             personagem = self.__aliadosPersonagens[i]
-            x = larguraTela/5 - mover
-            y = alturaTela/5 * (i+1)
+            x = self.__larguraTela/5 - mover
+            y = self.__alturaTela/5 * (i+1)
 
             for j in range (2):
                 default_width = 60
@@ -80,7 +82,7 @@ class BatalhaView():
 
                 grupo = self.__spritesInimigos
                 personagem = self.__inimigosPersonagens[i]
-                x = larguraTela - (larguraTela/5 - mover + 60)
+                x = self.__larguraTela - (self.__larguraTela/5 - mover + 60)
         
 
         # Renderiza os slots de habilidade
@@ -89,19 +91,30 @@ class BatalhaView():
             ret = Sprite(filename = 'retangulo', 
                          width = 50, 
                          height = 50, 
-                         x = larguraTela/22*cont, 
-                         y = alturaTela-50)
+                         x = self.__larguraTela/22*cont, 
+                         y = self.__alturaTela-50)
             self.__spritesElementos.add(ret)
-
-            habilidade = Sprite(filename = 'fireball', 
-                           width = 46, 
-                           height = 46, 
-                           x = larguraTela/22*cont + 2, 
-                           y = alturaTela-48)
-            self.__spritesHabilidades.add(habilidade)
 
             cont += 1
     
+    def renderizaHabilidade(self, index:int):
+        cont = 7
+
+        self.__spritesHabilidades.empty()
+
+        if len(self.__aliadosPersonagens) > index:
+            skills = self.__aliadosPersonagens[index].tecnicas 
+
+            for acao in skills:
+                self.__spritesHabilidades.add(
+                    Sprite(filename = acao.nome,
+                            width = 45,
+                            height = 45,
+                            x = self.__larguraTela/22*cont + 2, 
+                            y = self.__alturaTela-48)
+                    )
+                cont += 1
+
     def animaAtacante(self, atacante:Sprite, alvo:Sprite):
         for i in range (10):
             if atacante.rect.x > alvo.rect.x:
@@ -160,7 +173,7 @@ class BatalhaView():
     '''
     def animacao(self, atacante:Personagem, alvo:Personagem, habilidade:Acao):
         
-        default_width, default_height = 60, 80
+        self.__defaultWidth, self.__defaultHeight = 60, 80
         atacanteSprite = atacante.sprite
         alvoSprite = alvo.sprite
 
@@ -170,8 +183,8 @@ class BatalhaView():
         multiplicador = r.randint(1, 20)
 
         habilidadeSprite = Sprite(filename = habilidade.nome, 
-                                  width = default_width,
-                                  height = default_height,
+                                  width = self.__defaultWidth,
+                                  height = self.__defaultHeight,
                                   x = atacante.sprite.rect.x,
                                   y = atacante.sprite.rect.y)
 
@@ -284,28 +297,33 @@ class BatalhaView():
                 pygame.display.update()
                 self.createSprites()
                 self.draw()
-                
+                        
             if event.type == pygame.QUIT:
                 return False
             
             return True
 
-    def handleAttacks(self, event:pygame.event.Event):
+    def handleInteractions(self, event:pygame.event.Event):
         if self.__playerTurn:
-            atacantes, sprites = self.__aliadosPersonagens, self.__spritesAliados
-            alvos = self.__inimigosPersonagens
-
-            for i, sprite in enumerate(sprites):
+            for i, sprite in enumerate(self.__spritesAliados):
                 if event.type == pygame.MOUSEBUTTONDOWN and sprite.rect.collidepoint(pygame.mouse.get_pos()):
-                    self.turno(atacantes[i], alvos)
-        else:
-            atacante = r.choice(self.__inimigosPersonagens)
-            while atacante.get_saude() <= 0:
-                atacante = r.choice(self.__inimigosPersonagens)
+                    self.renderizaHabilidade(i)
+            self.draw()
+        # if self.__playerTurn:
+        #     atacantes, sprites = self.__aliadosPersonagens, self.__spritesAliados
+        #     alvos = self.__inimigosPersonagens
 
-            alvos = self.__aliadosPersonagens
-            time.sleep(0.5)
-            self.turno(atacante, alvos)
+        #     for i, sprite in enumerate(sprites):
+        #         if event.type == pygame.MOUSEBUTTONDOWN and sprite.rect.collidepoint(pygame.mouse.get_pos()):
+        #             self.turno(atacantes[i], alvos)
+        # else:
+        #     atacante = r.choice(self.__inimigosPersonagens)
+        #     while atacante.get_saude() <= 0:
+        #         atacante = r.choice(self.__inimigosPersonagens)
+
+        #     alvos = self.__aliadosPersonagens
+        #     time.sleep(0.5)
+        #     self.turno(atacante, alvos)
 
     def loop(self):
         fps = 30
@@ -322,7 +340,7 @@ class BatalhaView():
                 run = self.handleScreenEvents(event)
 
                 if self.__winner == -1:
-                    self.handleAttacks(event)
+                    self.handleInteractions(event)
 
             if not self.__winner != -1:
                 self.createSprites()

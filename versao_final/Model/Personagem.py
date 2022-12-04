@@ -1,5 +1,6 @@
 import random as r
 from View.Sprite import Sprite
+from Model.Acao import Acao
 # from Controller.PersonagemController import PersonagemController
 
 class Personagem:
@@ -28,6 +29,13 @@ class Personagem:
     @sprite.setter
     def sprite(self, novo:str):
         self.__sprite = novo
+
+    @property
+    def tecnicas(self) -> list[Acao]:
+        return self.__tecnicas
+    @tecnicas.setter
+    def tecnicas(self, novo:str):
+        self.__tecnicas = novo
 
     @property
     def classe(self) -> str:
