@@ -25,4 +25,4 @@ class Batalha:
         return r.randint(1, 20)
 
     def start(self):
-        self.__view.main()
+        self.__view.loop()

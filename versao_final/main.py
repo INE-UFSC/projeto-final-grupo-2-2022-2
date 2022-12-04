@@ -3,14 +3,11 @@ from Model.Personagem import Personagem
 
 from Controller.Jogo import Jogo
 
+from Singleton.Singleton import Singleton
+
 import pygame
 
-
-acoes = [
-        Acao('fireball', -200, 'saude', 'ofensivo'),
-        Acao('boost', 5, 'ataque', 'suporte')
-        ]
-
+acoes = Singleton().skills
 magos = ['']*3
 orcs = ['']*3
 time = ['']*3

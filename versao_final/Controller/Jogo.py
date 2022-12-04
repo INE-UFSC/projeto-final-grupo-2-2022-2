@@ -21,4 +21,4 @@ class Jogo:
                     # Mapa também deve retornar o cenário a ser enviado à batalha
 
             batalha = BatalhaView(aliados, inimigos)
-            batalha.main()
+            batalha.loop()

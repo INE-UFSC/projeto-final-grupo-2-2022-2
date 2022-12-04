@@ -2,6 +2,8 @@
 from View.tela_mapa import Tela
 from View.Mapa import Mapa
 from Menu import Menu
+import pygame
+from View.Cenario import *
 class Loop():
     def __init__(self):
         self.__tela = Tela()

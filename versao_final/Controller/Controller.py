@@ -19,39 +19,38 @@ class Controller():
     def winner(self) -> int:
         return self.__winner
 
-    def checkForWinner(self):
+    def checkForWinner(self, 
+                       aliados:list[Personagem], 
+                       inimigos:list[Personagem]) -> int:
         cont = 0
         for i in self.__alliesPersonagens:
             if i.get_saude() >= 0:
                 cont += 1
         if cont == 0:
-            self.__finished = True
-            self.__winner = 0
-            return
+            return 0
         cont = 0
         for i in self.__enemiesPersonagens:
             if i.get_saude() >= 0:
                 cont += 1
         if cont == 0:
-            self.__finished = True
-            self.__winner = 1
-            return
+            return 1
+        
+        return -1
     
 
 
-    def turno(self, atacante: Personagem,
+    def selecionaAlvoEHabilidade(self, atacante: Personagem,
               alvos:list[Personagem]):
 
         habilidade = atacante.get_acao()
         
-        troca = False
-        if habilidade.tipo == 'suporte':
-            executores, alvos = alvos, executores
-            troca = True
-
+        # Caso o alvo escolhido não tenha vida restante, tenta selecionar outro
         alvo = r.choice(alvos)
-        multiplicador = r.randint(1, 20)
-        habilidade.executar(alvo, multiplicador)
+        while alvo.get_saude() <= 0:
+            alvo = r.choice(alvos)
 
-        self.__player_turn = not self.__player_turn
-        self.checkForWinner()
+        # TODO: habilidades do tipo suporte
+        if habilidade.tipo == 'suporte':
+            pass
+
+        return alvo, habilidade
