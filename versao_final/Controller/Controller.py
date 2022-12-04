@@ -1,56 +1,38 @@
 from Model.Personagem import Personagem
 
-import pygame
 import random as r
 
 class Controller():
-    def __init__(self, time:list[Personagem],
-                 inimigos:list[Personagem]) -> None:
-        self.__alliesPersonagens = time
-        self.__enemiesPersonagens = inimigos
-        self.__player_turn = True
-        self.__finished = False
-        self.__winner = -1
-    
-    @property
-    def finished(self) -> bool:
-        return self.__finished
-    @property
-    def winner(self) -> int:
-        return self.__winner
+    def __init__(self) -> None:
+        pass
 
-    def checkForWinner(self, 
-                       aliados:list[Personagem], 
-                       inimigos:list[Personagem]) -> int:
+    def checkForWinner(self,
+                       equipe1: list[Personagem],
+                       equipe2: list[Personagem]) -> int:
         cont = 0
-        for i in self.__alliesPersonagens:
+        for i in equipe1:
             if i.get_saude() >= 0:
                 cont += 1
         if cont == 0:
             return 0
         cont = 0
-        for i in self.__enemiesPersonagens:
+        for i in equipe2:
             if i.get_saude() >= 0:
                 cont += 1
         if cont == 0:
             return 1
         
         return -1
-    
 
-
-    def selecionaAlvoEHabilidade(self, atacante: Personagem,
-              alvos:list[Personagem]):
-
-        habilidade = atacante.get_acao()
-        
-        # Caso o alvo escolhido não tenha vida restante, tenta selecionar outro
+    def selecionaPersonagem(self, alvos:list[Personagem]):
         alvo = r.choice(alvos)
+        # Caso o alvo escolhido não tenha vida restante, tenta selecionar outro
         while alvo.get_saude() <= 0:
             alvo = r.choice(alvos)
 
-        # TODO: habilidades do tipo suporte
-        if habilidade.tipo == 'suporte':
-            pass
-
-        return alvo, habilidade
+        return alvo
+    
+    def selecionaHabilidade(self, personagem: Personagem):
+        index = r.randint(0, len(personagem.tecnicas)-1)
+        habilidade = personagem.get_acao(index)
+        return habilidade

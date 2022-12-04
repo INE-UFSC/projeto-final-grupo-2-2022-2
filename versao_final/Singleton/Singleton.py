@@ -4,10 +4,10 @@ class Singleton:
     __instance = None
     __screenSize = (1200, 600)
     __skills = [
-        Acao('fireball', -200, 'saude', 'ofensivo'),
-        Acao('rasengan', -200, 'saude', 'ofensivo'),
-        Acao('earthball', -200, 'saude', 'ofensivo'),
-        Acao('waterball', -200, 'saude', 'ofensivo'),
+        Acao('fireball', -50, 'saude', 'ofensivo'),
+        Acao('rasengan', -50, 'saude', 'ofensivo'),
+        Acao('earthball', -50, 'saude', 'ofensivo'),
+        Acao('waterball', -50, 'saude', 'ofensivo'),
         # Acao('boost', 5, 'ataque', 'suporte')
         ]
 
