@@ -5,8 +5,6 @@ from Controller.Jogo import Jogo
 
 from Singleton.Singleton import Singleton
 
-import pygame
-
 acoes = Singleton().skills
 magos = ['']*3
 orcs = ['']*3

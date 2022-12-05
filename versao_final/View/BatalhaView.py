@@ -1,10 +1,9 @@
 import pygame
 from Model.Personagem import Personagem
-from View.Sprite import Sprite
+from Model.Sprite import Sprite
 from Model.Acao import Acao
 from Controller.Controller import Controller
 from Singleton.Singleton import Singleton
-import os
 import time
 import random as r
 
@@ -31,8 +30,6 @@ class BatalhaView():
         self.__winner = -1
 
         self.__controller = Controller()
-
-        self.criaSprites()
 
     '''
     createSprites é responsável por instanciar todos os sprites que serão mostrados na tela
@@ -140,24 +137,19 @@ class BatalhaView():
     def obterPosicoes(self, atacante:Sprite, alvo:Sprite):
         posicaoAlvo = alvo.coord
         posicaoAtacante = atacante.coord
-        # if atacante in self.__spritesAliados:    
-        #     posicaoAtacante = self.__spritesAliados.sprites().index(atacante)
-        #     posicaoAlvo = self.__spritesInimigos.sprites().index(alvo)
-        # else:
-        #     posicaoAtacante = self.__spritesInimigos.sprites().index(atacante)
-        #     posicaoAlvo = self.__spritesAliados.sprites().index(alvo)
         return posicaoAtacante, posicaoAlvo
 
     def animaHabilidade(self, 
                        habilidadeSprite: Sprite, 
                        atacante: Sprite, 
+                       alvo: Sprite,
                        posicaoAtacante: int,
                        posicaoAlvo: int):
         hit = False
 
         self.__spritesHabilidades.add(habilidadeSprite)
         while not hit:
-            hit = habilidadeSprite.move(posicaoAtacante, posicaoAlvo)
+            hit = habilidadeSprite.move(posicaoAtacante, posicaoAlvo, alvo.rect)
             self.desenha()
 
         habilidadeSprite.kill()  
@@ -192,6 +184,7 @@ class BatalhaView():
 
         self.animaHabilidade(habilidadeSprite = habilidadeSprite,
                              atacante = atacanteSprite,
+                             alvo = alvoSprite,
                              posicaoAtacante = posicaoAtacante,
                              posicaoAlvo = posicaoAlvo)
 
@@ -270,14 +263,13 @@ class BatalhaView():
     @return None
     '''
     def mostraResultado(self):
-        larguraJanela, alturaJanela = self.__window.get_size()
         winner = ''
         if self.__winner == 0:
             winner = 'enemies'
         else:
             winner = 'allies'
 
-        resultado = Sprite(winner, larguraJanela/2, alturaJanela/2, larguraJanela/4, alturaJanela/4)
+        resultado = Sprite(winner, self.__larguraTela/2, self.__alturaTela/2, self.__larguraTela/4, self.__alturaTela/4)
         resultado.draw(self.__window)
 
     '''
@@ -310,6 +302,7 @@ class BatalhaView():
                 if event.type == pygame.MOUSEBUTTONDOWN and sprite.rect.collidepoint(pygame.mouse.get_pos()):
                     self.mostraHabilidadesDoPersonagem(i)
             self.desenha()
+            
             if self.__personagemSelecionado is not None and self.__personagemSelecionado.get_saude() > 0:
                 for i, sprite in enumerate(self.__spritesHabilidades):
                     if event.type == pygame.MOUSEBUTTONDOWN and sprite.rect.collidepoint(pygame.mouse.get_pos()):

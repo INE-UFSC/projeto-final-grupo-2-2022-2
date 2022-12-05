@@ -1,5 +1,5 @@
 import random as r
-from View.Sprite import Sprite
+from Model.Sprite import Sprite
 from Model.Acao import Acao
 # from Controller.PersonagemController import PersonagemController
 
