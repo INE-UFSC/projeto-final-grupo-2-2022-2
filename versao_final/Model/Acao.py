@@ -3,13 +3,16 @@
 # efeitos, consistindo em qual atributo
 # (saude ou ataque) ela vai afetar e
 # o tipo (ofensivo ou suporte)
+
+import random as r
 class Acao:
     def __init__(self, nome:str, fator: int,
-                efeito:str, tipo:str):
+                efeito:str, tipo:str, modo: str):
         self.__nome = nome
         self.__fator = fator
         self.__tipo = tipo
         self.__efeito = efeito.lower()
+        self.__modo = modo
 
     def evolucao(self):
         if self.__fator > 0:
@@ -47,8 +50,16 @@ class Acao:
     @efeito.setter
     def efeito(self, novo:str):
         self.__efeito = novo
+
+    @property
+    def modo(self):
+        return self.__modo
+    @modo.setter
+    def modo(self, novo:str):
+        self.__modo = novo
     
-    def executar(self, alvo, dado:int):
+    def executar(self, alvo):
+        dado = r.randint(1, 20)
         c = (self.__fator*(dado/20))//1
         if self.__efeito == 'saude':
             alvo.afeta_saude(c)

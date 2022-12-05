@@ -42,6 +42,7 @@ class BatalhaView():
         self.__spritesAliados.empty()
         self.__spritesInimigos.empty()
         self.__spritesElementos.empty()
+        self.__spritesHabilidades.empty()
 
         self.__larguraTela, self.__alturaTela = self.__window.get_size()
 
@@ -95,6 +96,8 @@ class BatalhaView():
             self.__spritesElementos.add(ret)
 
             cont += 1
+        if self.__personagemSelecionado is not None:
+            self.mostraHabilidadesDoPersonagem(self.__aliadosPersonagens.index(self.__personagemSelecionado))
     
     def mostraHabilidadesDoPersonagem(self, index:int):
         cont = 7
@@ -130,27 +133,28 @@ class BatalhaView():
         alvo.rect.x -= 4
         alvo.rect.y -= 4
 
-
     def obterPosicoes(self, atacante:Sprite, alvo:Sprite):
         posicaoAlvo = alvo.coord
         posicaoAtacante = atacante.coord
         return posicaoAtacante, posicaoAlvo
 
-    def animaHabilidade(self, 
-                       habilidadeSprite: Sprite, 
-                       atacante: Sprite, 
-                       alvo: Sprite,
-                       posicaoAtacante: int,
-                       posicaoAlvo: int):
+    def animaAtaque(self, 
+                    movedSprite: Sprite, 
+                    atacante: Sprite, 
+                    alvo: Sprite):
+
+        atacantePosicao, alvoPosicao = self.obterPosicoes(atacante, alvo)
         hit = False
 
-        self.__spritesHabilidades.add(habilidadeSprite)
+        self.__spritesHabilidades.add(movedSprite)
         while not hit:
-            hit = habilidadeSprite.move(posicaoAtacante, posicaoAlvo, alvo.rect)
+            hit = movedSprite.move(atacantePosicao, alvoPosicao, alvo.rect)
             self.desenha()
+        
+        if movedSprite == atacante:
+            time.sleep(0.5)
 
-        habilidadeSprite.kill()  
-  
+        movedSprite.kill()  
         atacante.rect.x = atacante.defaultSize[0] # Volta para posição original
 
     '''
@@ -160,7 +164,7 @@ class BatalhaView():
     @params habilidade: Acao => a habilidade utilizada
     @return None
     '''
-    def animacao(self, atacante:Personagem, alvo:Personagem, habilidade:Acao):
+    def animacao(self, atacante:Personagem, alvo:Personagem, acao: Acao):
         
         self.__defaultWidth, self.__defaultHeight = 60, 80
         atacanteSprite = atacante.sprite
@@ -169,23 +173,18 @@ class BatalhaView():
         self.animaAtacante(atacanteSprite, alvoSprite)
             
         time.sleep(0.5)
-        multiplicador = r.randint(1, 20)
+        if acao.modo == 'projetil':
+            movedSprite = Sprite(filename = acao.nome, 
+                                    width = self.__defaultWidth,
+                                    height = self.__defaultHeight,
+                                    x = atacante.sprite.rect.x,
+                                    y = atacante.sprite.rect.y)
+        else:
+            movedSprite = atacanteSprite
 
-        habilidadeSprite = Sprite(filename = habilidade.nome, 
-                                  width = self.__defaultWidth,
-                                  height = self.__defaultHeight,
-                                  x = atacante.sprite.rect.x,
-                                  y = atacante.sprite.rect.y)
+        self.animaAtaque(movedSprite, atacanteSprite, alvoSprite)
 
-        posicaoAtacante, posicaoAlvo = self.obterPosicoes(atacanteSprite, alvoSprite)
-
-        self.animaHabilidade(habilidadeSprite = habilidadeSprite,
-                             atacante = atacanteSprite,
-                             alvo = alvoSprite,
-                             posicaoAtacante = posicaoAtacante,
-                             posicaoAlvo = posicaoAlvo)
-
-        habilidade.executar(alvo, multiplicador)
+        acao.executar(alvo)
 
         self.animaAlvo(alvoSprite)
         
@@ -202,8 +201,8 @@ class BatalhaView():
               habilidade: Acao):
 
         alvo = self.__controller.selecionaPersonagem(alvos)
-
         self.animacao(atacante, alvo, habilidade)
+
 
         self.__playerTurn = not self.__playerTurn
         self.__winner = self.__controller.checkForWinner(self.__aliadosPersonagens, self.__inimigosPersonagens)
