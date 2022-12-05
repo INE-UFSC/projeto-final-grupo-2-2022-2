@@ -124,15 +124,12 @@ class BatalhaView():
             self.desenha()
     
     def animaAlvo(self, alvo:Sprite):
-        for i in range (10):
-            if i%2 == 0:
-                alvo.rect.x += 4
-                alvo.rect.y += 4
-            else:
-                alvo.rect.x -= 4
-                alvo.rect.y -= 4
+        alvo.rect.x += 4
+        alvo.rect.y += 4
+        self.desenha()
+        alvo.rect.x -= 4
+        alvo.rect.y -= 4
 
-            self.desenha()
 
     def obterPosicoes(self, atacante:Sprite, alvo:Sprite):
         posicaoAlvo = alvo.coord
@@ -302,7 +299,7 @@ class BatalhaView():
                 if event.type == pygame.MOUSEBUTTONDOWN and sprite.rect.collidepoint(pygame.mouse.get_pos()):
                     self.mostraHabilidadesDoPersonagem(i)
             self.desenha()
-            
+
             if self.__personagemSelecionado is not None and self.__personagemSelecionado.get_saude() > 0:
                 for i, sprite in enumerate(self.__spritesHabilidades):
                     if event.type == pygame.MOUSEBUTTONDOWN and sprite.rect.collidepoint(pygame.mouse.get_pos()):
