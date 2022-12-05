@@ -5,6 +5,7 @@
 # o tipo (ofensivo ou suporte)
 
 from View.Sprite import Sprite
+import pygame.math
 
 class Acao:
     def __init__(self, nome:str, fator: int,
@@ -26,33 +27,39 @@ class Acao:
                  habilidade:Sprite, 
                  atacantePos: int, 
                  alvoPos: int):
-        y_speed = 0
-        x_speed = 5
+        # y_speed = 0
+        # x_speed = 5
 
-        # print(alvoPos)
+        # # print(alvoPos)
 
-        if atacante.rect.x > alvo.rect.x:
-            x_speed = -x_speed
+        # if atacante.rect.x > alvo.rect.x:
+        #     x_speed = -x_speed
 
-        if atacantePos == alvoPos:
-            y_speed = 0
-            # print('a')
-        elif atacantePos > alvoPos:
-            if atacantePos - alvoPos == 2:
-                y_speed = -2
-                # print('b')
-            else:
-                y_speed = -1
-                # print('c')
-        else:
-            if alvoPos - atacantePos == 2:
-                y_speed = 2
-                # print('d')
-            else:
-                y_speed = 1        
+        # if atacantePos == alvoPos:
+        #     y_speed = 0
+        #     # print('a')
+        # elif atacantePos > alvoPos:
+        #     if atacantePos - alvoPos == 2:
+        #         y_speed = -2
+        #         # print('b')
+        #     else:
+        #         y_speed = -1
+        #         # print('c')
+        # else:
+        #     if alvoPos - atacantePos == 2:
+        #         y_speed = 2
+        #         # print('d')
+        #     else:
+        #         y_speed = 1        
 
-        habilidade.rect.x += x_speed
-        habilidade.rect.y += y_speed
+        # habilidade.rect.x += x_speed
+        # habilidade.rect.y += y_speed
+
+        habilidade.direction = (pygame.math.Vector2(alvoPos) - atacantePos).normalize()
+
+        habilidade.position += habilidade.direction * 5
+
+        habilidade.rect.center = round(habilidade.position.x), round(habilidade.position.y)
         
         if habilidade.rect.collidepoint(alvo.rect.center):
             return True, habilidade

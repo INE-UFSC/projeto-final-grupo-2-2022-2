@@ -99,7 +99,7 @@ class BatalhaView():
 
             cont += 1
     
-    def renderizaHabilidade(self, index:int):
+    def mostraHabilidadesDoPersonagem(self, index:int):
         cont = 7
 
         self.__spritesHabilidades.empty()
@@ -138,34 +138,31 @@ class BatalhaView():
             self.desenha()
 
     def obterPosicoes(self, atacante:Sprite, alvo:Sprite):
-        if atacante in self.__spritesAliados:    
-            posicaoAtacante = self.__spritesAliados.sprites().index(atacante)
-            posicaoAlvo = self.__spritesInimigos.sprites().index(alvo)
-        else:
-            posicaoAtacante = self.__spritesInimigos.sprites().index(atacante)
-            posicaoAlvo = self.__spritesAliados.sprites().index(alvo)
+        posicaoAlvo = alvo.coord
+        posicaoAtacante = atacante.coord
+        # if atacante in self.__spritesAliados:    
+        #     posicaoAtacante = self.__spritesAliados.sprites().index(atacante)
+        #     posicaoAlvo = self.__spritesInimigos.sprites().index(alvo)
+        # else:
+        #     posicaoAtacante = self.__spritesInimigos.sprites().index(atacante)
+        #     posicaoAlvo = self.__spritesAliados.sprites().index(alvo)
         return posicaoAtacante, posicaoAlvo
 
     def animaHabilidade(self, 
-                       habilidade:Acao,
                        habilidadeSprite: Sprite, 
                        atacante: Sprite, 
-                       alvo: Sprite,
                        posicaoAtacante: int,
                        posicaoAlvo: int):
         hit = False
 
+        self.__spritesHabilidades.add(habilidadeSprite)
         while not hit:
-            hit, habilidadeSprite = habilidade.animation(atacante, 
-                                                         alvo, 
-                                                         habilidadeSprite,
-                                                         posicaoAtacante,
-                                                         posicaoAlvo)
-            self.__spritesHabilidades.add(habilidadeSprite)
+            hit = habilidadeSprite.move(posicaoAtacante, posicaoAlvo)
             self.desenha()
 
-        habilidadeSprite.kill()    
-        atacante.rect.x = atacante.defaultSize[0]
+        habilidadeSprite.kill()  
+  
+        atacante.rect.x = atacante.defaultSize[0] # Volta para posição original
 
     '''
     animacao é responsável pelas animações da tela, tanto dos personagens quanto das habilidades
@@ -193,12 +190,10 @@ class BatalhaView():
 
         posicaoAtacante, posicaoAlvo = self.obterPosicoes(atacanteSprite, alvoSprite)
 
-        self.animaHabilidade(habilidade = habilidade,
-                            habilidadeSprite = habilidadeSprite,
-                            atacante = atacanteSprite,
-                            alvo = alvoSprite,
-                            posicaoAtacante = posicaoAtacante,
-                            posicaoAlvo = posicaoAlvo)
+        self.animaHabilidade(habilidadeSprite = habilidadeSprite,
+                             atacante = atacanteSprite,
+                             posicaoAtacante = posicaoAtacante,
+                             posicaoAlvo = posicaoAlvo)
 
         habilidade.executar(alvo, multiplicador)
 
@@ -313,7 +308,7 @@ class BatalhaView():
         if self.__playerTurn:
             for i, sprite in enumerate(self.__spritesAliados):
                 if event.type == pygame.MOUSEBUTTONDOWN and sprite.rect.collidepoint(pygame.mouse.get_pos()):
-                    self.renderizaHabilidade(i)
+                    self.mostraHabilidadesDoPersonagem(i)
             self.desenha()
             if self.__personagemSelecionado is not None and self.__personagemSelecionado.get_saude() > 0:
                 for i, sprite in enumerate(self.__spritesHabilidades):

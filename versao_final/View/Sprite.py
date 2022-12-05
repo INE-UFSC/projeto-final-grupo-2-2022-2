@@ -9,14 +9,26 @@ class Sprite(pygame.sprite.Sprite):
         self.__width = width
         self.__height = height
         self.image = self.setImage()
+        self.coord = [x, y]
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.position = pygame.math.Vector2(self.rect.center)
+        self.direction = pygame.math.Vector2()
         self.__defaultSize = (x, y)
 
     def draw(self, screen:pygame.Surface):
         screen.blit(self.image, self.rect)
         pygame.display.update()
+    
+    def move(self, atacantePosition: list[float], alvoPosition: list[float]):
+        self.direction = (pygame.math.Vector2(alvoPosition) - atacantePosition).normalize()
+        self.position += self.direction * 5
+        self.rect.center = round(self.position.x), round(self.position.y)
+
+        if self.rect.collidepoint(alvoPosition):
+            return True
+        return False
 
     def setImage(self):
         img = pygame.image.load(os.path.join('versao_final', 'assets', f'{self.__filename}.png'))
