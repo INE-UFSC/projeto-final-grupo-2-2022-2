@@ -1,6 +1,6 @@
-from Model.Acao import Acao
 import random as r
-from View.Sprite import Sprite
+from Model.Sprite import Sprite
+from Model.Acao import Acao
 # from Controller.PersonagemController import PersonagemController
 
 class Personagem:
@@ -31,6 +31,13 @@ class Personagem:
         self.__sprite = novo
 
     @property
+    def tecnicas(self) -> list[Acao]:
+        return self.__tecnicas
+    @tecnicas.setter
+    def tecnicas(self, novo:str):
+        self.__tecnicas = novo
+
+    @property
     def classe(self) -> str:
         return self.__classe
     @classe.setter
@@ -58,7 +65,7 @@ class Personagem:
 
 # escolhe uma tecnica 
 
-    def get_acao(self, num=0) -> Acao:
+    def get_acao(self, num=0):
         if len(self.__tecnicas) > num:
             return self.__tecnicas[num]
         return None
@@ -73,7 +80,7 @@ class Personagem:
 
 # expande as tecnicas
 
-    def aprender_tecnica(self, novo: Acao):
+    def aprender_tecnica(self, novo):
         self.__tecnicas.append(novo)
 
 # resetam os status e evoluem depois da batalha
@@ -91,7 +98,7 @@ class Personagem:
         self.evoluir_tecnica(var)
 
     
-    def evoluir_tecnica(self, tecnica: Acao):
+    def evoluir_tecnica(self, tecnica):
         if tecnica in self.__tecnicas:
             tecnica.evolucao()
         else: print("tecnica invalida")

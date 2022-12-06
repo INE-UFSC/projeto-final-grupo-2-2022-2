@@ -3,14 +3,9 @@ from Model.Personagem import Personagem
 
 from Controller.Jogo import Jogo
 
-import pygame
+from Singleton.Singleton import Singleton
 
-
-acoes = [
-        Acao('fireball', -50, 'saude', 'ofensivo'),
-        Acao('boost', 5, 'ataque', 'suporte')
-        ]
-
+acoes = Singleton().skills
 magos = ['']*3
 orcs = ['']*3
 time = ['']*3
@@ -28,10 +23,9 @@ for i in range(3):
     #                              height = 80)
 
     orcs[i] = Personagem(nome = 'Mateus' + str(i), 
-                         ataque = 10,
-                         saude = 100, 
+                         nivel = 1,
                          tecnicas = acoes, 
-                         classe = 'mago')
+                         classe = 'troll')
                         #  controller = PersonagemController(inimigos[i]))
 
     # time[i] = PersonagemView(surface = window,
@@ -40,9 +34,8 @@ for i in range(3):
     #                          width = 70, 
     #                          height = 80)
     magos[i] = Personagem(nome = 'Joao' + str(i), 
-                          ataque = 10,
-                          saude = 100, 
-                          tecnicas = acoes, 
+                          nivel = 10,
+                          tecnicas = [acoes[i-1], acoes[i]], 
                           classe = 'mago')
                         #   controller = PersonagemController(time[i]))
     # save.add(magos[i])

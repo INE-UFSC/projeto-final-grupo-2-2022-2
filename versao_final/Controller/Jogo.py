@@ -1,5 +1,5 @@
 from View.BatalhaView import BatalhaView
-from Controller.Menu import Menu
+from View.Menu import Menu
 from View.Mapa import Mapa
 from View.tela_mapa import TelaMapa
 
@@ -21,4 +21,4 @@ class Jogo:
                     # Mapa também deve retornar o cenário a ser enviado à batalha
 
             batalha = BatalhaView(aliados, inimigos)
-            batalha.main()
+            batalha.loop()
