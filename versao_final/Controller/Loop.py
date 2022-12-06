@@ -1,6 +1,8 @@
 # vou fazer um loop novo para o jogo,depois podemos discutir como ele deve ser feito
 from View.tela_mapa import Tela
 from View.Mapa import Mapa
+from View.Cenario import Cenario
+from Model.CenarioModel import CenarioModel
 from Menu import Menu
 class Loop():
     def __init__(self):
@@ -9,7 +11,7 @@ class Loop():
         self.__in_mapa = True
         self.__in_lugar = False
         self.__menu = Menu()
-        self.__mapa = Mapa({"Saffron": CenarioIcone(Cenario("Saffron.jpg",
+        self.__mapa = Mapa({"Saffron": CenarioModel(Cenario("Saffron.jpg",
                                                800,500,400,250),
                                                431,148,75,83)},
                            "mapa.jpg",500,800,400,250)
