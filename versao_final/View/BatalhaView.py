@@ -24,7 +24,7 @@ class BatalhaView():
 
         self.__personagemSelecionado = None
 
-        self.__defaultWidth, self.__defaultHeight = 60, 80
+        self.__defaultWidth, self.__defaultHeight = 80, 80
 
         self.__playerTurn = True
         self.__winner = -1
@@ -62,8 +62,8 @@ class BatalhaView():
             y = self.__alturaTela/5 * (i+1)
 
             for j in range (2):
-                default_width = 60
-                default_height = 80
+                default_width = self.__defaultWidth
+                default_height = self.__defaultHeight
 
                 '''
                 Caso o personagem não tenha mais vida, ele não terá tamanho,
@@ -165,8 +165,6 @@ class BatalhaView():
     @return None
     '''
     def animacao(self, atacante:Personagem, alvo:Personagem, acao: Acao):
-        
-        self.__defaultWidth, self.__defaultHeight = 60, 80
         atacanteSprite = atacante.sprite
         alvoSprite = alvo.sprite
 
@@ -196,11 +194,15 @@ class BatalhaView():
     @return None
     '''
     def turno(self, 
-              atacante: Personagem, 
+              atacante: Personagem,
+              atacantes: list[Personagem],
               alvos:list[Personagem],
               habilidade: Acao):
-
-        alvo = self.__controller.selecionaPersonagem(alvos)
+        
+        if habilidade.tipo == 'suporte':
+            alvo = self.__controller.selecionaPersonagem(atacantes)
+        else:
+            alvo = self.__controller.selecionaPersonagem(alvos)
         self.animacao(atacante, alvo, habilidade)
 
 
@@ -223,21 +225,25 @@ class BatalhaView():
             h = 15
 
             personagens = self.__aliadosPersonagens
-            x, y = aliado.rect.x, aliado.rect.y - 20
+            x, y = aliado.rect.centerx, aliado.rect.centery - 50
 
             for j in range (2):
                 saude = personagens[i].get_saude()
                 if saude > 0:
-                    pygame.draw.rect(self.__window, (0, 0, 0), pygame.Rect(x, y, w, h), 1)
+                    outerRect = pygame.Rect(x, y, w, h)
+                    outerRect.center = (x, y)
+                    pygame.draw.rect(self.__window, (0, 0, 0), outerRect, 1)
                     progresso = saude / personagens[i].saude_max
 
-                    innerPosition = (x+3, y+3)
+                    innerPosition = (outerRect.x+3, outerRect.y+3)
                     innerSize = ((w-6)*progresso, h-6)
 
-                    pygame.draw.rect(self.__window, (0, 255, 0), pygame.Rect(*innerPosition, *innerSize))
+                    innerRect = pygame.Rect(*innerPosition, *innerSize)
+
+                    pygame.draw.rect(self.__window, (0, 255, 0), innerRect)
                 
                 personagens = self.__inimigosPersonagens
-                x, y = inimigo.rect.x, inimigo.rect.y - 20
+                x, y = inimigo.rect.centerx, inimigo.rect.centery - 50
 
     '''
     draw é a função que desenha todas as sprites na tela
@@ -303,6 +309,7 @@ class BatalhaView():
                 for i, sprite in enumerate(self.__spritesHabilidades):
                     if event.type == pygame.MOUSEBUTTONDOWN and sprite.rect.collidepoint(pygame.mouse.get_pos()):
                         self.turno(atacante = self.__personagemSelecionado, 
+                                   atacantes = self.__aliadosPersonagens,
                                    alvos = self.__inimigosPersonagens,
                                    habilidade = self.__personagemSelecionado.get_acao(i))
         else:
@@ -311,7 +318,7 @@ class BatalhaView():
 
             alvos = self.__aliadosPersonagens
             time.sleep(0.5)
-            self.turno(atacante, alvos, habilidade)
+            self.turno(atacante, self.__inimigosPersonagens, alvos, habilidade)
 
     def loop(self):
         fps = 30

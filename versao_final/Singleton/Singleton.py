@@ -8,8 +8,8 @@ class Singleton:
         Acao('rasengan', -50, 'saude', 'ofensivo', 'projetil'),
         Acao('earthball', -50, 'saude', 'ofensivo', 'projetil'),
         Acao('waterball', -50, 'saude', 'ofensivo', 'projetil'),
-        Acao('melee', -500, 'saude', 'ofensivo', 'melee')
-        # Acao('boost', 5, 'ataque', 'suporte')
+        Acao('melee', -500, 'saude', 'ofensivo', 'melee'),
+        Acao('boost', 5, 'ataque', 'suporte', 'projetil')
         ]
 
     def __new__(cls, *args):
