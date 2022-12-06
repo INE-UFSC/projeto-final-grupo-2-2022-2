@@ -19,3 +19,7 @@ class CenarioModel():
     @property
     def hitbox(self):
         return self.__hitbox
+
+    @property
+    def cenario(self):
+        return self.__lugar

@@ -1,8 +1,7 @@
-# vou fazer um loop novo para o jogo,depois podemos discutir como ele deve ser feito
-from View.Tela import Tela
-from View.Mapa import Mapa
-from View.Cenario import Cenario,CenarioBatalha
-from Model.CenarioModel import CenarioModel
+from Tela import Tela
+from Mapa import Mapa
+from Cenario import Cenario,CenarioBatalha
+from CenarioModel import CenarioModel
 #from Menu import Menu
 import pygame
 class Loop():
@@ -12,10 +11,11 @@ class Loop():
         self.__in_mapa = True
         self.__in_lugar = False
         #self.__menu = Menu()
-        self.__mapa = Mapa({"Saffron": CenarioModel(CenarioBatalha("Saffron.jpg",
+        self.__mapa = Mapa({"Saffron": CenarioModel(Cenario("Saffron.jpg",
                                                800,500,400,250),
                                                431,148,75,83)},
                            "mapa.jpg",500,800,400,250)
+        self.__clock = pygame.time.Clock()
     def main(self):
         while self.__rodando:
 
@@ -51,9 +51,9 @@ class Loop():
                             temp = self.back(posicao)
                             self.__in_mapa = temp
                             self.__in_lugar = not temp
-            self.__sprites_jogo.update()
+
 
             # desenha
-            self.__sprites_jogo.draw(self.__tela)
+
             pygame.display.flip()
         pygame.quit()

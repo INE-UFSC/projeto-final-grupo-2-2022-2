@@ -17,9 +17,6 @@ class Cenario(ABC):
     def rect(self):
         return self.__rect
 
-    @property
-    def cenario(self):
-        return self.__lugar
 
 class CenarioBatalha(Cenario):
     def __init__(self,identificador:str, largura:int, altura:int,eixo_x:int, eixo_y:int,inimigos):
