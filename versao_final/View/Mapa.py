@@ -12,10 +12,7 @@ class Mapa():
         self.__eixo_y = eixo_y
         self.__locais = locais
         self.__id_image = id_image
-        temp = os.getcwd().split(os.path.sep)
-        temp.remove("View")
-        temp = os.path.sep.join(temp)
-        self.__caminho = os.path.join(temp, "assets")
+        self.__image = pygame.image.load(os.path.join('versao_final', 'assets', f'{self.__id_image}.png'))
         self.__image = pygame.image.load(os.path.join(self.__caminho,
                                                       f'{id_image}')).convert()
         self.__image = pygame.transform.scale(self.__image,
