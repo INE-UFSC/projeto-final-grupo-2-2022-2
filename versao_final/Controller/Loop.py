@@ -11,7 +11,7 @@ class Loop():
         self.__rodando = True
         self.__in_mapa = True
         self.__in_lugar = False
-        self.__menu = Menu()
+        #self.__menu = Menu()
         self.__mapa = Mapa({"Saffron": CenarioModel(CenarioBatalha("Saffron.jpg",
                                                800,500,400,250),
                                                431,148,75,83)},
