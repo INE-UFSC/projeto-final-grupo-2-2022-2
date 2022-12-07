@@ -38,10 +38,7 @@ class Acao:
 
     @property
     def fator(self):
-        return self.__fator    
-    @fator.setter
-    def fator(self, novo:int):
-        self.__fator = novo
+        return self.__fator
 
 
     @property

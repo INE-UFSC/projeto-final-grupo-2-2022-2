@@ -9,12 +9,12 @@ class Personagem:
         self.__nome = nome
         self.__saude_max = (100 + 100*nivel/10)/1
         self.__ataque_max = (100 + 100*nivel/10)/1
-        self.__saude_at = (100 + 100*nivel/10)/1
-        self.__ataque_at = (100 + 100*nivel/10)/1
+        self.__saude_at = self.__saude_max
+        self.__ataque_at = self.__ataque_max
         self.__tecnicas = tecnicas
         self.__classe = classe
         self.__sprite = None
-        self.__batalhas = []
+        self.__batalhas = [0]
 
     @property
     def nome(self) -> str:
@@ -29,6 +29,14 @@ class Personagem:
     @sprite.setter
     def sprite(self, novo:str):
         self.__sprite = novo
+
+    @property
+    def ataque(self) -> int:
+        return self.__ataque_max
+
+    @property
+    def saude(self) -> int:
+        return self.__saude_max
 
     @property
     def tecnicas(self) -> list[Acao]:
@@ -85,8 +93,8 @@ class Personagem:
 
 # resetam os status e evoluem depois da batalha
 
-    def fim_da_batalha(self, id_battle: int):
-        self.__batalhas.append(id_battle)
+    def fim_da_batalha(self):
+        self.__batalhas.append(len(self.__batalhas))
 
         var = r.choice(['ataque', 'saude'])
         self.evoluir_atributo(var)
