@@ -1,5 +1,5 @@
 import pygame
-from View.Cenario import Cenario, CenarioIcone
+from View.Cenario import *
 from View.Mapa import Mapa
 import os
 

@@ -4,7 +4,10 @@
 # (saude ou ataque) ela vai afetar e
 # o tipo (ofensivo ou suporte)
 
+from Model.Projectile import Projectile
+from Model.Sprite import Sprite
 import random as r
+from time import sleep
 class Acao:
     def __init__(self, nome:str, fator: int,
                 efeito:str, tipo:str, modo: str):
@@ -13,12 +16,17 @@ class Acao:
         self.__tipo = tipo
         self.__efeito = efeito.lower()
         self.__modo = modo
+        self.__sprite = Projectile(nome) if self.__modo == 'projetil' else None
 
     def evolucao(self):
         if self.__fator > 0:
             self.__fator += 5
         else:
             self.__fator -= 5
+    
+    def animacao(self, atacante: Sprite, alvo: Sprite):
+        self.__sprite.move(atacante.position, alvo.position, alvo.rect)
+        sleep(0.5)
 
     @property
     def nome(self):
@@ -57,6 +65,13 @@ class Acao:
     @modo.setter
     def modo(self, novo:str):
         self.__modo = novo
+
+    @property
+    def sprite(self):
+        return self.__sprite
+    @sprite.setter
+    def sprite(self, novo:str):
+        self.__sprite = novo
     
     def executar(self, alvo):
         dado = r.randint(1, 20)

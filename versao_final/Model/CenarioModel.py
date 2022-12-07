@@ -1,4 +1,5 @@
 from View.Cenario import Cenario
+import pygame
 
 class CenarioModel():
     def __init__(self, lugar:Cenario, x_hit, y_hit, hit_largura,hit_altura):

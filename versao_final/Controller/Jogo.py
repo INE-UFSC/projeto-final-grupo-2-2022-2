@@ -1,7 +1,6 @@
 from View.BatalhaView import BatalhaView
 from View.Menu import Menu
-from View.Mapa import Mapa
-from View.tela_mapa import TelaMapa
+from Controller.Loop import Loop
 
 
 import pygame
@@ -16,7 +15,8 @@ class Jogo:
         play = menu.main()
 
         if play:
-            # mapa = TelaMapa()
+            # mapa = Loop()
+            # mapa.main()
                     # Mapa deve retornar os inimigos da fase clicada
                     # Mapa também deve retornar o cenário a ser enviado à batalha
 

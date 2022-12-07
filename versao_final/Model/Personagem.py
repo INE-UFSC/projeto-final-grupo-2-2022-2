@@ -1,20 +1,44 @@
 import random as r
 from Model.Sprite import Sprite
+from Singleton.Singleton import Singleton
+from time import sleep
 from Model.Acao import Acao
+import pygame
 # from Controller.PersonagemController import PersonagemController
 
 class Personagem:
     def __init__(self, nome:str, nivel:int,
-                 tecnicas:list, classe:str):
+                 tecnicas:list[Acao], classe:str):
         self.__nome = nome
-        self.__saude_max = (100 + 100*nivel/10)/1
-        self.__ataque_max = (100 + 100*nivel/10)/1
-        self.__saude_at = (100 + 100*nivel/10)/1
-        self.__ataque_at = (100 + 100*nivel/10)/1
+        self.__saude_max = (100 + 10*nivel)/1
+        self.__ataque_max = (100 + 10*nivel)/1
+        self.__saude_at = (100 + 10*nivel)/1
+        self.__ataque_at = (100 + 10*nivel)/1
         self.__tecnicas = tecnicas
         self.__classe = classe
-        self.__sprite = None
+        self.__sprite = Sprite(classe)
         self.__batalhas = []
+    
+    def animacao(self, index:int):
+        modificador = 2 if self.__sprite.rect.x < Singleton().screenSize[0]/2 else -2
+        if index == 0:
+            for i in range (10):
+                self.__sprite.rect.x += modificador
+                self.__sprite.draw()
+        else:
+            self.__sprite.rect.x += 4
+            self.__sprite.rect.y += 4
+            self.__sprite.draw()
+            self.__sprite.rect.x -= 4
+            self.__sprite.rect.y -= 4
+            self.__sprite.draw()
+
+            sleep(0.5)
+            self.__sprite.rect.x = self.__sprite.defaultSize[0]
+    
+    def mostraHabilidadesDisponives(self, screen:pygame.Surface):
+        for acao in self.__tecnicas:
+            acao.sprite.draw(screen)
 
     @property
     def nome(self) -> str:
@@ -31,7 +55,7 @@ class Personagem:
         self.__sprite = novo
 
     @property
-    def tecnicas(self) -> list[Acao]:
+    def tecnicas(self) -> list:
         return self.__tecnicas
     @tecnicas.setter
     def tecnicas(self, novo:str):

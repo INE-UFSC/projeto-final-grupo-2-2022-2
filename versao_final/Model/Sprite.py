@@ -1,23 +1,47 @@
 import os
 import pygame
-
+from Singleton.Singleton import Singleton
+from math import floor, ceil
 class Sprite(pygame.sprite.Sprite):
 
-    def __init__(self, filename:str, width:float, height:float, x:float, y:float) -> None:
+    def __init__(self, filename:str) -> None:
         super().__init__()
         self.__filename = filename
-        self.__width = width
-        self.__height = height
+        self.__width = Singleton().screenSize[0] / 15
+        self.__height = Singleton().screenSize[0] / 15
         self.image = self.setImage()
-        self.__coord = [x, y]
         self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.setRectPosition()
+        self.__coord = [self.rect.x, self.rect.y]
         self.__position = pygame.math.Vector2(self.rect.center)
         self.__direction = pygame.math.Vector2()
-        self.__defaultSize = (x, y)
+        self.__defaultSize = (self.rect.x, self.rect.y)
+
+    def setRectPosition(self):
+        screenSize = Singleton().screenSize
+        counter = Singleton().charCounter
+        move = 0
+
+        if counter == 2: move = - screenSize[0] // 10
+        elif counter == 3: move = screenSize[0] // 10
+        else: move = 0
+
+        if counter % 2 == 0:
+            self.rect.x = screenSize[0]//5 + move
+        else:
+            self.rect.x = screenSize[0] - self.__width - screenSize[0]//5 + move
+        
+        self.rect.y = screenSize[1]//5 * ceil((counter+1)/2)
+
+    def update(self):
+        self.__width = Singleton().screenSize[0] / 15
+        self.__height = Singleton().screenSize[0] / 15
 
     def draw(self, screen:pygame.Surface):
+        self.update()
+        rect = pygame.Rect(*self.__coord, self.__width, self.__height)
+        pygame.draw.rect(screen, (255, 255, 255), rect)
+
         screen.blit(self.image, self.rect)
         pygame.display.update()
     
