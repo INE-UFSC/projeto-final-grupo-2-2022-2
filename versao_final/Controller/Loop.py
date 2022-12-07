@@ -1,14 +1,15 @@
 # vou fazer um loop novo para o jogo,depois podemos discutir como ele deve ser feito
 import main
-from Tela import Tela
-from Mapa import Mapa
-from Cenario import Cenario,CenarioBatalha
-from CenarioModel import CenarioModel
-from BatalhaView import BatalhaView
-from Acao import Acao
-from Personagem import Personagem
+from View.Tela import Tela
+from View.Mapa import Mapa
+from View.Cenario import Cenario,CenarioBatalha
+from Model.CenarioModel import CenarioModel
+from View.BatalhaView import BatalhaView
+from Model.Acao import Acao
+from Model.Personagem import Personagem, orcs
 #from Menu import Menu
 import pygame
+
 class Loop():
     def __init__(self):
         self.__tela = Tela()
@@ -17,7 +18,7 @@ class Loop():
         self.__in_lugar = False
         #self.__menu = Menu()
         self.__mapa = Mapa({"Saffron": CenarioModel(CenarioBatalha("Saffron.jpg",
-                                               800,500,400,250,COLOCAR_AQUI_A_LISTA_DE_INIMIGOS),
+                                               800,500,400,250,orcs),
                                                431,148,75,83)},
                            "mapa.jpg",500,800,400,250)
         self.__clock = pygame.time.Clock()
@@ -40,7 +41,8 @@ class Loop():
 
                     for lugar in self.__mapa.locais.keys():
                         if self.__mapa.locais[lugar].clicked:
-                            batalha = BatalhaView(COLOCAR_AQUI_A_LISTA_DE_INIMIGOS, self.__mapa.locais[lugar].cenario.inimigos())
+                            batalha = BatalhaView(orcs,
+                            self.__mapa.locais[lugar].cenario.inimigos())
                             batalha.loop()
 '''
                             self.__in_mapa = False

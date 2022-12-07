@@ -1,9 +1,10 @@
 import pygame
+
 class Back():
     def __init__(self,imagem, x_hit, y_hit, hit_largura, hit_altura):
         self.__clicked = False
         self.__imagem = imagem
-        self.__lugar = lugar
+        #self.__lugar = lugar
         self.__x_hit = x_hit
         self.__y_hit = y_hit
         self.__hitbox = pygame.Rect(x_hit, y_hit, hit_largura, hit_altura)

@@ -1,10 +1,10 @@
 import PySimpleGUI as sg
-from Singleton.Singleton import Singleton
+from Singleton.Constantes import Constantes
 
 class Menu():
     def __init__(self) -> None:
         self.__container = []
-        self.__screenSize = Singleton().screenSize
+        self.__screenSize = Constantes().screenSize
     
     def draw(self, comandos:list):
         self.__container = []
@@ -36,8 +36,8 @@ class Menu():
     def setScreenSize(self):
         if isinstance(self.__window, sg.Window):
             self.__screenSize = self.__window.size
-            Singleton().screenSize = self.__screenSize
-            print(self.__screenSize, Singleton().screenSize)
+            Constantes().screenSize = self.__screenSize
+            print(self.__screenSize, Constantes().screenSize)
 
     def main(self) -> bool:
         self.draw(['Play', 'Options', 'Quit'])

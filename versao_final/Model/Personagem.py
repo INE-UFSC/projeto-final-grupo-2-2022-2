@@ -116,3 +116,21 @@ class Personagem:
             self.__ataque_max += 5
         if atributo == 'saude':
             self.__saude_max += 5
+
+
+from Singleton.Constantes import Constantes
+
+acoes = Constantes().skills
+
+magos = [None]*3
+orcs = [None]*3
+
+for i in range(3):
+    orcs[i] = Personagem(nome = 'Mateus' + str(i), 
+                         nivel = 1,
+                         tecnicas = acoes, 
+                         classe = 'troll')
+    magos[i] = Personagem(nome = 'Joao' + str(i), 
+                          nivel = 10,
+                          tecnicas = [acoes[i-1], acoes[i]], 
+                          classe = 'mago')

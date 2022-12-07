@@ -3,14 +3,13 @@ from Model.Personagem import Personagem
 from Model.Sprite import Sprite
 from Model.Acao import Acao
 from Controller.Controller import Controller
-from Singleton.Singleton import Singleton
+from Singleton.Constantes import Constantes
 import time
-import random as r
 
 class BatalhaView():
     def __init__(self, aliados: list[Personagem],
                  inimigos: list[Personagem]):
-        self.__screenSize = Singleton().screenSize
+        self.__screenSize = Constantes().screenSize
         self.__larguraTela, self.__alturaTela = self.__screenSize
         self.__window = pygame.display.set_mode(self.__screenSize, pygame.RESIZABLE)
 
@@ -284,7 +283,7 @@ class BatalhaView():
     def setTamanhoTela(self):
         if isinstance(self.__window, pygame.Surface):
             self.__screenSize = self.__window.get_size()
-            Singleton().screenSize = self.__screenSize
+            Constantes().screenSize = self.__screenSize
 
     def handleScreenEvents(self, event:pygame.event.Event):
             if event.type == pygame.VIDEORESIZE:

@@ -1,6 +1,7 @@
 import pygame
 import os
 from abc import ABC,abstractmethod
+
 class Cenario(ABC):
     def __init__(self, identificador:str, largura:int, altura:int,eixo_x:int, eixo_y:int):
         self.__id_image = identificador

@@ -1,5 +1,5 @@
 import pygame
-from View.Sprite import Sprite
+from Model.Sprite import Sprite
 
 sprites = pygame.sprite.Group()
 
