@@ -1,7 +1,6 @@
 import random as r
 from Model.Sprite import Sprite
 from Model.Acao import Acao
-# from Controller.PersonagemController import PersonagemController
 
 class Personagem:
     def __init__(self, nome:str, nivel:int,

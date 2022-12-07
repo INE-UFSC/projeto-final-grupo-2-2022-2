@@ -1,13 +1,11 @@
 # vou fazer um loop novo para o jogo,depois podemos discutir como ele deve ser feito
-import main
 from View.Tela import Tela
 from View.Mapa import Mapa
-from View.Cenario import Cenario,CenarioBatalha
+from View.CenarioBatalha import CenarioBatalha
 from Model.CenarioModel import CenarioModel
 from View.BatalhaView import BatalhaView
-from Model.Acao import Acao
-from Model.Personagem import Personagem, orcs
-#from Menu import Menu
+from Model.Personagem import orcs
+from View.Menu import Menu
 import pygame
 
 class Loop():
@@ -22,6 +20,7 @@ class Loop():
                                                431,148,75,83)},
                            "mapa.jpg",500,800,400,250)
         self.__clock = pygame.time.Clock()
+
     def main(self):
         while self.__rodando:
 
@@ -36,7 +35,8 @@ class Loop():
                         posicao = pygame.mouse.get_pos()
                         if event.button == 1:
                             for lugar in self.__mapa.locais.keys():
-                                if self.__mapa.locais[lugar].hitbox.collidepoint(posicao):
+                                if self.__mapa.locais[lugar
+                                                      ].hitbox.collidepoint(posicao):
                                     self.__mapa.locais[lugar].clicked = True
 
                     for lugar in self.__mapa.locais.keys():

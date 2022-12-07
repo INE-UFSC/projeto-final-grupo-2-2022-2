@@ -2,7 +2,7 @@ from View.BatalhaView import BatalhaView
 from View.Menu import Menu
 from View.Mapa import Mapa
 from View.tela_mapa import TelaMapa
-
+from Model.Batalha import Batalha
 
 import pygame
 
@@ -20,5 +20,5 @@ class Jogo:
                     # Mapa deve retornar os inimigos da fase clicada
                     # Mapa também deve retornar o cenário a ser enviado à batalha
 
-            batalha = BatalhaView(aliados, inimigos)
-            batalha.loop()
+            batalha = Batalha(aliados, inimigos)
+            batalha.start()

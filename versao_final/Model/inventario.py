@@ -1,5 +1,6 @@
 class Inventario():
-    def __init__(self,inventarios_personagens: list,itens: list,dinheiro:int):
+    def __init__(self,inventarios_personagens: list, 
+                 itens: list,dinheiro:int):
         self.__itens = itens
         self.__dinheiro = dinheiro
         self.__invetarios_personagens = inventarios_personagens
@@ -35,22 +36,3 @@ class Inventario():
 
     def remove_dinheiro(self,dinheiro_removido):
         self.__dinheiro -= dinheiro_removido
-
-
-class InventarioPersonagem():
-    def __init__(self,itens:list,tipo_aceito):
-        self.__itens = itens
-        self.__tipo_aceito = tipo_aceito
-
-    @property
-    def itens(self):
-        return self.__itens
-
-class Item():
-    def __init__(self,nome:str,descricao:str,multiplicador:float):
-        self.__nome = nome
-        self.__
-
-#terminar
-#criar interface para essas coisas todas (eu nao aguento mais o pygame ;-; )
-
