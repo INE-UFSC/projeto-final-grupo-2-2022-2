@@ -1,10 +1,12 @@
+from Model.CenarioModel import CenarioModel
 import pygame
 import os
 
 
 class Mapa():
-    def __init__(self, locais, id_image, altura,
-                 largura, eixo_x, eixo_y):
+    def __init__(self, locais:list[CenarioModel],
+                 id_image:str, altura:int, largura:int,
+                 eixo_x:int, eixo_y:int):
         pygame.sprite.Sprite.__init__(self)
         self.__altura = altura
         self.__largura = largura
@@ -22,16 +24,15 @@ class Mapa():
         self.__rect.center = (eixo_x), (eixo_y)
 
     @property
-    def id_imagem(self):
+    def id_imagem(self) -> str:
         return self.__id_image
 
     @property
-    def locais(self):
+    def locais(self) -> list[CenarioModel]:
         return self.__locais
 
-    def escolher_local(self, destino: str):
-        local_escolhido = self.__locais[destino]
-        return local_escolhido
+    def escolher_local(self, destino:int) -> CenarioModel:
+        return self.__locais[destino]
 
     @property
     def imagem(self):

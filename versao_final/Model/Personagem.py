@@ -1,13 +1,15 @@
 import random as r
 from Model.Sprite import Sprite
 from Model.Acao import Acao
+from Controller.JogoDAO import SaveNivel
 
 class Personagem:
     def __init__(self, nome:str, nivel:int,
                  tecnicas:list, classe:str):
         self.__nome = nome
-        self.__saude_max = (100 + 100*nivel/10)/1
-        self.__ataque_max = (100 + 100*nivel/10)/1
+        self.__nivel = nivel
+        self.__saude_max = 100
+        self.__ataque_max = 100
         self.__saude_at = self.__saude_max
         self.__ataque_at = self.__ataque_max
         self.__tecnicas = tecnicas
@@ -93,7 +95,8 @@ class Personagem:
 # resetam os status e evoluem depois da batalha
 
     def fim_da_batalha(self):
-        self.__batalhas.append(len(self.__batalhas))
+        self.__nivel = SaveNivel.get() + 1
+        self.__batalhas.append(self.__nivel)
 
         var = r.choice(['ataque', 'saude'])
         self.evoluir_atributo(var)
@@ -115,21 +118,9 @@ class Personagem:
             self.__ataque_max += 5
         if atributo == 'saude':
             self.__saude_max += 5
+        else:
+            print('argumento invalido')
 
-
-from Singleton.Constantes import Constantes
-
-acoes = Constantes().skills
-
-magos = [None]*3
-orcs = [None]*3
-
-for i in range(3):
-    orcs[i] = Personagem(nome = 'Mateus' + str(i), 
-                         nivel = 1,
-                         tecnicas = acoes, 
-                         classe = 'troll')
-    magos[i] = Personagem(nome = 'Joao' + str(i), 
-                          nivel = 10,
-                          tecnicas = [acoes[i-1], acoes[i]], 
-                          classe = 'mago')
+        self.__saude_max += (100*self.__nivel/10)//1
+        self.__ataque_max += (100*self.__nivel/10)//1
+        

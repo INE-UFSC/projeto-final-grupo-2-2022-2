@@ -1,11 +1,14 @@
 # vou fazer um loop novo para o jogo,depois podemos discutir como ele deve ser feito
 from View.Tela import Tela
 from View.Mapa import Mapa
+from View.BatalhaView import BatalhaView
+from Model.Personagem import orcs, magos
+from Singleton.Constantes import Constantes
+from View.Menu import Menu
+# os dois abaixo são usados em Constantes().locais
 from View.CenarioBatalha import CenarioBatalha
 from Model.CenarioModel import CenarioModel
-from View.BatalhaView import BatalhaView
-from Model.Personagem import orcs
-from View.Menu import Menu
+
 import pygame
 
 class Loop():
@@ -13,13 +16,11 @@ class Loop():
         self.__tela = Tela()
         self.__rodando = True
         self.__in_mapa = True
+        self.__clock = pygame.time.Clock()
+        self.__mapa = Mapa(Constantes().locais,
+                           "mapa.jpg",500,800,400,250)
         self.__in_lugar = False
         #self.__menu = Menu()
-        self.__mapa = Mapa({"Saffron": CenarioModel(CenarioBatalha("Saffron.jpg",
-                                               800,500,400,250,orcs),
-                                               431,148,75,83)},
-                           "mapa.jpg",500,800,400,250)
-        self.__clock = pygame.time.Clock()
 
     def main(self):
         while self.__rodando:
@@ -27,23 +28,27 @@ class Loop():
             self.__clock.tick(self.__tela.fps)
             if self.__in_mapa:
                 imagem_tela = self.__mapa
-                self.__tela.display.blit(imagem_tela.imagem, imagem_tela.rect)
+                self.__tela.display.blit(imagem_tela.imagem,
+                                         imagem_tela.rect)
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         self.__rodando = False
                     elif event.type == pygame.MOUSEBUTTONDOWN:
                         posicao = pygame.mouse.get_pos()
                         if event.button == 1:
-                            for lugar in self.__mapa.locais.keys():
-                                if self.__mapa.locais[lugar
-                                                      ].hitbox.collidepoint(posicao):
-                                    self.__mapa.locais[lugar].clicked = True
+                            for lugar in self.__mapa.locais:
+                                if lugar.hitbox.collidepoint(posicao):
+                                    lugar.clicked = True
 
-                    for lugar in self.__mapa.locais.keys():
-                        if self.__mapa.locais[lugar].clicked:
-                            batalha = BatalhaView(orcs,
-                            self.__mapa.locais[lugar].cenario.inimigos())
+                    for lugar in self.__mapa.locais:
+                        if lugar.clicked:
+                            batalha = BatalhaView(magos,
+                            lugar.cenario.inimigos())
                             batalha.loop()
+            # desenha
+
+            pygame.display.flip()
+        pygame.quit()
 '''
                             self.__in_mapa = False
                             self.__in_lugar = True
@@ -64,7 +69,3 @@ class Loop():
 '''
 
 
-            # desenha
-
-            pygame.display.flip()
-        pygame.quit()
