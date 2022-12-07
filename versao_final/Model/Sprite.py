@@ -49,6 +49,7 @@ class Sprite(pygame.sprite.Sprite):
              atacantePosition: list[float], 
              alvoPosition: list[float],
              alvoRect: pygame.Rect):
+        self.position = atacantePosition
         self.direction = (pygame.math.Vector2(alvoPosition) - atacantePosition).normalize()
         self.position += self.direction * 5
         self.rect.center = round(self.position.x), round(self.position.y)

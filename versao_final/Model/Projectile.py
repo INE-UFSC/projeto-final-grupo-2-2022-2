@@ -10,9 +10,8 @@ class Projectile(Sprite):
     
     def draw(self, screen:pygame.Surface):
         screen.blit(self.image, self.rect)
-        print(self.rect)
         pygame.display.update()
     
-    # def setRectPosition(self):
-    #     self.rect.x = super().width * (8 + Singleton().slotCounter)
-    #     self.rect.y = Singleton().screenSize[1] - super().height
+    def setRectPosition(self):
+        self.rect.x = super().width * (8 + Singleton().slotCounter)
+        self.rect.y = Singleton().screenSize[1] - super().height

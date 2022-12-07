@@ -37,7 +37,6 @@ class Menu():
         if isinstance(self.__window, sg.Window):
             self.__screenSize = self.__window.size
             Singleton().screenSize = self.__screenSize
-            print(self.__screenSize, Singleton().screenSize)
 
     def main(self) -> bool:
         self.draw(['Play', 'Options', 'Quit'])

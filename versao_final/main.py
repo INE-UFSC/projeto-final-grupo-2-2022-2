@@ -19,16 +19,17 @@ for i in range(3):
     if i == 1:
         shift = 100
     
+    magos[i] = Personagem(nome = 'Joao' + str(i), 
+                          nivel = 10,
+                          tecnicas = [acoes[i-1], acoes[i]], 
+                          classe = 'mago')
+                          
     orcs[i] = Personagem(nome = 'Mateus' + str(i), 
                          nivel = 1,
                          tecnicas = acoes, 
                          classe = 'troll')
 
 
-    magos[i] = Personagem(nome = 'Joao' + str(i), 
-                          nivel = 10,
-                          tecnicas = [acoes[i-1], acoes[i]], 
-                          classe = 'mago')
                           
     # save.add(magos[i])
 
