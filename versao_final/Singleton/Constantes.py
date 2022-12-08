@@ -9,6 +9,8 @@ from Controller.JogoDAO import JogoDAO
 class Constantes(Singleton):
     __screenSize = (1200, 600)
     __defaultSize = (80, 80)
+    __slotCounter = 0
+    __charCounter = 0
     __SaveNivel = JogoDAO('Nivel.pkl')
     __SavePersonagens = JogoDAO('Nivel.pkl')
     __skills = [
@@ -39,6 +41,28 @@ class Constantes(Singleton):
     @defaultSize.setter
     def screenSize(cls, size):
         cls.__defaultSize = size
+
+    @property
+    def slotCounter(cls):
+        a = cls.__slotCounter
+        cls.__slotCounter += 1
+        if cls.__slotCounter >= 8:
+            cls.__slotCounter = 0
+        return a
+    @slotCounter.setter
+    def slotCounter(cls, count):
+        cls.__slotCounter = count
+
+    @property
+    def charCounter(cls):
+        a = cls.__charCounter
+        cls.__charCounter += 1
+        if cls.__charCounter > 5:
+            cls.__charCounter = 0
+        return a
+    @charCounter.setter
+    def charCounter(cls, count):
+        cls.__charCounter = count
 
     @property
     def skills(cls) -> Acao:
