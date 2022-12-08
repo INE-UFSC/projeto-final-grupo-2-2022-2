@@ -10,7 +10,8 @@ class Tela:
         self.__preto = pygame.Color(0, 0, 0)
 
         pygame.init()
-        self.__display = pygame.display.set_mode((self.__largura, self.__altura))
+        self.__display = pygame.display.set_mode((self.__largura,
+                                                  self.__altura))
         pygame.display.set_caption("mapa")
         self.__clock = pygame.time.Clock()
         self.__display.fill(self.__preto)

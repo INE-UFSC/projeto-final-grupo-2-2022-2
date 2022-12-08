@@ -1,10 +1,5 @@
-from Controller.Jogo import Jogo, magos
-
-
+from Controller.Jogo import Jogo
 
 jogo = Jogo()
 
-# !!!!! Parâmetros são temporários 
-# Time deve ser armazenado em serialização
-# Inimigos devem vir do mapa
-jogo.run(magos)
+jogo.run()

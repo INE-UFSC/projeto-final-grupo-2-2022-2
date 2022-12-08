@@ -1,10 +1,8 @@
 # vou fazer um loop novo para o jogo,depois podemos discutir como ele deve ser feito
 from View.Tela import Tela
 from View.Mapa import Mapa
-from View.BatalhaView import BatalhaView
-from Model.Personagem import orcs, magos
+from Model.Batalha import Batalha
 from Singleton.Constantes import Constantes
-from View.Menu import Menu
 # os dois abaixo são usados em Constantes().locais
 from View.CenarioBatalha import CenarioBatalha
 from Model.CenarioModel import CenarioModel
@@ -20,9 +18,8 @@ class Loop():
         self.__mapa = Mapa(Constantes().locais,
                            "mapa.jpg",500,800,400,250)
         self.__in_lugar = False
-        #self.__menu = Menu()
 
-    def main(self):
+    def main(self, aliados: list):
         while self.__rodando:
 
             self.__clock.tick(self.__tela.fps)
@@ -42,9 +39,9 @@ class Loop():
 
                     for lugar in self.__mapa.locais:
                         if lugar.clicked:
-                            batalha = BatalhaView(magos,
+                            batalha = Batalha(aliados,
                             lugar.cenario.inimigos())
-                            batalha.loop()
+                            batalha.start()
             # desenha
 
             pygame.display.flip()

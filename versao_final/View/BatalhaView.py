@@ -9,9 +9,12 @@ import time
 class BatalhaView():
     def __init__(self, aliados: list[Personagem],
                  inimigos: list[Personagem]):
+
         self.__screenSize = Constantes().screenSize
         self.__larguraTela, self.__alturaTela = self.__screenSize
-        self.__window = pygame.display.set_mode(self.__screenSize, pygame.RESIZABLE)
+        self.__window = pygame.display.set_mode(self.__screenSize,
+                                                pygame.RESIZABLE)
+        self.__defaultWidth, self.__defaultHeight = Constantes().defaultSize
 
         self.__aliadosPersonagens = aliados
         self.__inimigosPersonagens = inimigos
@@ -23,15 +26,94 @@ class BatalhaView():
 
         self.__personagemSelecionado = None
 
-        self.__defaultWidth, self.__defaultHeight = 80, 80
-
         self.__playerTurn = True
         self.__winner = -1
 
         self.__controller = Controller()
 
+    def loop(self):
+        fps = 30
+        clock = pygame.time.Clock()
+        run = True
+        self.desenha()
+        
+        while run:
+            clock.tick(fps)
+            self.setTamanhoTela()
+
+            for event in pygame.event.get():
+                
+                run = self.handleScreenEvents(event)
+
+                if self.__winner == -1:
+                    self.handleInteractions(event)
+
+            if not self.__winner != -1:
+                self.criaSprites()
+                self.desenha()
+    
     '''
-    createSprites é responsável por instanciar todos os sprites que serão mostrados na tela
+    turno é responsável por executar um turno (ataque)
+    @params atacante: Personagem => o personagem que executa a ação
+    @params alvos: list[Personagem] => a lista de alvos disponíveis
+    @return None
+    '''
+    def turno(self, 
+              atacante: Personagem,
+              atacantes: list[Personagem],
+              alvos:list[Personagem],
+              habilidade: Acao):
+        
+        if habilidade.tipo == 'suporte':
+            alvo = self.__controller.selecionaPersonagem(atacantes)
+        else:
+            alvo = self.__controller.selecionaPersonagem(alvos)
+        self.animacao(atacante, alvo, habilidade)
+
+
+        self.__playerTurn = not self.__playerTurn
+        self.__winner = self.__controller.checkForWinner(self.__aliadosPersonagens,
+                                                         self.__inimigosPersonagens)
+
+        self.criaSprites()
+        self.desenha()
+        if self.__winner != -1:
+            self.mostraResultado()
+
+    def handleInteractions(self, event:pygame.event.Event):
+        if self.__playerTurn:
+            for i, sprite in enumerate(self.__spritesAliados):
+                c1 = event.type == pygame.MOUSEBUTTONDOWN
+                c2 = c1 and sprite.rect.collidepoint(pygame.mouse.get_pos()) 
+                if c2:
+                    self.mostraHabilidadesDoPersonagem(i)
+            self.desenha()
+
+            c1 = self.__personagemSelecionado is not None
+            c2 = c1 and self.__personagemSelecionado.get_saude() > 0
+            if c2:
+                for i, sprite in enumerate(self.__spritesHabilidades):
+                    c1 = event.type == pygame.MOUSEBUTTONDOWN
+                    c2 = c1 and sprite.rect.collidepoint(pygame.mouse.get_pos())
+                    if c2:
+                        self.turno(atacante = self.__personagemSelecionado, 
+                                   atacantes = self.__aliadosPersonagens,
+                                   alvos = self.__inimigosPersonagens,
+                        habilidade = self.__personagemSelecionado.get_acao(i))
+        else:
+            atacante = self.__controller.selecionaPersonagem(
+                self.__inimigosPersonagens)
+            habilidade = self.__controller.selecionaHabilidade(atacante)
+
+            alvos = self.__aliadosPersonagens
+            time.sleep(0.5)
+            self.turno(atacante,
+                       self.__inimigosPersonagens,
+                       alvos, habilidade)
+
+    '''
+    createSprites é responsável por instanciar
+    todos os sprites que serão mostrados na tela
     @params None
     @return None
     '''
@@ -65,8 +147,10 @@ class BatalhaView():
                 default_height = self.__defaultHeight
 
                 '''
-                Caso o personagem não tenha mais vida, ele não terá tamanho,
-                logo não aparecerá na tela, mas permanecerá na lista de personagens
+                Caso o personagem não tenha mais vida,
+                ele não terá tamanho,
+                logo não aparecerá na tela,
+                mas permanecerá na lista de personagens
                 '''
                 if personagem.get_saude() <= 0:
                     default_width, default_height = 0, 0
@@ -96,7 +180,9 @@ class BatalhaView():
 
             cont += 1
         if self.__personagemSelecionado is not None:
-            self.mostraHabilidadesDoPersonagem(self.__aliadosPersonagens.index(self.__personagemSelecionado))
+            self.mostraHabilidadesDoPersonagem(
+                self.__aliadosPersonagens.index(
+                    self.__personagemSelecionado))
     
     def mostraHabilidadesDoPersonagem(self, index:int):
         cont = 7
@@ -117,7 +203,8 @@ class BatalhaView():
                     )
                 cont += 1
 
-    def animaAtacante(self, atacante:Sprite, alvo:Sprite):
+    def animaAtacante(self, atacante:Sprite,
+                      alvo:Sprite):
         for i in range (10):
             if atacante.rect.x > alvo.rect.x:
                 atacante.rect.x -= 2
@@ -132,7 +219,8 @@ class BatalhaView():
         alvo.rect.x -= 4
         alvo.rect.y -= 4
 
-    def obterPosicoes(self, atacante:Sprite, alvo:Sprite):
+    def obterPosicoes(self, atacante:Sprite,
+                      alvo:Sprite):
         posicaoAlvo = alvo.coord
         posicaoAtacante = atacante.coord
         return posicaoAtacante, posicaoAlvo
@@ -142,28 +230,34 @@ class BatalhaView():
                     atacante: Sprite, 
                     alvo: Sprite):
 
-        atacantePosicao, alvoPosicao = self.obterPosicoes(atacante, alvo)
+        atacantePosicao, alvoPosicao = self.obterPosicoes(atacante,
+                                                          alvo)
         hit = False
 
         self.__spritesHabilidades.add(movedSprite)
         while not hit:
-            hit = movedSprite.move(atacantePosicao, alvoPosicao, alvo.rect)
+            hit = movedSprite.move(atacantePosicao,
+                                   alvoPosicao,
+                                   alvo.rect)
             self.desenha()
         
         if movedSprite == atacante:
             time.sleep(0.5)
 
-        movedSprite.kill()  
-        atacante.rect.x = atacante.defaultSize[0] # Volta para posição original
+        movedSprite.kill()
+        # Volta para posição original
+        atacante.rect.x = atacante.defaultSize[0]
 
     '''
-    animacao é responsável pelas animações da tela, tanto dos personagens quanto das habilidades
+    animacao é responsável pelas animações da tela,
+    tanto dos personagens quanto das habilidades
     @params atacante: Personagem => o personagem que executa a ação
     @params alvo: Personagem => o personagem atacado
     @params habilidade: Acao => a habilidade utilizada
     @return None
     '''
-    def animacao(self, atacante:Personagem, alvo:Personagem, acao: Acao):
+    def animacao(self, atacante:Personagem,
+                 alvo:Personagem, acao: Acao):
         atacanteSprite = atacante.sprite
         alvoSprite = alvo.sprite
 
@@ -184,34 +278,6 @@ class BatalhaView():
         acao.executar(alvo)
 
         self.animaAlvo(alvoSprite)
-        
-    
-    '''
-    turn é responsável por executar um turno (ataque)
-    @params atacante: Personagem => o personagem que executa a ação
-    @params alvos: list[Personagem] => a lista de alvos disponíveis
-    @return None
-    '''
-    def turno(self, 
-              atacante: Personagem,
-              atacantes: list[Personagem],
-              alvos:list[Personagem],
-              habilidade: Acao):
-        
-        if habilidade.tipo == 'suporte':
-            alvo = self.__controller.selecionaPersonagem(atacantes)
-        else:
-            alvo = self.__controller.selecionaPersonagem(alvos)
-        self.animacao(atacante, alvo, habilidade)
-
-
-        self.__playerTurn = not self.__playerTurn
-        self.__winner = self.__controller.checkForWinner(self.__aliadosPersonagens, self.__inimigosPersonagens)
-
-        self.criaSprites()
-        self.desenha()
-        if self.__winner != -1:
-            self.mostraResultado()
 
     '''
     drawHealthBars é a função que desenha a barra de vida dos personagens
@@ -219,7 +285,8 @@ class BatalhaView():
     @return None
     '''
     def desenhaBarrasDeVida(self):
-        for i, (aliado, inimigo) in enumerate(zip(self.__spritesAliados, self.__spritesInimigos)):
+        for i, (aliado, inimigo) in enumerate(zip(self.__spritesAliados,
+                                                  self.__spritesInimigos)):
             w = 60
             h = 15
 
@@ -231,15 +298,20 @@ class BatalhaView():
                 if saude > 0:
                     outerRect = pygame.Rect(x, y, w, h)
                     outerRect.center = (x, y)
-                    pygame.draw.rect(self.__window, (0, 0, 0), outerRect, 1)
+                    pygame.draw.rect(self.__window,
+                                     (0, 0, 0), outerRect, 1)
                     progresso = saude / personagens[i].saude_max
 
-                    innerPosition = (outerRect.x+3, outerRect.y+3)
+                    innerPosition = (outerRect.x+3,
+                                     outerRect.y+3)
                     innerSize = ((w-6)*progresso, h-6)
 
-                    innerRect = pygame.Rect(*innerPosition, *innerSize)
+                    innerRect = pygame.Rect(*innerPosition,
+                                            *innerSize)
 
-                    pygame.draw.rect(self.__window, (0, 255, 0), innerRect)
+                    pygame.draw.rect(self.__window,
+                                     (0, 255, 0),
+                                     innerRect)
                 
                 personagens = self.__inimigosPersonagens
                 x, y = inimigo.rect.centerx, inimigo.rect.centery - 50
@@ -270,7 +342,10 @@ class BatalhaView():
         else:
             winner = 'allies'
 
-        resultado = Sprite(winner, self.__larguraTela/2, self.__alturaTela/2, self.__larguraTela/4, self.__alturaTela/4)
+        resultado = Sprite(winner, self.__larguraTela/2,
+                           self.__alturaTela/2,
+                           self.__larguraTela/4,
+                           self.__alturaTela/4)
         resultado.draw(self.__window)
 
     '''
@@ -287,7 +362,8 @@ class BatalhaView():
 
     def handleScreenEvents(self, event:pygame.event.Event):
             if event.type == pygame.VIDEORESIZE:
-                self.__window = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+                self.__window = pygame.display.set_mode((event.w, event.h),
+                                                        pygame.RESIZABLE)
                 pygame.display.update()
                 self.criaSprites()
                 self.desenha()
@@ -296,47 +372,3 @@ class BatalhaView():
                 return False
             
             return True
-
-    def handleInteractions(self, event:pygame.event.Event):
-        if self.__playerTurn:
-            for i, sprite in enumerate(self.__spritesAliados):
-                if event.type == pygame.MOUSEBUTTONDOWN and sprite.rect.collidepoint(pygame.mouse.get_pos()):
-                    self.mostraHabilidadesDoPersonagem(i)
-            self.desenha()
-
-            if self.__personagemSelecionado is not None and self.__personagemSelecionado.get_saude() > 0:
-                for i, sprite in enumerate(self.__spritesHabilidades):
-                    if event.type == pygame.MOUSEBUTTONDOWN and sprite.rect.collidepoint(pygame.mouse.get_pos()):
-                        self.turno(atacante = self.__personagemSelecionado, 
-                                   atacantes = self.__aliadosPersonagens,
-                                   alvos = self.__inimigosPersonagens,
-                                   habilidade = self.__personagemSelecionado.get_acao(i))
-        else:
-            atacante = self.__controller.selecionaPersonagem(self.__inimigosPersonagens)
-            habilidade = self.__controller.selecionaHabilidade(atacante)
-
-            alvos = self.__aliadosPersonagens
-            time.sleep(0.5)
-            self.turno(atacante, self.__inimigosPersonagens, alvos, habilidade)
-
-    def loop(self):
-        fps = 30
-        clock = pygame.time.Clock()
-        run = True
-        self.desenha()
-        
-        while run:
-            clock.tick(fps)
-            self.setTamanhoTela()
-
-            for event in pygame.event.get():
-                
-                run = self.handleScreenEvents(event)
-
-                if self.__winner == -1:
-                    self.handleInteractions(event)
-
-            if not self.__winner != -1:
-                self.criaSprites()
-                self.desenha()
-
