@@ -1,7 +1,6 @@
 import random as r
 from Model.Sprite import Sprite
 from Model.Acao import Acao
-from Controller.JogoDAO import SaveNivel
 from Model.Sprite import Sprite
 #from time import sleep
 
@@ -95,7 +94,7 @@ class Personagem:
 # resetam os status e evoluem depois da batalha
 
     def fim_da_batalha(self):
-        self.__nivel = SaveNivel.get() + 1
+        self.__nivel += 1
         self.__batalhas.append(self.__nivel)
 
         var = r.choice(['ataque', 'saude'])

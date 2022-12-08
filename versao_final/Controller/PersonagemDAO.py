@@ -1,4 +1,4 @@
-from DAO import DAO
+from Controller.DAO import DAO
 from Model.Personagem import Personagem
 from Model.Acao import Acao
 

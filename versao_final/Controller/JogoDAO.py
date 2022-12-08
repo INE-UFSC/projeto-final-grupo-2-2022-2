@@ -1,4 +1,4 @@
-from DAO import DAO
+from Controller.DAO import DAO
 
 class JogoDAO(DAO):
     def __init__(self, datasource='Nivel.pkl'):
