@@ -43,25 +43,25 @@ class Constantes(Singleton):
         cls.__defaultSize = size
 
     @property
-    def slotCounter(cls):
+    def slotCounter(cls) -> int:
         a = cls.__slotCounter
         cls.__slotCounter += 1
         if cls.__slotCounter >= 8:
             cls.__slotCounter = 0
         return a
     @slotCounter.setter
-    def slotCounter(cls, count):
+    def slotCounter(cls, count: int):
         cls.__slotCounter = count
 
     @property
-    def charCounter(cls):
+    def charCounter(cls) -> int:
         a = cls.__charCounter
         cls.__charCounter += 1
         if cls.__charCounter > 5:
             cls.__charCounter = 0
         return a
     @charCounter.setter
-    def charCounter(cls, count):
+    def charCounter(cls, count:int):
         cls.__charCounter = count
 
     @property

@@ -10,7 +10,8 @@ class Batalha:
                  inimigos:list[Personagem]):
         self.__aliados = aliados
         self.__inimigos = inimigos
-        self.__view = BatalhaView(aliados, inimigos)
+        self.__view = BatalhaView(aliados,
+                                  inimigos)
 
     def get_allies(self):
         return self.__aliados

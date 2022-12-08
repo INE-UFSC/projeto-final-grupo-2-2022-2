@@ -16,7 +16,7 @@ class Mapa():
         self.__id_image = id_image
         self.__image = pygame.image.load(os.path.join('versao_final',
                                                       'assets',
-                                                      f'{self.__id_image}.png')
+                                                      f'{self.__id_image}')
                                          ).convert()
         self.__image = pygame.transform.scale(self.__image,
                                               (largura, altura))

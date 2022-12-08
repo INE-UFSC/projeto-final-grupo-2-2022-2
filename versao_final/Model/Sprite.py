@@ -1,13 +1,15 @@
 import os
 import pygame
+from Singleton.Constantes import Constantes
 
 class Sprite(pygame.sprite.Sprite):
 
-    def __init__(self, filename:str, width:float, height:float, x:float, y:float) -> None:
+    def __init__(self, filename:str,
+                 x:float, y:float) -> None:
         super().__init__()
         self.__filename = filename
-        self.__width = width
-        self.__height = height
+        self.__width = Constantes().screenSize[0] / 15
+        self.__height = Constantes().screenSize[0] / 15
         self.image = self.setImage()
         self.__coord = [x, y]
         self.rect = self.image.get_rect()
@@ -25,7 +27,8 @@ class Sprite(pygame.sprite.Sprite):
              atacantePosition: list[float], 
              alvoPosition: list[float],
              alvoRect: pygame.Rect):
-        self.direction = (pygame.math.Vector2(alvoPosition) - atacantePosition).normalize()
+        self.direction = (pygame.math.Vector2(
+            alvoPosition) - atacantePosition).normalize()
         self.position += self.direction * 5
         self.rect.center = round(self.position.x), round(self.position.y)
         
@@ -34,8 +37,12 @@ class Sprite(pygame.sprite.Sprite):
         return False
 
     def setImage(self):
-        img = pygame.image.load(os.path.join('versao_final', 'assets', f'{self.__filename}.png'))
-        image = pygame.transform.scale(img, (self.__width, self.__height))
+        img = pygame.image.load(os.path.join('versao_final',
+                                             'assets',
+                                             f'{self.__filename}.png'))
+        image = pygame.transform.scale(img,
+                                       (self.__width,
+                                        self.__height))
         return image
     
     def set_health(self, health:int):

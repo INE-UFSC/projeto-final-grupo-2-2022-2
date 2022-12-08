@@ -2,19 +2,21 @@ import random as r
 from Model.Sprite import Sprite
 from Model.Acao import Acao
 from Controller.JogoDAO import SaveNivel
+from Model.Sprite import Sprite
+#from time import sleep
 
 class Personagem:
     def __init__(self, nome:str, nivel:int,
                  tecnicas:list, classe:str):
         self.__nome = nome
         self.__nivel = nivel
-        self.__saude_max = 100
-        self.__ataque_max = 100
+        self.__saude_max = 100 + 10*nivel
+        self.__ataque_max = 100 + 10*nivel
         self.__saude_at = self.__saude_max
         self.__ataque_at = self.__ataque_max
         self.__tecnicas = tecnicas
         self.__classe = classe
-        self.__sprite = None
+        self.__sprite = Sprite(classe)
         self.__batalhas = [0]
 
     @property
@@ -23,12 +25,12 @@ class Personagem:
     @nome.setter
     def nome(self, novo:str):
         self.__nome = novo
-        
+
     @property
     def sprite(self) -> Sprite:
         return self.__sprite
     @sprite.setter
-    def sprite(self, novo:str):
+    def sprite(self, novo:Sprite):
         self.__sprite = novo
 
     @property
@@ -42,9 +44,6 @@ class Personagem:
     @property
     def tecnicas(self) -> list[Acao]:
         return self.__tecnicas
-    @tecnicas.setter
-    def tecnicas(self, novo:str):
-        self.__tecnicas = novo
 
     @property
     def classe(self) -> str:
@@ -52,6 +51,7 @@ class Personagem:
     @classe.setter
     def classe(self, novo:str):
         self.__classe = novo
+        self.sprite = Sprite(novo)
 
     @property
     def batalhas(self) -> list:
