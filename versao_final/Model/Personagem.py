@@ -1,8 +1,8 @@
 import random as r
+import pygame
 from Model.Sprite import Sprite
 from Model.Acao import Acao
-from Model.Sprite import Sprite
-#from time import sleep
+from time import sleep
 
 class Personagem:
     def __init__(self, nome:str, nivel:int,
@@ -16,7 +16,30 @@ class Personagem:
         self.__tecnicas = tecnicas
         self.__classe = classe
         self.__sprite = Sprite(classe)
-        self.__batalhas = [0]
+        self.__batalhas = [0]            
+    
+    def desenhaBarraDeVida(self, screen:pygame.Surface):
+        x = self.sprite.rect.centerx
+        y = self.sprite.rect.centery - 50
+        w = 60
+        h = 15
+
+        saude = self.__saude_at
+        if self.__saude_at > 0:
+            outerRect = pygame.Rect(x, y, w, h)
+            outerRect.center = (x, y)
+            pygame.draw.rect(screen, (0, 0, 0), outerRect, 1)
+            progresso = saude / self.__saude_max
+
+            innerPosition = (outerRect.x+3, outerRect.y+3)
+            innerSize = ((w-6)*progresso, h-6)
+
+            innerRect = pygame.Rect(*innerPosition, *innerSize)
+
+            pygame.draw.rect(screen, (0, 255, 0), innerRect)
+        else:
+            self.__sprite.kill()
+        pass
 
     @property
     def nome(self) -> str:
