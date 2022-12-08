@@ -3,11 +3,14 @@ from Model.Acao import Acao
 from Model.Personagem import Personagem
 from View.CenarioBatalha import CenarioBatalha
 from Model.CenarioModel import CenarioModel
+from Controller.PersonagemDAO import PersonagemDAO
+from Controller.JogoDAO import JogoDAO
 
 class Constantes(Singleton):
-    __instance = None
     __screenSize = (1200, 600)
     __defaultSize = (80, 80)
+    __SaveNivel = JogoDAO('Nivel.pkl')
+    __SavePersonagens = JogoDAO('Nivel.pkl')
     __skills = [
         Acao('fireball', -50, 'saude', 'ofensivo', 'projetil'),
         Acao('rasengan', -50, 'saude', 'ofensivo', 'projetil'),
@@ -22,9 +25,6 @@ class Constantes(Singleton):
         __locais[i] = CenarioModel(CenarioBatalha(id, 800,500,
                                                   400,250, i),
                                    431,148,75,83)
-    
-    def __init__(self):
-        pass
     
     @property
     def screenSize(cls) -> tuple(int):
@@ -45,10 +45,16 @@ class Constantes(Singleton):
         return cls.__skills
 
     @property
+    def SaveNivel(cls) -> JogoDAO:
+        return cls.__SaveNivel
+
+    @property
+    def SavePersonagens(cls) -> PersonagemDAO:
+        return cls.__SavePersonagens
+
+    @property
     def locais(cls) -> list[CenarioModel]:
         return cls.__locais
-
-
 
 acoes = Constantes().skills
 
@@ -59,4 +65,4 @@ for i in range(3):
                           nivel = 1,
                           tecnicas = [acoes[i-1], acoes[i]], 
                           classe = 'mago')
-    
+    Constantes().SavePersonagens.add(aliados[i])

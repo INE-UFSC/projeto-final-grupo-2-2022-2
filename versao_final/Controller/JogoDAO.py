@@ -13,5 +13,3 @@ class JogoDAO(DAO):
 
     def remove(self, key:str):
         return super().remove('fase')
-
-SaveNivel = JogoDAO()

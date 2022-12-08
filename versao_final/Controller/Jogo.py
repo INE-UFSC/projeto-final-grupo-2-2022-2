@@ -5,19 +5,22 @@ from Model.Batalha import Batalha
 from Model.Personagem import Personagem
 from Model.CenarioModel import CenarioModel
 from View.CenarioBatalha import CenarioBatalha
-from Singleton.Constantes import *
+from Singleton.Constantes import Constantes
 from Controller.Loop import Loop
-from Controller.JogoDAO import *
-from Controller.PersonagemDAO import *
+from Controller.JogoDAO import JogoDAO
+from Controller.PersonagemDAO import PersonagemDAO
 
 class Jogo:
     def __init__(self):
         self.__nivel = 0
-        self.__save = SaveNivel
+        self.__save = Constantes().SaveNivel
+        self.__aliados = Constantes().SavePersonagens.get_all()
         self.save()
 
     def save(self):
         self.__save.add(self.__nivel)
+        for i in self.__aliados:
+            Constantes().SavePersonagens.add(i)
 
     # Parâmetros temporários -> inimigos devem ser
     # gerados pelo mapa e aliados provenientes
@@ -37,7 +40,7 @@ class Jogo:
             loop = Loop()
             # enviando a lista de aliados
             # como argumento para o loop
-            loop.main(aliados)
+            loop.main(self.__aliados)
 
             # o loop já instancia a batalha
             
