@@ -21,11 +21,10 @@ class SkillSlot(pygame.sprite.Sprite):
     
     def setSkill(self, skill):
         self.__skill = skill
-        self.__skill.rect.x = self.rect.x + 4
-        self.__skill.rect.y = self.rect.y + 4
-        self.__skill.width = self.__side - 4
-        self.__skill.height = self.__side - 4
-        self.__skill.update()
+        self.__skill.sprite.rect.x = self.rect.x
+        self.__skill.sprite.rect.y = self.rect.y
+        self.__skill.sprite.width = self.__side 
+        self.__skill.sprite.height = self.__side 
 
     @property
     def skill(self):

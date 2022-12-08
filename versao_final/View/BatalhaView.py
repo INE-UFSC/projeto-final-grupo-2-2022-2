@@ -5,6 +5,9 @@ from Controller.Controller import Controller
 from Singleton.Singleton import Singleton
 from Model.SkillSlot import SkillSlot
 from Model.Animacao import Animacao
+from Model.Acao import Acao
+from Model.Projectile import Projectile
+from copy import deepcopy
 
 class BatalhaView():
     def __init__(self, aliados: list[Personagem],
@@ -27,6 +30,7 @@ class BatalhaView():
         self.__animacaoSprites = []
 
         self.__playerTurn = True
+        self.__alvoEHabilidade = []
         self.__winner = -1
 
         self.fillSprites()
@@ -52,8 +56,8 @@ class BatalhaView():
     @return None
     '''
     def animacao(self):
-        self.__animacaoFinalizada = self.__animacao.executa(*self.__animacaoSprites)
-        
+        self.__animacaoFinalizada = self.__animacao.executa(*self.__animacaoSprites)    
+        self.finalizaTurno()  
     
     '''
     turno é responsável por executar um turno (ataque)
@@ -61,11 +65,36 @@ class BatalhaView():
     @params alvos: list[Personagem] => a lista de alvos disponíveis
     @return None
     '''
-    def turno(self):
-        self.animacao()
+    def turno(self, skill:Acao):
+        if self.__personagemSelecionado in self.__aliadosPersonagens:
+            alvo = self.__controller.selecionaPersonagem(self.__inimigosPersonagens)
+        else:
+            alvo = self.__controller.selecionaPersonagem(self.__aliadosPersonagens)
+        
+        skills = Singleton().skills
+        for i in skills:
+            if i[0] == skill.nome:
+                skillCopy = Acao(*i)
+                self.__spritesHabilidades.add(skillCopy.sprite)
 
-        self.__playerTurn = not self.__playerTurn
-        self.__winner = self.__controller.checkForWinner(self.__aliadosPersonagens, self.__inimigosPersonagens)
+        self.__animacaoSprites = [
+            self.__personagemSelecionado.sprite,
+            alvo.sprite,
+            skillCopy.sprite
+        ]
+        self.__alvoEHabilidade = [alvo, skillCopy]
+        
+        self.animacao()
+    
+    def finalizaTurno(self):
+        alvo = self.__alvoEHabilidade[0]
+        skill = self.__alvoEHabilidade[1]
+
+        if self.__animacaoFinalizada:
+            skill.executar(alvo)
+            self.__playerTurn = not self.__playerTurn
+            print(self.__playerTurn)
+            self.__winner = self.__controller.checkForWinner(self.__aliadosPersonagens, self.__inimigosPersonagens)
 
     '''
     desenha é a função que desenha todas as sprites na tela
@@ -81,7 +110,6 @@ class BatalhaView():
         for i, j in zip(self.__aliadosPersonagens, self.__inimigosPersonagens):
             i.desenhaBarraDeVida(self.__window)
             j.desenhaBarraDeVida(self.__window)
-        # self.desenhaBarrasDeVida()
         pygame.display.flip()
     
     '''
@@ -96,7 +124,7 @@ class BatalhaView():
         else:
             winner = 'allies'
 
-        resultado = Sprite(winner, self.__larguraTela/2, self.__alturaTela/2, self.__larguraTela/4, self.__alturaTela/4)
+        resultado = Sprite(winner)
         resultado.draw(self.__window)
     
     def mostraHabilidades(self, index:int):
@@ -104,7 +132,7 @@ class BatalhaView():
         acoes = self.__personagemSelecionado.getHabilidades()
         for slot, acao in zip(self.__spritesSlots, acoes):
             slot.skill = acao
-            self.__spritesHabilidades.add(slot.skill)
+            self.__spritesHabilidades.add(slot.skill.sprite)
 
     def setTamanhoTela(self):
         if isinstance(self.__window, pygame.Surface):
@@ -128,25 +156,17 @@ class BatalhaView():
             for i, sprite in enumerate(self.__spritesAliados):
                 if event.type == pygame.MOUSEBUTTONDOWN and sprite.rect.collidepoint(pygame.mouse.get_pos()):
                     self.mostraHabilidades(i)
-
+        
             if self.__personagemSelecionado is not None and self.__personagemSelecionado.get_saude() > 0:
-                for i, sprite in enumerate(self.__spritesSlots):
-                    if event.type == pygame.MOUSEBUTTONDOWN and sprite.rect.collidepoint(pygame.mouse.get_pos()):
-                        self.__animacaoSprites = [
-                            self.__personagemSelecionado.sprite,
-                            self.__controller.selecionaPersonagem(self.__inimigosPersonagens).sprite,
-                            self.__personagemSelecionado.get_acao(i).sprite
-                        ]
-                        self.turno()
-                        break
+                for slot in self.__spritesSlots:
+                    if slot.skill is not None:
+                        if event.type == pygame.MOUSEBUTTONDOWN and slot.skill.sprite.rect.collidepoint(pygame.mouse.get_pos()):
+                            self.turno(slot.skill)
         else:
-            atacante = self.__controller.selecionaPersonagem(self.__inimigosPersonagens)
-            self.__animacaoSprites = [
-                atacante.sprite,
-                self.__controller.selecionaPersonagem(self.__aliadosPersonagens).sprite,
-                self.__controller.selecionaHabilidade(atacante).sprite
-            ]
-            self.turno()
+            if self.__animacaoFinalizada:
+                self.__personagemSelecionado = self.__controller.selecionaPersonagem(self.__inimigosPersonagens)
+                skill = self.__controller.selecionaHabilidade(self.__personagemSelecionado)
+                self.turno(skill)
     
     '''
     main é a função principal da classe, que executa o loop
@@ -155,7 +175,7 @@ class BatalhaView():
     @return bool => utilizada posteriormente em Jogo para mudar o estado
     '''
     def loop(self):
-        fps = 120
+        fps = 60
         clock = pygame.time.Clock()
         run = True
         
@@ -172,6 +192,7 @@ class BatalhaView():
 
                 if self.__winner == -1:
                     self.handleInteractions(event)
+
 
             if not self.__winner != -1:
                 self.desenha()

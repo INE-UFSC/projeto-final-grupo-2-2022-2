@@ -1,7 +1,7 @@
 import os
 import pygame
 from Singleton.Singleton import Singleton
-from math import floor, ceil
+from math import ceil
 class Sprite(pygame.sprite.Sprite):
 
     def __init__(self, filename:str) -> None:
@@ -51,7 +51,7 @@ class Sprite(pygame.sprite.Sprite):
              alvoRect: pygame.Rect):
         self.position = atacantePosition
         self.direction = (pygame.math.Vector2(alvoPosition) - atacantePosition).normalize()
-        self.position += self.direction * 5
+        self.position += self.direction * 10
         self.rect.center = round(self.position.x), round(self.position.y)
         
         if self.rect.colliderect(alvoRect):
@@ -79,6 +79,7 @@ class Sprite(pygame.sprite.Sprite):
     @width.setter
     def width(self, width:int):
         self.__width = width
+        self.image = self.setImage()
 
     @property
     def height(self):
@@ -86,6 +87,7 @@ class Sprite(pygame.sprite.Sprite):
     @height.setter
     def height(self, height:int):
         self.__height = height
+        self.image = self.setImage()
 
     @property
     def defaultSize(self):

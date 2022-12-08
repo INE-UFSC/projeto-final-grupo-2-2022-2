@@ -4,11 +4,11 @@ class Singleton:
     __slotCounter = 0
     __charCounter = 0
     __skills = [
-        ['fireball', -50, 'saude', 'ofensivo', 'projetil'],
-        ['rasengan', -50, 'saude', 'ofensivo', 'projetil'],
-        ['earthball', -50, 'saude', 'ofensivo', 'projetil'],
-        ['waterball', -50, 'saude', 'ofensivo', 'projetil'],
-        ['melee', -500, 'saude', 'ofensivo', 'melee'],
+        ['fireball', -500, 'saude', 'ofensivo', 'projetil'],
+        ['rasengan', -500, 'saude', 'ofensivo', 'projetil'],
+        ['earthball', -500, 'saude', 'ofensivo', 'projetil'],
+        ['waterball', -500, 'saude', 'ofensivo', 'projetil'],
+        # ['melee', -500, 'saude', 'ofensivo', 'melee'],
         ['boost', 5, 'ataque', 'suporte', 'projetil'],
         ]
 

@@ -19,27 +19,10 @@ class Personagem:
         self.__sprite = Sprite(classe)
         self.__batalhas = []
     
-    def animacao(self, index:int):
-        modificador = 2 if self.__sprite.rect.x < Singleton().screenSize[0]/2 else -2
-        if index == 0:
-            for i in range (10):
-                self.__sprite.rect.x += modificador
-                self.__sprite.draw()
-        else:
-            self.__sprite.rect.x += 4
-            self.__sprite.rect.y += 4
-            self.__sprite.draw()
-            self.__sprite.rect.x -= 4
-            self.__sprite.rect.y -= 4
-            self.__sprite.draw()
-
-            sleep(0.5)
-            self.__sprite.rect.x = self.__sprite.defaultSize[0]
-    
-    def getHabilidades(self) -> list[Sprite]:
+    def getHabilidades(self) -> list[Acao]:
         listaAcoes = []
         for acao in self.__tecnicas:
-            listaAcoes.append(acao.sprite)
+            listaAcoes.append(acao)
         return listaAcoes
             
     
@@ -62,6 +45,8 @@ class Personagem:
             innerRect = pygame.Rect(*innerPosition, *innerSize)
 
             pygame.draw.rect(screen, (0, 255, 0), innerRect)
+        else:
+            self.__sprite.kill()
         pass
 
     @property
