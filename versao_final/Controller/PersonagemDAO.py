@@ -46,11 +46,13 @@ class PersonagemDAO(DAO):
             return super().remove(key)
         self.get_tecnicas
     
-    def get__all(self):
+    def get_all(self) -> list[Personagem]:
         temp_dicio = deepcopy(super().get_all())
-        personagens = {}
+        personagens = [None]*len(temp_dicio)
+        j = 0
         for i in temp_dicio.keys():
-            personagens[i] = self.get(i)
+            personagens[j] = self.get(i)
+            j += 1
         return personagens
 
     def __temp_get(self, nome:str) -> list[int, dict]:
