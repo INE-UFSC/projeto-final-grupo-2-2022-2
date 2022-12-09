@@ -21,6 +21,7 @@ class Jogo:
     def save(self):
         self.__save_nivel.add(self.__nivel)
         for i in self.__aliados:
+            i.fim_da_batalha(self.__nivel)
             self.__save_aliados.add(i)
 
     # Parâmetros temporários -> inimigos devem ser
@@ -28,7 +29,6 @@ class Jogo:
     # de serialização
 
     def run(self):
-        # inimigos = Constantes().locais[self.__nivel].cenario.inimigos
         menu = Menu()
         play = menu.main()
 
@@ -40,12 +40,11 @@ class Jogo:
 
             loop = Loop()
             # enviando a lista de aliados
-            # como argumento para o loop
-            loop.main(self.__aliados)
-
-            # o loop já instancia a batalha
-            
-            # batalha = Batalha(aliados, inimigos)
-            # batalha.start()
-            self.__nivel += 1
-            self.save()
+            # como argumento para o loop,
+            # que já instancia a batalha
+            fim = loop.main(self.__aliados)
+            if fim == 1:
+                self.__nivel += 1
+                self.save()
+            elif fim == 0:
+                self.save()

@@ -3,6 +3,7 @@ from View.Tela import Tela
 from View.Mapa import Mapa
 from Model.Batalha import Batalha
 from Singleton.Constantes import Constantes
+from Controller.JogoDAO import JogoDAO
 # os dois abaixo são usados em Constantes().locais
 from View.CenarioBatalha import CenarioBatalha
 from Model.CenarioModel import CenarioModel
@@ -38,10 +39,19 @@ class Loop():
                                     lugar.clicked = True
 
                     for lugar in self.__mapa.locais:
-                        if lugar.clicked:
+                    # essas condições servem para que não
+                    # se possa ir a uma lugar não desbloqueado
+                        cond = lugar.clicked
+                        cond2 = False
+                        if cond:
+                            at = self.__mapa.locais.index(lugar)
+                            nivel = JogoDAO()
+                            nivel = nivel.get()
+                            cond2 = at <= nivel
+                        if cond2:
                             batalha = Batalha(aliados,
                             lugar.cenario.inimigos())
-                            batalha.start()
+                            return batalha.start()
             # desenha
 
             pygame.display.flip()

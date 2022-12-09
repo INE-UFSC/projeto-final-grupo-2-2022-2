@@ -51,6 +51,8 @@ class BatalhaView():
             if not self.__winner != -1:
                 self.criaSprites()
                 self.desenha()
+            else:
+                return self.__winner
     
     '''
     turno é responsável por executar um turno (ataque)
@@ -79,23 +81,24 @@ class BatalhaView():
         self.desenha()
         if self.__winner != -1:
             self.mostraResultado()
+            for i in self.__aliadosPersonagens
 
     def handleInteractions(self, event:pygame.event.Event):
         if self.__playerTurn:
             for i, sprite in enumerate(self.__spritesAliados):
-                c1 = event.type == pygame.MOUSEBUTTONDOWN
-                c2 = c1 and sprite.rect.collidepoint(pygame.mouse.get_pos()) 
-                if c2:
+                c = event.type == pygame.MOUSEBUTTONDOWN
+                c = c and sprite.rect.collidepoint(pygame.mouse.get_pos()) 
+                if c:
                     self.mostraHabilidadesDoPersonagem(i)
             self.desenha()
 
-            c1 = self.__personagemSelecionado is not None
-            c2 = c1 and self.__personagemSelecionado.get_saude() > 0
-            if c2:
+            c0 = self.__personagemSelecionado is not None
+            c0 = c0 and self.__personagemSelecionado.get_saude() > 0
+            if c0:
                 for i, sprite in enumerate(self.__spritesHabilidades):
                     c1 = event.type == pygame.MOUSEBUTTONDOWN
-                    c2 = c1 and sprite.rect.collidepoint(pygame.mouse.get_pos())
-                    if c2:
+                    c1 = c1 and sprite.rect.collidepoint(pygame.mouse.get_pos())
+                    if c1:
                         self.turno(atacante = self.__personagemSelecionado, 
                                    atacantes = self.__aliadosPersonagens,
                                    alvos = self.__inimigosPersonagens,

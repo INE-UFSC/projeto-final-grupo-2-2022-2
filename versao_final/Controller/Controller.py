@@ -7,16 +7,16 @@ class Controller():
         pass
 
     def checkForWinner(self,
-                       equipe1: list[Personagem],
-                       equipe2: list[Personagem]) -> int:
+                       aliados: list[Personagem],
+                       inimigos: list[Personagem]) -> int:
         cont = 0
-        for i in equipe1:
+        for i in aliados:
             if i.get_saude() >= 0:
                 cont += 1
         if cont == 0:
             return 0
         cont = 0
-        for i in equipe2:
+        for i in inimigos:
             if i.get_saude() >= 0:
                 cont += 1
         if cont == 0:

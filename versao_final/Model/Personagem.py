@@ -130,8 +130,8 @@ class Personagem:
 
 # resetam os status e evoluem depois da batalha
 
-    def fim_da_batalha(self):
-        self.__nivel += 1
+    def fim_da_batalha(self, nivel:int):
+        self.__nivel = nivel
         self.__batalhas.append(self.__nivel)
 
         var = r.choice(['ataque', 'saude'])
