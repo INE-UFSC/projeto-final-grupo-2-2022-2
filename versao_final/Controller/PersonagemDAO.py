@@ -10,52 +10,59 @@ class PersonagemDAO(DAO):
     def add(self, char:Personagem):
         cond = isinstance(char, Personagem)
         cond = cond and isinstance(char.nome, str)
+        cond = cond and isinstance(char.classe, str)
+        cond = cond and isinstance(char.nivel, int)
         cond = cond and isinstance(char.ataque_max, int)
         cond = cond and isinstance(char.saude_max, int)
         cond = cond and isinstance(char.tecnicas, list)
-        tecnicas = [i for i in char.tecnicas]
-        dicio = {}
+        tecnicas = {}
         while cond:
-            for i in tecnicas:
+            for i in char.tecnicas:
                 cond = cond and isinstance(i, Acao)
                 cond = cond and isinstance(i.nome, str)
                 cond = cond and isinstance(i.fator, int)
-                dicio[i.nome] = [i.nome,
+                tecnicas[i.nome] = [i.nome,
                                  i.fator,
                                  i.efeito,
                                  i.tipo,
                                  i.modo]
             valor = [char.ataque_max,
                     char.saude_max,
-                    dicio]
+                    char.nivel,
+                    char.classe,
+                    tecnicas]
             super().add(char.nome, valor)
 
-    def get(self, nome:str) -> list[dict]:
-        if isinstance(nome, str):
-            return super().get(nome)
-        print('erro de endereçamento')
+    def get(self, nome:str) -> Personagem:
+        j = deepcopy(self.__temp_get(nome))
+        tecnicas = self.__get_tecnicas(nome)
+        personagem = Personagem(nome, j[2], tecnicas, j[3])
+        personagem.save_ataque_max(j[0], 'pode usar')
+        personagem.save_saude_max(j[1], 'pode usar')
+        return personagem
 
     def remove(self, key:str):
         if isinstance(key, str):
             return super().remove(key)
         self.get_tecnicas
+    
+    def get__all(self):
+        temp_dicio = deepcopy(super().get_all())
+        personagens = {}
+        for i in temp_dicio.keys():
+            personagens[i] = self.get(i)
+        return personagens
 
-    def get_ataque(self, nome:str) -> int:
-        char = self.get(nome)
-        return char[0]
-
-    def get_saude(self, nome:str) -> int:
-        char = self.get(nome)
-        return char[1]
+    def __temp_get(self, nome:str) -> list[int, dict]:
+        if isinstance(nome, str):
+            return super().get(nome)
+        print('erro de endereçamento')
 
 # transforma os atributos de tecnicas salvas em Acao
 
-    def __get_temp_tecnicas(self, nome:str) -> dict[list]:
-        char = deepcopy(self.get(nome))
-        return deepcopy(char[2])
-
-    def get_tecnicas(self, nome:str) -> dict(Acao):
-        temp_tecnicas = self.__get_temp_tecnicas(nome)
+    def __get_tecnicas(self, nome:str) -> dict(Acao):
+        char = deepcopy(self.__temp_get(nome))
+        temp_tecnicas = deepcopy(char[4])
         tecnicas = {}
         for i in temp_tecnicas.values():
             tecnicas[i[0]] = Acao(i[0], i[1], i[2], i[3], i[4])

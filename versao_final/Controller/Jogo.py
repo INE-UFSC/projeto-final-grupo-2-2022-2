@@ -13,12 +13,13 @@ from Controller.PersonagemDAO import PersonagemDAO
 class Jogo:
     def __init__(self):
         self.__nivel = 0
-        self.__save = Constantes().SaveNivel
-        self.__aliados = Constantes().SavePersonagens.get_all()
+        self.__save_nivel = JogoDAO()
+        self.__save_aliados = PersonagemDAO()
+        self.__aliados = self.__aliados.get_all()
         self.save()
 
     def save(self):
-        self.__save.add(self.__nivel)
+        self.__save_nivel.add(self.__nivel)
         for i in self.__aliados:
             Constantes().SavePersonagens.add(i)
 

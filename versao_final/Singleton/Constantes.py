@@ -12,7 +12,6 @@ class Constantes(Singleton):
     __slotCounter = 0
     __charCounter = 0
     __SaveNivel = JogoDAO('Nivel.pkl')
-    __SavePersonagens = JogoDAO('Nivel.pkl')
     __skills = [
         Acao('fireball', -50, 'saude', 'ofensivo', 'projetil'),
         Acao('rasengan', -50, 'saude', 'ofensivo', 'projetil'),
@@ -81,7 +80,7 @@ class Constantes(Singleton):
         return cls.__locais
 
 acoes = Constantes().skills
-
+save = PersonagemDAO()
 aliados = [None]*3
 
 for i in range(3):
@@ -89,4 +88,4 @@ for i in range(3):
                           nivel = 1,
                           tecnicas = [acoes[i-1], acoes[i]], 
                           classe = 'mago')
-    Constantes().SavePersonagens.add(aliados[i])
+    save.add(aliados[i])

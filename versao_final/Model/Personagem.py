@@ -49,6 +49,13 @@ class Personagem:
         self.__nome = novo
 
     @property
+    def nivel(self) -> int:
+        return self.__nivel
+    @nivel.setter
+    def nivel(self, novo:str):
+        self.__nivel = novo
+
+    @property
     def sprite(self) -> Sprite:
         return self.__sprite
     @sprite.setter
@@ -62,6 +69,17 @@ class Personagem:
     @property
     def saude_max(self) -> int:
         return self.__saude_max
+
+# as proximas duas só podem
+# ser acessadas pelo Save
+
+    def save_ataque_max(self, novo:int, senha):
+        if senha == 'pode usar':
+            self.__ataque_max = novo
+
+    def save_saude_max(self, novo:int, senha):
+        if senha == 'pode usar':
+            self.__saude_max = novo
 
     @property
     def tecnicas(self) -> list[Acao]:
