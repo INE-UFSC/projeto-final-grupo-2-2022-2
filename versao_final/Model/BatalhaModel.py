@@ -101,8 +101,9 @@ class BatalhaModel:
         for index, sprite in enumerate(self.__habilidades):
             if posicao is not None and sprite.rect.collidepoint(posicao):
                 alvo = self.selecionaPersonagem(self.__inimigos)
-                Animacao().inicia(self.__personagemSelecionado, alvo, index)
-                self.ataque(self.__personagemSelecionado, alvo, index)
+                if self.__personagemSelecionado.saude > 0:
+                    Animacao().inicia(self.__personagemSelecionado, alvo, index)
+                    self.ataque(self.__personagemSelecionado, alvo, index)
 
 
     def resetaPersonagens(self):

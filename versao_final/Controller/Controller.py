@@ -34,29 +34,31 @@ class Controller:
         mapa.inicia()
     
     def rodaBatalha(self):
-        vencedor = self.__batalhaModel.checaVencedor()
-        if self.__batalhaModel.checaVencedor() != '':
-            self.__batalhaView.mostraResultado(self.__tela.display, vencedor)
-
         inputHandler = InputHandler(self.__tela.display)
         run = inputHandler.handleScreenEvents()
 
-
-        if Animacao().turnoJogador:
-            posicaoMouse = inputHandler.handleClick()
-
-            if not self.animacaoRodando():
-                self.checaClique(posicaoMouse)
-
-        elif not self.animacaoRodando():
-            self.__batalhaModel.inimigoAtaca()
+        vencedor = self.__batalhaModel.checaVencedor()
+        if vencedor != '':
+            self.__batalhaView.mostraResultado(self.__tela.display, vencedor)
+            return run
+        else:
 
 
-        self.__batalhaView.draw(self.__tela.display, self.__batalhaModel.aliados, self.__batalhaModel.inimigos)
-        if self.__batalhaModel.habilidades is not None:
-            self.__batalhaView.mostraHabilidades(self.__batalhaModel.habilidades)
+            if Animacao().turnoJogador:
+                posicaoMouse = inputHandler.handleClick()
 
-        return run
+                if not self.animacaoRodando():
+                    self.checaClique(posicaoMouse)
+
+            elif not self.animacaoRodando():
+                self.__batalhaModel.inimigoAtaca()
+
+
+            self.__batalhaView.draw(self.__tela.display, self.__batalhaModel.aliados, self.__batalhaModel.inimigos)
+            if self.__batalhaModel.habilidades is not None:
+                self.__batalhaView.mostraHabilidades(self.__batalhaModel.habilidades)
+
+            return run
 
     # Função do model batalha
     def checaClique(self, posicao:tuple[int]):
