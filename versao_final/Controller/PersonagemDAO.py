@@ -1,43 +1,60 @@
 from Controller.DAO import DAO
 from Model.Personagem import Personagem
 from Model.Acao import Acao
+from copy import deepcopy
 
 class PersonagemDAO(DAO):
     def __init__(self, datasource='Personagem.pkl'):
         super().__init__(datasource)
 
-    def add(self, obj:Personagem):
-        c0 = isinstance(obj, Personagem)
-        c1 = c0 and isinstance(obj.nome, str)
-        if c1:
-            super().add(obj.nome, obj)
-        # estou tentando fazer o DAO 
-        # salvar tudo do personagem
-        '''
-        c2 = c1 and isinstance(obj.ataque, int)
-        c3 = c2 and isinstance(obj.saude, int)
-        c4 = c3 and isinstance(obj.tecnicas, list)
-        for i in obj.tecnicas:
-            c5 = c4 and isinstance(i, Acao)
-        c6 = False
-        if c5:
-            lista = [i.fator for i in obj.tecnicas]
-            dicio = 
-            for i in lista:
-                c6 = c5 and isinstance(i, int)
-                
-        if not c6:
-            return None
-        lista = [obj.ataque, obj.saude].extend(lista)
-        '''
+    def add(self, char:Personagem):
+        cond = isinstance(char, Personagem)
+        cond = cond and isinstance(char.nome, str)
+        cond = cond and isinstance(char.ataque_max, int)
+        cond = cond and isinstance(char.saude_max, int)
+        cond = cond and isinstance(char.tecnicas, list)
+        tecnicas = [i for i in char.tecnicas]
+        dicio = {}
+        while cond:
+            for i in tecnicas:
+                cond = cond and isinstance(i, Acao)
+                cond = cond and isinstance(i.nome, str)
+                cond = cond and isinstance(i.fator, int)
+                dicio[i.nome] = [i.nome,
+                                 i.fator,
+                                 i.efeito,
+                                 i.tipo,
+                                 i.modo]
+            valor = [char.ataque_max,
+                    char.saude_max,
+                    dicio]
+            super().add(char.nome, valor)
 
-    def get(self, nome:str) -> Personagem:
+    def get(self, nome:str) -> list[dict]:
         if isinstance(nome, str):
             return super().get(nome)
+        print('erro de endereçamento')
 
-    def get_all(self) -> list[Personagem]:
-        return [i for i in super().get_all]
+    def get_ataque(self, nome:str) -> int:
+        char = self.get(nome)
+        return char[0]
+
+    def get_saude(self, nome:str) -> int:
+        char = self.get(nome)
+        return char[1]
+
+    def __get_temp_tecnicas(self, nome:str) -> dict[list]:
+        char = deepcopy(self.get(nome))
+        return deepcopy(char[2])
+
+    def get_tecnicas(self, nome:str) -> dict(Acao):
+        temp_tecnicas = self.__get_temp_tecnicas(nome)
+        tecnicas = {}
+        for i in temp_tecnicas.values():
+            tecnicas[i[0]] = Acao(i[0], i[1], i[2], i[3], i[4])
+        return tecnicas
 
     def remove(self, key:str):
         if isinstance(key, str):
             return super().remove(key)
+        self.get_tecnicas

@@ -11,5 +11,5 @@ class JogoDAO(DAO):
     def get(self) -> int:
         return super().get('fase')
 
-    def remove(self, key:str):
+    def remove(self):
         return super().remove('fase')

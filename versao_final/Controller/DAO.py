@@ -36,5 +36,5 @@ class DAO(ABC):
         except KeyError:
             return None
 
-    def get_all(self):
-        return self.__cache.values()
+    def get_all(self) -> dict:
+        return self.__cache

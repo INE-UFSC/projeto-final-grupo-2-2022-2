@@ -56,11 +56,11 @@ class Personagem:
         self.__sprite = novo
 
     @property
-    def ataque(self) -> int:
+    def ataque_max(self) -> int:
         return self.__ataque_max
 
     @property
-    def saude(self) -> int:
+    def saude_max(self) -> int:
         return self.__saude_max
 
     @property
@@ -81,10 +81,6 @@ class Personagem:
     @batalhas.setter
     def batalhas(self, novo):
         print('Não envie parâmetros!!!')
-    
-    @property
-    def saude_max(self) -> int:
-        return self.__saude_max
 
 # retornam a saude e o ataque atual, em batalha
 
