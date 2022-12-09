@@ -35,6 +35,11 @@ class PersonagemDAO(DAO):
             return super().get(nome)
         print('erro de endereçamento')
 
+    def remove(self, key:str):
+        if isinstance(key, str):
+            return super().remove(key)
+        self.get_tecnicas
+
     def get_ataque(self, nome:str) -> int:
         char = self.get(nome)
         return char[0]
@@ -42,6 +47,8 @@ class PersonagemDAO(DAO):
     def get_saude(self, nome:str) -> int:
         char = self.get(nome)
         return char[1]
+
+# transforma os atributos de tecnicas salvas em Acao
 
     def __get_temp_tecnicas(self, nome:str) -> dict[list]:
         char = deepcopy(self.get(nome))
@@ -53,8 +60,3 @@ class PersonagemDAO(DAO):
         for i in temp_tecnicas.values():
             tecnicas[i[0]] = Acao(i[0], i[1], i[2], i[3], i[4])
         return tecnicas
-
-    def remove(self, key:str):
-        if isinstance(key, str):
-            return super().remove(key)
-        self.get_tecnicas
