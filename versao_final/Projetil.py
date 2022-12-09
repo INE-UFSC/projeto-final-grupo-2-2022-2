@@ -44,3 +44,7 @@ class Projetil(pygame.sprite.Sprite):
     @property
     def nome(self):
         return self.__filename
+    
+    @property
+    def size(self):
+        return self.__width, self.__height

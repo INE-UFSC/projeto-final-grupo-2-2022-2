@@ -51,7 +51,8 @@ class Controller:
                     self.checaClique(posicaoMouse)
 
             elif not self.animacaoRodando():
-                self.__batalhaModel.inimigoAtaca()
+                skill = self.__batalhaModel.inimigoAtaca()
+                self.__batalhaView.projetilInimigo = skill
 
 
             self.__batalhaView.draw(self.__tela.display, self.__batalhaModel.aliados, self.__batalhaModel.inimigos)
@@ -61,17 +62,16 @@ class Controller:
             return run
 
     # Função do model batalha
-    def checaClique(self, posicao:tuple[int]):
-        habilidades = self.__batalhaModel.personagemClicado(posicao)
+    def checaClique(self, posicaoMouse:tuple[int]):
+        habilidades = self.__batalhaModel.personagemClicado(posicaoMouse)
         if habilidades is not None:
             self.__batalhaView.mostraHabilidades(habilidades)
             return
         else:
-            self.__batalhaModel.habilidadeClicada(posicao)
+            self.__batalhaModel.habilidadeClicada(posicaoMouse)
         
     def animacaoRodando(self):
         if not Animacao().finished:
             info = Animacao().info
             self.__batalhaModel.ataque(*info)
-            # self.__batalhaModel.resetaPersonagens()
             return True

@@ -14,7 +14,6 @@ class Personagem:
         self.__ataque = nivel
         self.__sprite = Sprite(classe, posicao)
         self.__habilidades = habilidades
-        self.__saude = 100
     
     def atacar(self, index: int, posicaoAlvo: list[float]):
         self.__sprite.moveAtacante()

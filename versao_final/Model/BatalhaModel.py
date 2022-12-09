@@ -2,13 +2,11 @@ from Personagem import Personagem
 from Animacao import Animacao
 from Sprite import Sprite
 from habilidades import Habilidades
+from Habilidade import Habilidade
 import random as random
 
 class BatalhaModel:
     def __init__(self) -> None:
-
-        self.__skillsAliados = Habilidades().skillsAliados
-        self.__skillsInimigos = Habilidades().skillsInimigos
 
         self.__personagemSelecionado = None
 
@@ -22,15 +20,15 @@ class BatalhaModel:
         ]
 
         self.__aliados = [
-            Personagem('mago', 1, self.__skillsAliados[0:2].copy(), self.__posicoesPersonagens[0]),
-            Personagem('assassin', 1, self.__skillsAliados[1:3].copy(), self.__posicoesPersonagens[1]),
-            Personagem('goblin', 1, self.__skillsAliados[2:4].copy(), self.__posicoesPersonagens[2])
+            Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills[0:2]], self.__posicoesPersonagens[0]),
+            Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills[1:3]], self.__posicoesPersonagens[1]),
+            Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills[2:4]], self.__posicoesPersonagens[2])
         ]
 
         self.__inimigos = [
-            Personagem('mago', 1, self.__skillsInimigos[0:2].copy(), self.__posicoesPersonagens[3]),
-            Personagem('assassin', 1, self.__skillsInimigos[1:3].copy(), self.__posicoesPersonagens[4]),
-            Personagem('goblin', 1, self.__skillsInimigos[2:4].copy(), self.__posicoesPersonagens[5])
+            Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills], self.__posicoesPersonagens[3]),
+            Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills], self.__posicoesPersonagens[4]),
+            Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills], self.__posicoesPersonagens[5])
         ]
 
         self.__setPosicoes()
@@ -60,6 +58,8 @@ class BatalhaModel:
         index = random.randint(0, len(atacante.habilidades)-1)
         Animacao().inicia(atacante, alvo, index)
         self.ataque(atacante, alvo, index)
+        
+        return atacante.habilidades[index].projetil
 
     def checaVencedor(self):
         cont = 0
@@ -90,7 +90,6 @@ class BatalhaModel:
         for index, aliado in enumerate(self.__spritesAliados):
             if posicao is not None and aliado.rect.collidepoint(posicao) and self.__aliados[index].saude > 0:
                 self.__personagemSelecionado = self.__aliados[index]
-                print(self.__personagemSelecionado.posicao)
                 habilidades = self.__aliados[index].habilidades
                 habilidades = [i.projetil for i in habilidades]
                 self.__habilidades = habilidades
@@ -104,20 +103,6 @@ class BatalhaModel:
                 if self.__personagemSelecionado.saude > 0:
                     Animacao().inicia(self.__personagemSelecionado, alvo, index)
                     self.ataque(self.__personagemSelecionado, alvo, index)
-
-
-    def resetaPersonagens(self):
-        self.__aliados = [
-            Personagem('mago', 1, self.__skillsAliados[0:2].copy(), self.__posicoesPersonagens[0]),
-            Personagem('assassin', 1, self.__skillsAliados[1:3].copy(), self.__posicoesPersonagens[1]),
-            Personagem('goblin', 1, self.__skillsAliados[2:4].copy(), self.__posicoesPersonagens[2])
-        ]
-
-        self.__inimigos = [
-            Personagem('mago', 1, self.__skillsInimigos[:].copy(), self.__posicoesPersonagens[3]),
-            Personagem('assassin', 1, self.__skillsInimigos[:].copy(), self.__posicoesPersonagens[4]),
-            Personagem('goblin', 1, self.__skillsInimigos[:].copy(), self.__posicoesPersonagens[5])
-        ]
 
     
     @property

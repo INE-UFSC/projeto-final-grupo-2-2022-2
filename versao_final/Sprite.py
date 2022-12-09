@@ -1,6 +1,7 @@
 import pygame
 import os
 from Animacao import Animacao
+from time import sleep
 
 class Sprite(pygame.sprite.Sprite):
     def __init__(self, filename:str, posicao: list[float]) -> None:
@@ -42,6 +43,7 @@ class Sprite(pygame.sprite.Sprite):
             self.rect.y -= 4
             self.__progressoAnimacao += 1
         else:
+            sleep(0.5)
             Animacao().fase = 0
             Animacao().finished = True
             self.__progressoAnimacao = 0
