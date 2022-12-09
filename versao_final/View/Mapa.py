@@ -3,7 +3,8 @@ import os
 
 
 class Mapa():
-    def __init__(self, locais, id_image, altura, largura, eixo_x, eixo_y):
+    def __init__(self, locais, id_image, altura,
+                 largura, eixo_x, eixo_y):
         pygame.sprite.Sprite.__init__(self)
         self.__altura = altura
         self.__largura = largura
@@ -11,12 +12,9 @@ class Mapa():
         self.__eixo_y = eixo_y
         self.__locais = locais
         self.__id_image = id_image
-        temp = os.getcwd().split(os.path.sep)
-        temp.remove("View")
-        temp = os.path.sep.join(temp)
-        self.__caminho = os.path.join(temp, "assets")
-        self.__image = pygame.image.load(os.path.join(self.__caminho, f'{id_image}')).convert()
-        self.__image = pygame.transform.scale(self.__image, (largura, altura))
+        self.__image = pygame.image.load(os.path.join('versao_final', 'assets', f'{self.__id_image}')).convert()
+        self.__image = pygame.transform.scale(self.__image,
+                                              (largura, altura))
         self.__rect = self.__image.get_rect()
         self.__rect.center = (eixo_x), (eixo_y)
 

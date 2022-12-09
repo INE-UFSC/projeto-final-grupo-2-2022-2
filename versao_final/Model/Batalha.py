@@ -1,4 +1,9 @@
 from Model.Personagem import Personagem
+
+# from Controller.BatalhaController import BatalhaController
+
+from View.BatalhaView import BatalhaView
+
 import random as r
 
 # -*- coding: utf-8 -*-
@@ -8,6 +13,7 @@ class Batalha:
                  inimigos:list[Personagem]):
         self.__aliados = aliados
         self.__inimigos = inimigos
+        self.__view = BatalhaView(aliados, inimigos)
 
     def get_allies(self):
         return self.__aliados
@@ -18,30 +24,5 @@ class Batalha:
     def jogar_dados(self):
         return r.randint(1, 20)
 
-# recebe o time que esta atacando e
-# o que esta defendendo, decidindo
-# quem executa a ação e quem recebe,
-# aleatoriamente, executa e checa se
-# a saude chegou a 0
-
-    def turno(self, executores:list[Personagem],
-                    alvos:list[Personagem]):
-
-        atacante = r.choice(executores)
-        habilidade = atacante.get_acao()
-        
-        troca = False
-        if habilidade.tipo == 'suporte':
-            executores, alvos = alvos, executores
-            troca = True
-
-        alvo = r.choice(alvos)
-        habilidade.executar(alvo,
-                            self.jogar_dados())
-
-        if troca:
-            return alvos, executores
-        if alvo.get_saude() <= 0:
-            alvos.remove(alvo)
-            alvo.fim_da_batalha(id(self))
-        return executores, alvos 
+    def start(self):
+        self.__view.loop()

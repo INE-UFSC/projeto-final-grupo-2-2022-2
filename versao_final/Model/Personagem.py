@@ -1,63 +1,119 @@
-from Model.Acao import Acao
 import random as r
+from Model.Sprite import Sprite
+from Singleton.Singleton import Singleton
+from time import sleep
+from Model.Acao import Acao
+import pygame
+# from Controller.PersonagemController import PersonagemController
 
 class Personagem:
-    def __init__(self, nome:str, ataque:int, saude:int,
-                 tecnicas:list, classe:str):
+    def __init__(self, nome:str, nivel:int,
+                 tecnicas:list[Acao], classe:str):
         self.__nome = nome
-        self.__saude_max = saude
-        self.__ataque_max = ataque
-        self.__saude_at = saude
-        self.__ataque_at = ataque
+        self.__saude_max = (100 + 10*nivel)/1
+        self.__ataque_max = (100 + 10*nivel)/1
+        self.__saude_at = (100 + 10*nivel)/1
+        self.__ataque_at = (100 + 10*nivel)/1
         self.__tecnicas = tecnicas
         self.__classe = classe
+        self.__sprite = Sprite(classe)
         self.__batalhas = []
+    
+    def getHabilidades(self) -> list[Acao]:
+        listaAcoes = []
+        for acao in self.__tecnicas:
+            listaAcoes.append(acao)
+        return listaAcoes
+            
+    
+    def desenhaBarraDeVida(self, screen:pygame.Surface):
+        x = self.sprite.rect.centerx
+        y = self.sprite.rect.centery - 50
+        w = 60
+        h = 15
+
+        saude = self.__saude_at
+        if self.__saude_at > 0:
+            outerRect = pygame.Rect(x, y, w, h)
+            outerRect.center = (x, y)
+            pygame.draw.rect(screen, (0, 0, 0), outerRect, 1)
+            progresso = saude / self.__saude_max
+
+            innerPosition = (outerRect.x+3, outerRect.y+3)
+            innerSize = ((w-6)*progresso, h-6)
+
+            innerRect = pygame.Rect(*innerPosition, *innerSize)
+
+            pygame.draw.rect(screen, (0, 255, 0), innerRect)
+        else:
+            self.__sprite.kill()
+        pass
 
     @property
-    def nome(self):
+    def nome(self) -> str:
         return self.__nome
     @nome.setter
-    def nome(self, novo):
+    def nome(self, novo:str):
         self.__nome = novo
+        
+    @property
+    def sprite(self) -> Sprite:
+        return self.__sprite
+    @sprite.setter
+    def sprite(self, novo:str):
+        self.__sprite = novo
 
     @property
-    def classe(self):
+    def tecnicas(self) -> list:
+        return self.__tecnicas
+    @tecnicas.setter
+    def tecnicas(self, novo:str):
+        self.__tecnicas = novo
+
+    @property
+    def classe(self) -> str:
         return self.__classe
     @classe.setter
-    def classe(self, novo):
+    def classe(self, novo:str):
         self.__classe = novo
 
     @property
-    def batalhas(self):
+    def batalhas(self) -> list:
         return self.__batalhas
     @batalhas.setter
     def batalhas(self, novo):
-        self.__batalhas = novo
+        print('Não envie parâmetros!!!')
+    
+    @property
+    def saude_max(self) -> int:
+        return self.__saude_max
 
 # retornam a saude e o ataque atual, em batalha
 
-    def get_saude(self):
+    def get_saude(self) -> int:
         return self.__saude_at
     
-    def get_ataque(self):
+    def get_ataque(self) -> int:
         return self.__ataque_at
 
 # escolhe uma tecnica 
 
-    def get_acao(self, num=0) -> Acao:
-        return self.__tecnicas[num]
+    def get_acao(self, num=0):
+        if len(self.__tecnicas) > num:
+            return self.__tecnicas[num]
+        return None
 
 # recebem o efeito ofensivo ou de suporte
 
-    def afeta_saude(self, efeito):
+    def afeta_saude(self, efeito:int):
         self.__saude_at += efeito
     
-    def afeta_ataque(self, efeito):
+    def afeta_ataque(self, efeito:int):
         self.__ataque_at += efeito
 
 # expande as tecnicas
 
-    def aprender_tecnica(self, novo: Acao):
+    def aprender_tecnica(self, novo):
         self.__tecnicas.append(novo)
 
 # resetam os status e evoluem depois da batalha
@@ -75,7 +131,7 @@ class Personagem:
         self.evoluir_tecnica(var)
 
     
-    def evoluir_tecnica(self, tecnica: Acao):
+    def evoluir_tecnica(self, tecnica):
         if tecnica in self.__tecnicas:
             tecnica.evolucao()
         else: print("tecnica invalida")
