@@ -60,10 +60,12 @@ class PersonagemDAO(DAO):
 
 # transforma os atributos de tecnicas salvas em Acao
 
-    def __get_tecnicas(self, nome:str) -> dict(Acao):
+    def __get_tecnicas(self, nome:str) -> list[Acao]:
         char = deepcopy(self.__temp_get(nome))
         temp_tecnicas = deepcopy(char[4])
-        tecnicas = {}
+        tecnicas = ['']*len(temp_tecnicas)
+        j = 0
         for i in temp_tecnicas.values():
-            tecnicas[i[0]] = Acao(i[0], i[1], i[2], i[3], i[4])
+            tecnicas[j] = Acao(i[0], i[1], i[2], i[3], i[4])
+            j += 1
         return tecnicas
