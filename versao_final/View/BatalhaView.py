@@ -15,6 +15,7 @@ class BatalhaView:
         self.__spritesSlots = pygame.sprite.Group(self.__slots)
         self.__habilidades = pygame.sprite.Group()
         self.__projetilInimigo = pygame.sprite.Group()
+        
     
     def draw(self, 
              screen:pygame.Surface,
