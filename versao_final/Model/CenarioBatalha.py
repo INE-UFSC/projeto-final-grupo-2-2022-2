@@ -1,6 +1,6 @@
 from Model.Cenario import Cenario
+from DAO.PersonagemDAO import inimigos as Inimigos
 from Model.Personagem import Personagem
-from Singleton.habilidades import Habilidades
 
 class CenarioBatalha(Cenario):
     def __init__(self,
@@ -9,18 +9,10 @@ class CenarioBatalha(Cenario):
                  altura:int, 
                  eixo_x:int, 
                  eixo_y:int,
-                 nivel:int,
-                 inimigos: list[Personagem]):
+                 nivel:int):
         super().__init__(identificador, largura,
                          altura, eixo_x, eixo_y)
-        self.__inimigos = inimigos
-
-        # for i in range(3):
-        #     nome = 'Inimigo' + str(nivel) + str(i)
-        #     self.__inimigos[i] = Personagem(nome, 
-        #                         nivel = nivel,
-        #                         habilidades = Habilidades().skills,
-        #                         classe = 'troll')
+        self.__inimigos = Inimigos[nivel]
 
     @property
     def inimigos(self) -> list[Personagem]:

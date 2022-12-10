@@ -7,15 +7,20 @@ class Mapa():
     def __init__(self, tela:pygame.Surface):
         self.__tela = tela
         self.__locais = Locais().locais
-        self.__image = pygame.image.load(os.path.join('assets', 'Saffron0.jpg')).convert()
-        self.__image = pygame.transform.scale(self.__image, tela.get_size())
+        self.__image = pygame.image.load(os.path.join('assets',
+                                                      'Saffron0.jpg')
+                                         ).convert()
+        self.__image = pygame.transform.scale(self.__image,
+                                              tela.get_size())
     
     def inicia(self):
         run = True
 
-        self.__tela.blit(self.__image, self.__image.get_rect())
+        self.__tela.blit(self.__image,
+                         self.__image.get_rect())
         
-        print(self.__image.get_size(), self.__tela, run)
+        print(self.__image.get_size(),
+              self.__tela, run)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False

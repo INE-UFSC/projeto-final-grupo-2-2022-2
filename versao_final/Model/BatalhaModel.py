@@ -13,12 +13,12 @@ class BatalhaModel:
     def __init__(self, tela:pygame.Surface) -> None:
 
         self.__personagemSelecionado = None
-        self.__save_A = PersonagemDAO('Aliados.pkl')
-        self.__save_I = PersonagemDAO('Inimigos.pkl')
+        self.__save_A = PersonagemDAO()
 
         self.__aliados = self.__save_A.get_all()
         
         self.__nivel = JogoDAO().get()
+        
 
 
         self.__aliados = [
