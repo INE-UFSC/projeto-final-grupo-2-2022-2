@@ -14,12 +14,12 @@ class BatalhaModel:
                  inimigos: list[Personagem]) -> None:
 
         self.__personagemSelecionado = None
-        self.__save_A = PersonagemDAO('Aliados.pkl')
-        self.__save_I = PersonagemDAO('Inimigos.pkl')
+        self.__save_A = PersonagemDAO()
 
         self.__aliados = self.__save_A.get_all()
         
         self.__nivel = JogoDAO().get()
+        
 
         self.__posicoesPersonagens = [
             (240, 180), (120, 300), (240, 420),
@@ -30,17 +30,6 @@ class BatalhaModel:
             (600, 550), (650, 550), (700, 550), (750, 550)
         ]
 
-        # self.__aliados = [
-        #     Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills[0:2]], self.__posicoesPersonagens[0]),
-        #     Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills[1:3]], self.__posicoesPersonagens[1]),
-        #     Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills[2:4]], self.__posicoesPersonagens[2])
-        # ]
-
-        # self.__inimigos = [
-        #     Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills], self.__posicoesPersonagens[3]),
-        #     Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills], self.__posicoesPersonagens[4]),
-        #     Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills], self.__posicoesPersonagens[5])
-        # ]
         self.__aliados = aliados
         self.__inimigos = inimigos
 

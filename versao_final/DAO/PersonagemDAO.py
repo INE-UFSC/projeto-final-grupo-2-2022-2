@@ -1,6 +1,8 @@
 from DAO.DAO import DAO
 from Model.Personagem import Personagem
 from Model.Habilidade import Habilidade
+from Singleton.habilidades import Habilidades
+from Singleton.Constantes import Constantes
 from copy import deepcopy
 
 class PersonagemDAO(DAO):
@@ -14,31 +16,33 @@ class PersonagemDAO(DAO):
         cond = cond and isinstance(char.nivel, int)
         cond = cond and isinstance(char.ataque_max, int)
         cond = cond and isinstance(char.saude_max, int)
-        cond = cond and isinstance(char.tecnicas, list)
+        cond = cond and isinstance(char.habilidades, list)
         tecnicas = {}
         while cond:
-            for i in char.tecnicas:
+            for i in char.habilidades:
                 cond = cond and isinstance(i, Habilidade)
                 cond = cond and isinstance(i.nome, str)
                 cond = cond and isinstance(i.fator, int)
+                cond = cond and isinstance(i.efeito, int)
+                cond = cond and isinstance(i.tipo, str)
                 tecnicas[i.nome] = [i.nome,
                                  i.fator,
                                  i.efeito,
-                                 i.tipo,
-                                 i.modo]
+                                 i.tipo]
             valor = [char.ataque_max,
                     char.saude_max,
                     char.nivel,
                     char.classe,
+                    char.posicao,
                     tecnicas]
             super().add(char.nome, valor)
 
     def get(self, nome:str) -> Personagem:
         j = deepcopy(self.__temp_get(nome))
         tecnicas = self.__get_tecnicas(nome)
-        personagem = Personagem(nome, j[2], tecnicas, j[3])
-        personagem.save_ataque_max(j[0], 'pode usar')
-        personagem.save_saude_max(j[1], 'pode usar')
+        personagem = Personagem(j[3], j[2], tecnicas, j[4], nome)
+        personagem.save_ataque_max(j[0], 'ataque_autorizado')
+        personagem.save_saude_max(j[1], 'vida_autorizada')
         return personagem
 
     def remove(self, key:str):
@@ -60,14 +64,41 @@ class PersonagemDAO(DAO):
             return super().get(nome)
         print('erro de endereçamento')
 
-# transforma os atributos de tecnicas salvas em Habilidade
+# transforma os atributos de tecnicas salvas em Acao
 
     def __get_tecnicas(self, nome:str) -> list[Habilidade]:
         char = deepcopy(self.__temp_get(nome))
-        temp_tecnicas = deepcopy(char[4])
+        temp_tecnicas = deepcopy(char[5])
         tecnicas = ['']*len(temp_tecnicas)
         j = 0
         for i in temp_tecnicas.values():
-            tecnicas[j] = Habilidade(i[0], i[1], i[2], i[3], i[4])
+            tecnicas[j] = Habilidade(i[0], i[1], i[2], i[3])
             j += 1
         return tecnicas
+
+
+
+classes = ['mago', 'assassin', 'goblin']
+classes_I = ['mago_mirrored',
+             'orc_mirrored',
+             'goblin_mirrored',
+             'troll_mirrored']
+
+save_aliados = PersonagemDAO('Aliados.pkl')
+aliados = [None]*3
+inimigos = [None]*6
+
+for i in range(3):
+    aliados[i] = Personagem(classes[i], 1,
+                [Habilidade(*i) for i in Habilidades().skills[0:2]],
+                Constantes().posicoesPersonagens[i],
+                'Joao' + str(i))
+    save_aliados.add(aliados[i])
+
+    for nivel in range(6):
+        inimigos[nivel] = [None]*3
+        inimigos[nivel][i] = Personagem(classes_I[i], nivel,
+                    [Habilidade(*i) for i in Habilidades(
+                        ).skills[0:2]],
+                    Constantes().posicoesPersonagens[i+3],
+                    'Inimigo' + str(nivel) + str(i))
