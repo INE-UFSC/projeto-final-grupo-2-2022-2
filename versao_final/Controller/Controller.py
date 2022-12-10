@@ -12,9 +12,7 @@ import pygame
 class Controller:
     def __init__(self) -> None:
         self.__tela = Tela()
-        self.__saveJogo = JogoDAO()
-        self.__savePersonagens = PersonagemDAO()
-        
+
         self.__batalhaModel = BatalhaModel()
 
         self.__spritesAliados = pygame.sprite.Group(
@@ -43,7 +41,10 @@ class Controller:
 
         vencedor = self.__batalhaModel.checaVencedor()
         if vencedor != '':
-            self.__batalhaView.mostraResultado(self.__tela.display, vencedor)
+            self.__batalhaView.mostraResultado(self.__tela.display,
+                                               vencedor)
+            for aliado in self.__aliados:
+                aliado.fim_da_batalha(JogoDAO().get())
             return run
         else:
 
