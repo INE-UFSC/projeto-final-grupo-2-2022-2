@@ -19,19 +19,19 @@ class Constantes(Singleton):
                        431,148,75,83]
 
     @property
-    def posicoesPersonagens(cls) -> tuple(int):
+    def posicoesPersonagens(cls) -> tuple[int]:
         return cls.__posicoesPersonagens
 
     @property
-    def posicoesSlots(cls) -> tuple(int):
+    def posicoesSlots(cls) -> tuple[int]:
         return cls.__posicoesSlots
 
     @property
-    def screenSize(cls) -> tuple(int):
+    def screenSize(cls) -> tuple[int]:
         return cls.__screenSize
     
     @property
-    def defaultSize(cls) -> tuple(int):
+    def defaultSize(cls) -> tuple[int]:
         return cls.__defaultSize
 
     @property

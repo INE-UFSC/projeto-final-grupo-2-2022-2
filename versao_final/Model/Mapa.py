@@ -14,6 +14,7 @@ class Mapa():
         run = True
 
         self.__tela.blit(self.__image, self.__image.get_rect())
+        
         print(self.__image.get_size(), self.__tela, run)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

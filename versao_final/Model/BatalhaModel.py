@@ -7,11 +7,10 @@ from Singleton.Constantes import Constantes
 from DAO.PersonagemDAO import PersonagemDAO
 from DAO.JogoDAO import JogoDAO
 import random as random
+import pygame
 
 class BatalhaModel:
-    def __init__(self, 
-                 aliados: list[Personagem],
-                 inimigos: list[Personagem]) -> None:
+    def __init__(self, tela:pygame.Surface) -> None:
 
         self.__personagemSelecionado = None
         self.__save_A = PersonagemDAO('Aliados.pkl')
@@ -21,28 +20,36 @@ class BatalhaModel:
         
         self.__nivel = JogoDAO().get()
 
-        self.__posicoesPersonagens = [
-            (240, 180), (120, 300), (240, 420),
-            (960, 180), (1080, 300), (960, 420)
+
+        self.__aliados = [
+            Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills[0:2]]),
+            Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills[1:3]]),
+            Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills[2:4]])
         ]
+
+        self.__inimigos = [
+            Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills]),
+            Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills]),
+            Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills])
+        ]
+
+        w, h = tela.get_size()
+
+        self.__posicoesPersonagens = [
+            (w/5, h/5 + h/10), 
+            (w/10, h/2), 
+            (w/5, h/2 + h/5),
+            (w - w/5, h/5 + h/10), 
+            (w - w/10, h/2), 
+            (w - w/5, h/2 + h/5)
+        ]
+
         self.__posicoesSlots = [
             (400, 550), (450, 550), (500, 550), (550, 550),
             (600, 550), (650, 550), (700, 550), (750, 550)
         ]
-
-        # self.__aliados = [
-        #     Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills[0:2]], self.__posicoesPersonagens[0]),
-        #     Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills[1:3]], self.__posicoesPersonagens[1]),
-        #     Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills[2:4]], self.__posicoesPersonagens[2])
-        # ]
-
-        # self.__inimigos = [
-        #     Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills], self.__posicoesPersonagens[3]),
-        #     Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills], self.__posicoesPersonagens[4]),
-        #     Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills], self.__posicoesPersonagens[5])
-        # ]
-        self.__aliados = aliados
-        self.__inimigos = inimigos
+        # self.__aliados = aliados
+        # self.__inimigos = inimigos
 
         self.__setPosicoes()
 

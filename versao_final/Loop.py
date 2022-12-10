@@ -16,6 +16,6 @@ class Loop:
                 run, play = self.__controller.rodaMenu()
                 print(play)
             if play:
-                run = self.__controller.rodaMapa()
-                # run, end = self.__controller.rodaBatalha()
+                # run = self.__controller.rodaMapa()
+                run, end = self.__controller.rodaBatalha()
                 
