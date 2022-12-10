@@ -48,3 +48,6 @@ class Menu():
     def image(self):
         return self.__image
 
+
+    def inicia(self):
+        pass

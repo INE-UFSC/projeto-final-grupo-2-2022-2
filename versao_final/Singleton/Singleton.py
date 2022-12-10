@@ -1,4 +1,5 @@
 from abc import ABC
+
 class Singleton(ABC):
     __instance = None
 

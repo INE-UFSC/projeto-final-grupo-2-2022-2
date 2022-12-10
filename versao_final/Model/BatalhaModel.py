@@ -3,6 +3,9 @@ from Singleton.Animacao import Animacao
 from View.Sprite import Sprite
 from Singleton.habilidades import Habilidades
 from Model.Habilidade import Habilidade
+from Singleton.Constantes import Constantes
+from DAO.PersonagemDAO import PersonagemDAO
+from DAO.JogoDAO import JogoDAO
 import random as random
 
 class BatalhaModel:
@@ -11,6 +14,12 @@ class BatalhaModel:
                  inimigos: list[Personagem]) -> None:
 
         self.__personagemSelecionado = None
+        self.__save_A = PersonagemDAO('Aliados.pkl')
+        self.__save_I = PersonagemDAO('Inimigos.pkl')
+
+        self.__aliados = self.__save_A.get_all()
+        
+        self.__nivel = JogoDAO().get()
 
         self.__posicoesPersonagens = [
             (240, 180), (120, 300), (240, 420),
@@ -69,13 +78,14 @@ class BatalhaModel:
         for aliado in self.__aliados:
             if aliado.saude > 0:
                 cont += 1
-        if cont == 0:
+        if cont == 0:   
             return 'enemies'
         cont = 0
         for inimigo in self.__inimigos:
             if inimigo.saude > 0:
                 cont += 1
         if cont == 0:
+            JogoDAO().add(self.__nivel + 1)
             return 'allies'
         
         return ''
@@ -91,7 +101,10 @@ class BatalhaModel:
     # controller?
     def personagemClicado(self, posicao:list[int]):
         for index, aliado in enumerate(self.__spritesAliados):
-            if posicao is not None and aliado.rect.collidepoint(posicao) and self.__aliados[index].saude > 0:
+            cond = posicao is not None
+            cond = cond and aliado.rect.collidepoint(posicao)
+            cond = cond and self.__aliados[index].saude > 0
+            if cond:
                 self.__personagemSelecionado = self.__aliados[index]
                 habilidades = self.__aliados[index].habilidades
                 habilidades = [i.projetil for i in habilidades]
@@ -117,15 +130,28 @@ class BatalhaModel:
         return self.__posicoesPersonagens
     
     @property
+    def nivel(self):
+        return self.__nivel
+
+    @property
     def aliados(self):
         return self.__aliados
     
     @property
     def inimigos(self):
         return self.__inimigos
+    
+    @property
+    def spritesAliados(self):
+        return self.__spritesAliados
+    
+    @property
+    def spritesInimigos(self):
+        return self.__spritesInimigos
 
     @property
     def habilidades(self):
         if self.__personagemSelecionado is not None:
-            skills = [i.projetil for i in self.__personagemSelecionado.habilidades]
+            habil = self.__personagemSelecionado.habilidades
+            skills = [i.projetil for i in habil]
             return skills
