@@ -1,5 +1,5 @@
 from Model.CenarioModel import CenarioModel
-from CenarioBatalha import CenarioBatalha
+from Model.CenarioBatalha import CenarioBatalha
 from Singleton.Constantes import Constantes
 from DAO.PersonagemDAO import PersonagemDAO
 import pygame

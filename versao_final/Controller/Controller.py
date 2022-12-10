@@ -1,11 +1,11 @@
-from Menu import Menu
+from View.Menu import Menu
 from Model.MapaModel import MapaModel
 from Model.BatalhaModel import BatalhaModel
 from DAO.JogoDAO import JogoDAO
 from DAO.PersonagemDAO import PersonagemDAO
 from View.BatalhaView import BatalhaView
-from Tela import Tela
-from InputHandler import InputHandler
+from View.Tela import Tela
+from Model.InputHandler import InputHandler
 from Singleton.Animacao import Animacao
 import pygame
 

@@ -1,6 +1,6 @@
-from Sprite import Sprite
-from Habilidade import Habilidade
-from Animacao import Animacao
+from View.Sprite import Sprite
+from Model.Habilidade import Habilidade
+from Singleton.Animacao import Animacao
 import pygame
 import random as r
 

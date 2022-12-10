@@ -1,5 +1,5 @@
-from Tela import Tela
-from Mapa import Mapa
+from View.Tela import Tela
+from View.Mapa import Mapa
 from Model.CenarioModel import CenarioModel
 
 class MapaModel:

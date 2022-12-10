@@ -13,5 +13,5 @@ while run:
     clock.tick(fps)
     
     run = jogo.rodaBatalha()
-        
+
     pygame.display.update()

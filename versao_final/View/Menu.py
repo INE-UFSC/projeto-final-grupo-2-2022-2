@@ -1,4 +1,4 @@
-from Tela import Tela
+from View.Tela import Tela
 
 class Menu:
     def __init__(self) -> None:

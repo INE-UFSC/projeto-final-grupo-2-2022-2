@@ -1,7 +1,7 @@
 import pygame
-from Sprite import Sprite
-from SkillSlot import SkillSlot
-from Personagem import Personagem
+from View.Sprite import Sprite
+from View.SkillSlot import SkillSlot
+from Model.Personagem import Personagem
 import os
 
 class BatalhaView:

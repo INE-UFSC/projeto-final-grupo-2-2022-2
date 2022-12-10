@@ -1,4 +1,4 @@
-from Projetil import Projetil
+from View.Projetil import Projetil
 from Singleton.Animacao import Animacao
 import random as rand
 

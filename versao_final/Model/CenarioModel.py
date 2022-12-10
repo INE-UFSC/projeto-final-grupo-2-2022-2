@@ -1,4 +1,4 @@
-from CenarioBatalha import CenarioBatalha
+from Model.CenarioBatalha import CenarioBatalha
 import pygame
 
 class CenarioModel():
