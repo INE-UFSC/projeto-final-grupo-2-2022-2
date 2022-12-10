@@ -1,6 +1,6 @@
 import pygame
 import os
-from Animacao import Animacao
+from Singleton.Animacao import Animacao
 
 class Projetil(pygame.sprite.Sprite):
     def __init__(self, filename: str, posicao: list[float] = (0, 0)) -> None:

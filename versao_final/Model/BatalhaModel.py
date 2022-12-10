@@ -1,35 +1,33 @@
 from Personagem import Personagem
-from Animacao import Animacao
+from Singleton.Animacao import Animacao
 from Sprite import Sprite
-from habilidades import Habilidades
+from Singleton.habilidades import Habilidades
 from Habilidade import Habilidade
+from Singleton.Constantes import Constantes
+from DAO.PersonagemDAO import PersonagemDAO
+from DAO.JogoDAO import JogoDAO
 import random as random
 
 class BatalhaModel:
     def __init__(self) -> None:
 
+        
+        self.__posicoesPersonagens = Constantes().posicoesPersonagens
+        self.__posicoesSlots = Constantes().posicoesSlots
+        
+        self.__save_A = PersonagemDAO('Aliados.pkl')
+        self.__save_I = PersonagemDAO('Inimigos.pkl')
+
+        self.__aliados = self.__save_A.get_all()
+        
+        self.__nivel = JogoDAO().get()
+
+        self.__inimigos = [None*3]
+        for i in range(3):
+            nome = 'Inimigo' + str(self.__nivel) + str(i)
+            self.__inimigos[i] = self.__save_I.get(nome)
+
         self.__personagemSelecionado = None
-
-        self.__posicoesPersonagens = [
-            (240, 180), (120, 300), (240, 420),
-            (960, 180), (1080, 300), (960, 420)
-        ]
-        self.__posicoesSlots = [
-            (400, 550), (450, 550), (500, 550), (550, 550),
-            (600, 550), (650, 550), (700, 550), (750, 550)
-        ]
-
-        self.__aliados = [
-            Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills[0:2]], self.__posicoesPersonagens[0]),
-            Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills[1:3]], self.__posicoesPersonagens[1]),
-            Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills[2:4]], self.__posicoesPersonagens[2])
-        ]
-
-        self.__inimigos = [
-            Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills], self.__posicoesPersonagens[3]),
-            Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills], self.__posicoesPersonagens[4]),
-            Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills], self.__posicoesPersonagens[5])
-        ]
 
         self.__setPosicoes()
 
@@ -120,9 +118,18 @@ class BatalhaModel:
     @property
     def inimigos(self):
         return self.__inimigos
+    
+    @property
+    def spritesAliados(self):
+        return self.__spritesAliados
+    
+    @property
+    def spritesInimigos(self):
+        return self.__spritesInimigos
 
     @property
     def habilidades(self):
         if self.__personagemSelecionado is not None:
-            skills = [i.projetil for i in self.__personagemSelecionado.habilidades]
+            habil = self.__personagemSelecionado.habilidades
+            skills = [i.projetil for i in habil]
             return skills

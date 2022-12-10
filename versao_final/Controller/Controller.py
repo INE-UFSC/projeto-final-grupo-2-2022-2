@@ -6,7 +6,7 @@ from DAO.PersonagemDAO import PersonagemDAO
 from View.BatalhaView import BatalhaView
 from Tela import Tela
 from InputHandler import InputHandler
-from Animacao import Animacao
+from Singleton.Animacao import Animacao
 import pygame
 
 class Controller:
@@ -17,12 +17,16 @@ class Controller:
         
         self.__batalhaModel = BatalhaModel()
 
-        self.__spritesAliados = pygame.sprite.Group([i.sprite for i in self.__batalhaModel.aliados])
-        self.__spritesInimigos = pygame.sprite.Group([i.sprite for i in self.__batalhaModel.inimigos])
+        self.__spritesAliados = pygame.sprite.Group(
+             self.__batalhaModel.spritesAliados)
+        self.__spritesInimigos = pygame.sprite.Group(
+             self.__batalhaModel.spritesInimigos)
 
         posicoes = self.__batalhaModel.posicoesSlots
 
-        self.__batalhaView = BatalhaView(self.__spritesAliados, self.__spritesInimigos, posicoes)
+        self.__batalhaView = BatalhaView(self.__spritesAliados,
+                                         self.__spritesInimigos,
+                                         posicoes)
 
 
     def rodaMenu(self):
