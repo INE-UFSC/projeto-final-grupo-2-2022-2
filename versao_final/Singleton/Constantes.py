@@ -12,11 +12,6 @@ class Constantes(Singleton):
         (400, 550), (450, 550), (500, 550), (550, 550),
         (600, 550), (650, 550), (700, 550), (750, 550)
     ]
-    __locais = [None]*10
-    for i in range(10):
-        id = "Saffron" + str(i) + ".jpg"
-        __locais[i] = [[id, 800,500,400,250],
-                       431,148,75,83]
 
     @property
     def posicoesPersonagens(cls) -> tuple(int):
