@@ -1,5 +1,5 @@
-from Projetil import Projetil
-from Animacao import Animacao
+from View.Projetil import Projetil
+from Singleton.Animacao import Animacao
 import random as rand
 
 class Habilidade:

@@ -1,5 +1,16 @@
 from DAO.DAO import DAO
 
 class JogoDAO(DAO):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, datasource='Nivel.pkl'):
+        super().__init__(datasource)
+        self.add(0)
+
+    def add(self, nivel:int):
+        if isinstance(nivel, int):
+            return super().add('fase', nivel)
+
+    def get(self) -> int:
+        return super().get('fase')
+
+    def remove(self):
+        return super().remove('fase')

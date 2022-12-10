@@ -1,20 +1,24 @@
-# from Loop import Loop
-
-# loop = Loop()
-# loop.iniciar()
-from Controller.Controller import Controller
+from Loop import Loop
 import pygame
 pygame.init()
 
-jogo = Controller()
+loop = Loop()
+loop.iniciar()
 
-run = True
-fps = 60
-clock = pygame.time.Clock()
+# from Controller.Controller import Controller
+# import pygame
+# pygame.init()
 
-while run:
-    clock.tick(fps)
+# jogo = Controller()
+
+# run = True
+# fps = 60
+# clock = pygame.time.Clock()
+
+# while run:
+#     clock.tick(fps)
     
-    run = jogo.rodaBatalha()
+#     # run = jogo.rodaBatalha()
+#     run = jogo.rodaMenu()
         
-    pygame.display.update()
+#     pygame.display.update()

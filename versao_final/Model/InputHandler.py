@@ -15,8 +15,8 @@ class InputHandler:
             if event.type == pygame.QUIT:
                 return False
             
-            if event.type == pygame.VIDEORESIZE:
-                self.__display = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
-                self.__display.fill((255, 255, 255))
+            # if event.type == pygame.VIDEORESIZE:
+            #     self.__display = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+            #     self.__display.fill((255, 255, 255))
                 
         return True

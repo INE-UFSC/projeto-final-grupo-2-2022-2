@@ -1,4 +1,4 @@
-from Singleton import Singleton
+from Singleton.Singleton import Singleton
 
 class Habilidades(Singleton):
     __skills = [
@@ -8,6 +8,13 @@ class Habilidades(Singleton):
         ['waterball', 5, 'saude', 'ofensivo'],
         ['boost', 5, 'ataque', 'suporte']
         ]
+    __classesEHabilidades = {
+        'mago': ['fireball', 'rasengan', 'waterball'],
+        'orc': ['earthball', 'melee'],
+        'goblin': ['melee'],
+        'troll': ['melee'],
+        
+    }
     
     @property
     def skills(cls):

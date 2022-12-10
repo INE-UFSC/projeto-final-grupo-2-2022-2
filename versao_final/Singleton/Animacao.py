@@ -1,4 +1,4 @@
-from Singleton import Singleton
+from Singleton.Singleton import Singleton
 
 class Animacao(Singleton):
     __fase = 0

@@ -1,6 +1,6 @@
 import pygame
 import os
-from Animacao import Animacao
+from Singleton.Animacao import Animacao
 from time import sleep
 
 class Sprite(pygame.sprite.Sprite):

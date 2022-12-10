@@ -1,12 +1,14 @@
-from Personagem import Personagem
-from Animacao import Animacao
-from Sprite import Sprite
-from habilidades import Habilidades
-from Habilidade import Habilidade
+from Model.Personagem import Personagem
+from Singleton.Animacao import Animacao
+from View.Sprite import Sprite
+from Singleton.habilidades import Habilidades
+from Model.Habilidade import Habilidade
 import random as random
 
 class BatalhaModel:
-    def __init__(self) -> None:
+    def __init__(self, 
+                 aliados: list[Personagem],
+                 inimigos: list[Personagem]) -> None:
 
         self.__personagemSelecionado = None
 
@@ -19,17 +21,19 @@ class BatalhaModel:
             (600, 550), (650, 550), (700, 550), (750, 550)
         ]
 
-        self.__aliados = [
-            Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills[0:2]], self.__posicoesPersonagens[0]),
-            Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills[1:3]], self.__posicoesPersonagens[1]),
-            Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills[2:4]], self.__posicoesPersonagens[2])
-        ]
+        # self.__aliados = [
+        #     Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills[0:2]], self.__posicoesPersonagens[0]),
+        #     Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills[1:3]], self.__posicoesPersonagens[1]),
+        #     Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills[2:4]], self.__posicoesPersonagens[2])
+        # ]
 
-        self.__inimigos = [
-            Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills], self.__posicoesPersonagens[3]),
-            Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills], self.__posicoesPersonagens[4]),
-            Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills], self.__posicoesPersonagens[5])
-        ]
+        # self.__inimigos = [
+        #     Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills], self.__posicoesPersonagens[3]),
+        #     Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills], self.__posicoesPersonagens[4]),
+        #     Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills], self.__posicoesPersonagens[5])
+        # ]
+        self.__aliados = aliados
+        self.__inimigos = inimigos
 
         self.__setPosicoes()
 
@@ -38,7 +42,6 @@ class BatalhaModel:
         self.__habilidades: list[Sprite] = []
 
     def __setPosicoes(self):
-        print('b')
         i = 0
         for aliado in self.__aliados:
             aliado.posicao = self.__posicoesPersonagens[i]

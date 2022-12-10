@@ -4,7 +4,6 @@ class Tela:
     def __init__(self) -> None:
         self.__largura = 1200
         self.__altura = 600
-
         self.__preto = pygame.Color(255, 255, 255)
 
         self.__display = pygame.display.set_mode((self.__largura,

@@ -1,7 +1,7 @@
 import pygame
-from Sprite import Sprite
-from SkillSlot import SkillSlot
-from Personagem import Personagem
+from View.Sprite import Sprite
+from View.SkillSlot import SkillSlot
+from Model.Personagem import Personagem
 import os
 
 class BatalhaView:
@@ -49,6 +49,7 @@ class BatalhaView:
         image = pygame.transform.scale(image, (largura, altura))
         rect = pygame.Rect(largura/2, altura/2, largura, altura)
         screen.blit(image, rect)
+        pygame.display.update()
     
     @property
     def projetilInimigo(self):

@@ -1,12 +1,12 @@
-from Menu import Menu
-from Model.MapaModel import MapaModel
+from View.Menu import Menu
 from Model.BatalhaModel import BatalhaModel
 from DAO.JogoDAO import JogoDAO
 from DAO.PersonagemDAO import PersonagemDAO
 from View.BatalhaView import BatalhaView
-from Tela import Tela
-from InputHandler import InputHandler
-from Animacao import Animacao
+from Model.Tela import Tela
+from Model.Mapa import Mapa
+from Model.InputHandler import InputHandler
+from Singleton.Animacao import Animacao
 import pygame
 
 class Controller:
@@ -14,24 +14,31 @@ class Controller:
         self.__tela = Tela()
         self.__saveJogo = JogoDAO()
         self.__savePersonagens = PersonagemDAO()
-        
-        self.__batalhaModel = BatalhaModel()
+        self.__menu = Menu()
 
+        self.__aliados = self.__savePersonagens.get_all()
+
+    def savePersonagens(self):
+        aliados = self.__batalhaModel.aliados
+
+        for personagem in aliados:
+            self.__savePersonagens.add(personagem)
+
+    def setBatalha(self):
+        self.__batalhaModel = BatalhaModel(self.__aliados, self.__inimigos)
         self.__spritesAliados = pygame.sprite.Group([i.sprite for i in self.__batalhaModel.aliados])
         self.__spritesInimigos = pygame.sprite.Group([i.sprite for i in self.__batalhaModel.inimigos])
-
-        posicoes = self.__batalhaModel.posicoesSlots
-
-        self.__batalhaView = BatalhaView(self.__spritesAliados, self.__spritesInimigos, posicoes)
-
+        self.__batalhaView = BatalhaView(self.__spritesAliados, self.__spritesInimigos)
 
     def rodaMenu(self):
-        menu = Menu()
-        menu.inicia()
+        return self.__menu.run(self.__tela.display)
     
     def rodaMapa(self):
-        mapa = MapaModel()
-        mapa.inicia()
+        mapa = Mapa(self.__tela.display)
+        self.__inimigos, self.__nivel, run = mapa.inicia()
+        if self.__nivel != 0:
+            self.setBatalha()
+        return run
     
     def rodaBatalha(self):
         inputHandler = InputHandler(self.__tela.display)
@@ -40,10 +47,10 @@ class Controller:
         vencedor = self.__batalhaModel.checaVencedor()
         if vencedor != '':
             self.__batalhaView.mostraResultado(self.__tela.display, vencedor)
-            return run
+            if vencedor == 'allies':
+                self.__saveJogo.add()
+            return run, True
         else:
-
-
             if Animacao().turnoJogador:
                 posicaoMouse = inputHandler.handleClick()
 
@@ -59,7 +66,7 @@ class Controller:
             if self.__batalhaModel.habilidades is not None:
                 self.__batalhaView.mostraHabilidades(self.__batalhaModel.habilidades)
 
-            return run
+            return run, False
 
     # Função do model batalha
     def checaClique(self, posicaoMouse:tuple[int]):
