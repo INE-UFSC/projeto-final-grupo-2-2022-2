@@ -27,7 +27,7 @@ class Mapa:
         self.__rect.center = (eixo_x), (eixo_y)
         
         
-    def __define_locais(self):
+    def __define_locais(self) -> list[CenarioModel]:
         locais = [None]*10
         const = Constantes().locais
         get_inimigos = PersonagemDAO()
