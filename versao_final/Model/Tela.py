@@ -15,3 +15,11 @@ class Tela:
     @property
     def display(self):
         return self.__display
+    
+    @property
+    def size(self):
+        return self.__largura, self.__altura
+    @size.setter
+    def size(self, size:tuple[float] | list[float]):
+        self.__largura, self.__altura = size
+        self.__display = pygame.display.set_mode(size, pygame.RESIZABLE)

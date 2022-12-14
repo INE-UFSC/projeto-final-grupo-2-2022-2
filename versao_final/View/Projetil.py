@@ -16,7 +16,7 @@ class Projetil(pygame.sprite.Sprite):
     
     def move(self, posicao: list[float]):
         self.__direcao = (pygame.math.Vector2(posicao) - self.__posicao).normalize()
-        self.__posicao += self.__direcao * 10
+        self.__posicao += self.__direcao * 15
         self.rect.center = round(self.__posicao.x), round(self.__posicao.y)
         
         if self.rect.collidepoint(posicao):

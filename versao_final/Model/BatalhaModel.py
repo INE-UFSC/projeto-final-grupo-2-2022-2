@@ -7,33 +7,34 @@ from Singleton.Constantes import Constantes
 from DAO.PersonagemDAO import PersonagemDAO
 from DAO.JogoDAO import JogoDAO
 import random as random
+from Model.Tela import Tela
 import pygame
 
 class BatalhaModel:
-    def __init__(self, tela:pygame.Surface) -> None:
+    def __init__(self, tela:Tela, inimigos:list[Personagem]) -> None:
 
         self.__personagemSelecionado = None
         self.__save_A = PersonagemDAO()
 
         self.__aliados = self.__save_A.get_all()
+        self.__inimigos = inimigos
         
         self.__nivel = JogoDAO().get()
-        
+    
 
+        # self.__aliados = [
+        #     Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills[0:2]]),
+        #     Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills[1:3]]),
+        #     Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills[2:4]])
+        # ]
 
-        self.__aliados = [
-            Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills[0:2]]),
-            Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills[1:3]]),
-            Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills[2:4]])
-        ]
+        # self.__inimigos = [
+        #     Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills]),
+        #     Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills]),
+        #     Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills])
+        # ]
 
-        self.__inimigos = [
-            Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills]),
-            Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills]),
-            Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills])
-        ]
-
-        w, h = tela.get_size()
+        w, h = tela.display.get_size()
 
         self.__posicoesPersonagens = [
             (w/5, h/5 + h/10), 
@@ -96,7 +97,14 @@ class BatalhaModel:
             return 'allies'
         
         return ''
+    
+    def resetPersonagens(self, nivel:int):
+        for inimigo in self.__inimigos:
+            inimigo.fim_da_batalha(nivel)
 
+    def evoluiAliados(self, nivel:int):
+        for aliado in self.__aliados:
+            aliado.fim_da_batalha(nivel)
 
     def selecionaPersonagem(self, personagens: list[Personagem]):
         personagem = random.choice(personagens)

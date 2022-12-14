@@ -8,14 +8,18 @@ class Loop:
 
     def iniciar(self):
         run = True
-        play = False
+        mapa = False
+        menu = True
+        batalha = False
         while run:
             self.__clock.tick(self.__fps)
 
-            if not play:
-                run, play = self.__controller.rodaMenu()
-                print(play)
-            if play:
-                # run = self.__controller.rodaMapa()
-                run, end = self.__controller.rodaBatalha()
+            if menu:
+                run, mapa = self.__controller.rodaMenu()
+            if mapa:
+                menu = False
+                run, batalha = self.__controller.rodaMapa()
+            if batalha:
+                mapa = False
+                run, mapa = self.__controller.rodaBatalha()
                 

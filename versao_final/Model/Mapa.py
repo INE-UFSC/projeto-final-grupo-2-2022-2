@@ -1,26 +1,25 @@
 from DAO.JogoDAO import JogoDAO
 from Singleton.Locais import Locais
+from Model.Tela import Tela
+from View.Sprite import Sprite
 import pygame
 import os
 
 class Mapa():
-    def __init__(self, tela:pygame.Surface):
+    def __init__(self, tela:Tela):
         self.__tela = tela
         self.__locais = Locais().locais
         self.__image = pygame.image.load(os.path.join('assets',
-                                                      'Saffron0.jpg')
-                                         ).convert()
-        self.__image = pygame.transform.scale(self.__image,
-                                              tela.get_size())
+                                                      'mapa.png')
+                                         )
+        self.__image = pygame.transform.scale(self.__image, tela.display.get_size())
     
     def inicia(self):
         run = True
 
-        self.__tela.blit(self.__image,
-                         self.__image.get_rect())
-        
-        print(self.__image.get_size(),
-              self.__tela, run)
+        self.__tela.display.blit(self.__image, self.__image.get_rect())
+        pygame.display.update()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -38,11 +37,13 @@ class Mapa():
                 cond2 = False
                 if cond:
                     at = self.__locais.index(lugar)
+                    lugar.clicked = False
                     nivel = JogoDAO()
                     nivel = nivel.get()
                     cond2 = at <= nivel
                 if cond2:
-                    return lugar.cenario.inimigos(), nivel, run
+                    print(nivel)
+                    return lugar.cenario.inimigos, nivel, run
         
         return [], 0, run
 

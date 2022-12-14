@@ -12,9 +12,11 @@ class Personagem:
                  posicao: tuple[float]=(0, 0),
                  nome:str='Joao'):
         self.__nome = nome
+        self.__nivel = nivel
         self.__saude = nivel*100
         self.__saude_max = nivel*100
         self.__ataque = nivel
+        self.__classe = classe
         self.__sprite = Sprite(classe, posicao)
         self.__habilidades = habilidades
     
@@ -68,7 +70,7 @@ class Personagem:
         self.evoluir_atributo(var)
 
         self.__saude = self.__saude_max
-        self.__ataque = self.__ataque_max
+        self.__ataque = self.__ataque
 
         var = r.choice(self.__habilidades)
         self.evoluir_tecnica(var)
@@ -81,14 +83,14 @@ class Personagem:
 
     def evoluir_atributo(self, atributo: str):
         if atributo == 'ataque':
-            self.__ataque_max += 5
+            self.__ataque += 5
         if atributo == 'saude':
             self.__saude_max += 5
         else:
             print('argumento invalido')
 
         self.__saude_max += (100*self.__nivel/10)//1
-        self.__ataque_max += (100*self.__nivel/10)//1
+        self.__ataque += (100*self.__nivel/10)//1
 
     @property
     def nome(self) -> str:
@@ -134,8 +136,8 @@ class Personagem:
             habilidade.projetil.rectCenter = new
 
     @property
-    def ataque_max(self) -> int:
-        return self.__ataque_max
+    def ataque(self) -> int:
+        return self.__ataque
 
     @property
     def saude_max(self) -> int:
@@ -144,9 +146,9 @@ class Personagem:
 # as proximas duas só podem
 # ser acessadas pelo Save
 
-    def save_ataque_max(self, novo:int, senha:str):
+    def save_ataque(self, novo:int, senha:str):
         if senha == 'ataque_autorizado':
-            self.__ataque_max = novo
+            self.__ataque = novo
 
     def save_saude_max(self, novo:int, senha:str):
         if senha == 'vida_autorizada':

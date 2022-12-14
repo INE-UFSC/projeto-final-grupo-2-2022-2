@@ -3,7 +3,7 @@ from DAO.DAO import DAO
 class JogoDAO(DAO):
     def __init__(self, datasource='Nivel.pkl'):
         super().__init__(datasource)
-        self.add(0)
+        self.add(1)
 
     def add(self, nivel:int):
         if isinstance(nivel, int):

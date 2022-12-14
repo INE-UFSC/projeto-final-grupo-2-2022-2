@@ -2,26 +2,31 @@ import pygame
 from View.Sprite import Sprite
 from View.SkillSlot import SkillSlot
 from Model.Personagem import Personagem
+from Model.Tela import Tela
 import os
 
 class BatalhaView:
     def __init__(self, 
                  aliados: pygame.sprite.Group, 
                  inimigos: pygame.sprite.Group,
-                 posicoes: list) -> None:
+                 posicoes: list,
+                 tela:Tela) -> None:
         self.__aliados = aliados
         self.__inimigos = inimigos
         self.__slots = [SkillSlot(i) for i in posicoes]
         self.__spritesSlots = pygame.sprite.Group(self.__slots)
         self.__habilidades = pygame.sprite.Group()
         self.__projetilInimigo = pygame.sprite.Group()
+        self.__image = pygame.image.load(os.path.join('assets', 'background.png'))
+        self.__image = pygame.transform.scale(self.__image, tela.display.get_size())
+        self.__rect = self.__image.get_rect()
         
     
     def draw(self, 
              screen:pygame.Surface,
              aliados: list[Personagem],
              inimigos: list[Personagem]):
-        screen.fill((255, 255, 255))
+        screen.blit(self.__image, self.__rect)
         self.__aliados.draw(screen)
         self.__inimigos.draw(screen)
         self.__spritesSlots.draw(screen)

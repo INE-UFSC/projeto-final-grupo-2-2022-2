@@ -12,19 +12,23 @@ import pygame
 class Controller:
     def __init__(self) -> None:
         self.__tela = Tela()
+        self.__menu = Menu(self.__tela)
+        self.__mapa = Mapa(self.__tela)
         self.__saveJogo = JogoDAO()
         self.__savePersonagens = PersonagemDAO()
-        self.__menu = Menu()
 
-        self.__batalhaModel = BatalhaModel(self.__tela.display)
+        # self.__batalhaModel = BatalhaModel(self.__tela.display)
         # self.__aliados = self.__savePersonagens.get_all()
-        self.__aliados = self.__batalhaModel.aliados
-        self.__inimigos = self.__batalhaModel.inimigos
+        # self.__aliados = self.__batalhaModel.aliados
+        # self.__inimigos = self.__batalhaModel.inimigos
 
-        self.__spritesAliados = pygame.sprite.Group([i.sprite for i in self.__batalhaModel.aliados])
-        self.__spritesInimigos = pygame.sprite.Group([i.sprite for i in self.__batalhaModel.inimigos])
+        # self.__spritesAliados = pygame.sprite.Group([i.sprite for i in self.__batalhaModel.aliados])
+        # self.__spritesInimigos = pygame.sprite.Group([i.sprite for i in self.__batalhaModel.inimigos])
 
-        self.__batalhaView = BatalhaView(self.__spritesAliados, self.__spritesInimigos, self.__batalhaModel.posicoesSlots)
+        # self.__batalhaView = BatalhaView(self.__spritesAliados, 
+        #                                  self.__spritesInimigos, 
+        #                                  self.__batalhaModel.posicoesSlots,
+        #                                  self.__tela)
         
     def savePersonagens(self):
         aliados = self.__batalhaModel.aliados
@@ -33,30 +37,36 @@ class Controller:
             self.__savePersonagens.add(personagem)
 
     def setBatalha(self):
-        self.__batalhaModel = BatalhaModel(self.__aliados, self.__inimigos)
+        self.__batalhaModel = BatalhaModel(self.__tela, self.__inimigos)
         self.__spritesAliados = pygame.sprite.Group([i.sprite for i in self.__batalhaModel.aliados])
         self.__spritesInimigos = pygame.sprite.Group([i.sprite for i in self.__batalhaModel.inimigos])
-        self.__batalhaView = BatalhaView(self.__spritesAliados, self.__spritesInimigos, self.__tela.display)
+        # self.__batalhaView = BatalhaView(self.__spritesAliados, self.__spritesInimigos, self.__tela.display)
+        self.__batalhaView = BatalhaView(self.__spritesAliados, 
+                                         self.__spritesInimigos, 
+                                         self.__batalhaModel.posicoesSlots,
+                                         self.__tela)
 
     def rodaMenu(self):
-        return self.__menu.run(self.__tela.display)
+        return self.__menu.run()
     
     def rodaMapa(self):
-        mapa = Mapa(self.__tela.display)
-        self.__inimigos, self.__nivel, run = mapa.inicia()
-        # if self.__nivel != 0:
-        #     self.setBatalha()
-        return run
+        self.__inimigos, self.__nivel, run = self.__mapa.inicia()
+        if len(self.__inimigos) > 0:
+            self.setBatalha()
+            return run, True
+        return run, False
     
     def rodaBatalha(self):
-        inputHandler = InputHandler(self.__tela.display)
+        inputHandler = InputHandler(self.__tela)
         run = inputHandler.handleScreenEvents()
 
         vencedor = self.__batalhaModel.checaVencedor()
         if vencedor != '':
             self.__batalhaView.mostraResultado(self.__tela.display, vencedor)
-            # if vencedor == 'allies':
-            #     self.__saveJogo.add()
+            self.__batalhaModel.resetPersonagens(self.__nivel)
+            if vencedor == 'allies':
+                self.__batalhaModel.evoluiAliados(self.__nivel + 1)
+                self.__saveJogo.add(self.__nivel + 1)
             return run, True
         else:
             if Animacao().turnoJogador:
