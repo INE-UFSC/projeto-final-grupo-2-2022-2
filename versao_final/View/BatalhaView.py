@@ -2,7 +2,7 @@ import pygame
 from View.Sprite import Sprite
 from View.SkillSlot import SkillSlot
 from Model.Personagem import Personagem
-from Model.Tela import Tela
+from View.Tela import Tela
 import os
 
 class BatalhaView:

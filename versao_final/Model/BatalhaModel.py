@@ -7,7 +7,7 @@ from Singleton.Constantes import Constantes
 from DAO.PersonagemDAO import PersonagemDAO
 from DAO.JogoDAO import JogoDAO
 import random as random
-from Model.Tela import Tela
+from View.Tela import Tela
 import pygame
 
 class BatalhaModel:

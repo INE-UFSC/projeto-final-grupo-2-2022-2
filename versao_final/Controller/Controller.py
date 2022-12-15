@@ -3,7 +3,7 @@ from Model.BatalhaModel import BatalhaModel
 from DAO.JogoDAO import JogoDAO
 from DAO.PersonagemDAO import PersonagemDAO
 from View.BatalhaView import BatalhaView
-from Model.Tela import Tela
+from View.Tela import Tela
 from Model.Mapa import Mapa
 from Model.InputHandler import InputHandler
 from Singleton.Animacao import Animacao
@@ -16,19 +16,6 @@ class Controller:
         self.__mapa = Mapa(self.__tela)
         self.__saveJogo = JogoDAO()
         self.__savePersonagens = PersonagemDAO()
-
-        # self.__batalhaModel = BatalhaModel(self.__tela.display)
-        # self.__aliados = self.__savePersonagens.get_all()
-        # self.__aliados = self.__batalhaModel.aliados
-        # self.__inimigos = self.__batalhaModel.inimigos
-
-        # self.__spritesAliados = pygame.sprite.Group([i.sprite for i in self.__batalhaModel.aliados])
-        # self.__spritesInimigos = pygame.sprite.Group([i.sprite for i in self.__batalhaModel.inimigos])
-
-        # self.__batalhaView = BatalhaView(self.__spritesAliados, 
-        #                                  self.__spritesInimigos, 
-        #                                  self.__batalhaModel.posicoesSlots,
-        #                                  self.__tela)
         
     def savePersonagens(self):
         aliados = self.__batalhaModel.aliados
@@ -40,7 +27,6 @@ class Controller:
         self.__batalhaModel = BatalhaModel(self.__tela, self.__inimigos)
         self.__spritesAliados = pygame.sprite.Group([i.sprite for i in self.__batalhaModel.aliados])
         self.__spritesInimigos = pygame.sprite.Group([i.sprite for i in self.__batalhaModel.inimigos])
-        # self.__batalhaView = BatalhaView(self.__spritesAliados, self.__spritesInimigos, self.__tela.display)
         self.__batalhaView = BatalhaView(self.__spritesAliados, 
                                          self.__spritesInimigos, 
                                          self.__batalhaModel.posicoesSlots,

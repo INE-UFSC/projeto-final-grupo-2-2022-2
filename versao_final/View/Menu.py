@@ -1,6 +1,6 @@
 from Model.Botao import Botao
 import pygame
-from Model.Tela import Tela
+from View.Tela import Tela
 #from Singleton.Constantes import Constantes
 import os
 

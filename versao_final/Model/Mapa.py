@@ -1,6 +1,6 @@
 from DAO.JogoDAO import JogoDAO
 from Singleton.Locais import Locais
-from Model.Tela import Tela
+from View.Tela import Tela
 from View.Sprite import Sprite
 import pygame
 import os

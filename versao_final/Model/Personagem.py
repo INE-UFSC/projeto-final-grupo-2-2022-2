@@ -72,13 +72,9 @@ class Personagem:
         # var = r.choice(['ataque', 'saude'])
         # self.evoluir_atributo(var)
 
-        print(self.__saude_max)
-        print(self.__ataque)
         self.__saude = nivel*100
         self.__saude_max = nivel*100
         self.__ataque = nivel
-        print(self.__saude_max)
-        print(self.__ataque)
 
         var = r.choice(self.__habilidades)
         self.evoluir_tecnica(var)
