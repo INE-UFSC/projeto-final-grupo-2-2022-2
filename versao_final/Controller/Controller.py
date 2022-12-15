@@ -1,38 +1,88 @@
-from Model.Personagem import Personagem
+from View.Menu import Menu
+from Model.BatalhaModel import BatalhaModel
+from DAO.JogoDAO import JogoDAO
+from DAO.PersonagemDAO import PersonagemDAO
+from View.BatalhaView import BatalhaView
+from Model.Tela import Tela
+from Model.Mapa import Mapa
+from Model.InputHandler import InputHandler
+from Singleton.Animacao import Animacao
+import pygame
 
-import random as r
-
-class Controller():
+class Controller:
     def __init__(self) -> None:
-        pass
-
-    def checkForWinner(self,
-                       aliados: list[Personagem],
-                       inimigos: list[Personagem]) -> int:
-        cont = 0
-        for i in aliados:
-            if i.get_saude() >= 0:
-                cont += 1
-        if cont == 0:
-            return 0
-        cont = 0
-        for i in inimigos:
-            if i.get_saude() >= 0:
-                cont += 1
-        if cont == 0:
-            return 1
+        self.__tela = Tela()
+        self.__menu = Menu(self.__tela)
+        self.__mapa = Mapa(self.__tela)
+        self.__saveJogo = JogoDAO()
+        self.__savePersonagens = PersonagemDAO()
         
-        return -1
+    def savePersonagens(self):
+        aliados = self.__batalhaModel.aliados
 
-    def selecionaPersonagem(self, alvos:list[Personagem]):
-        alvo = r.choice(alvos)
-        # Caso o alvo escolhido não tenha vida restante, tenta selecionar outro
-        while alvo.get_saude() <= 0:
-            alvo = r.choice(alvos)
+        for personagem in aliados:
+            self.__savePersonagens.add(personagem)
 
-        return alvo
+    def setBatalha(self):
+        self.__batalhaModel = BatalhaModel(self.__tela, self.__inimigos)
+        self.__spritesAliados = pygame.sprite.Group([i.sprite for i in self.__batalhaModel.aliados])
+        self.__spritesInimigos = pygame.sprite.Group([i.sprite for i in self.__batalhaModel.inimigos])
+        self.__batalhaView = BatalhaView(self.__spritesAliados, 
+                                         self.__spritesInimigos, 
+                                         self.__batalhaModel.posicoesSlots,
+                                         self.__tela)
+
+    def rodaMenu(self):
+        return self.__menu.run()
     
-    def selecionaHabilidade(self, personagem: Personagem):
-        index = r.randint(0, len(personagem.tecnicas)-1)
-        habilidade = personagem.get_acao(index)
-        return habilidade
+    def rodaMapa(self):
+        self.__inimigos, self.__nivel, run = self.__mapa.inicia()
+        if len(self.__inimigos) > 0:
+            self.setBatalha()
+            return run, True
+        return run, False
+    
+    def rodaBatalha(self):
+        inputHandler = InputHandler(self.__tela)
+        run = inputHandler.handleScreenEvents()
+
+        vencedor = self.__batalhaModel.checaVencedor()
+        if vencedor != '':
+            self.__batalhaView.mostraResultado(self.__tela.display, vencedor)
+            self.__batalhaModel.reset()
+            if vencedor == 'allies':
+                self.__batalhaModel.evoluiAliados(self.__nivel + 1)
+                self.__saveJogo.add(self.__nivel + 1)
+            return run, True
+        else:
+            if Animacao().turnoJogador:
+                posicaoMouse = inputHandler.handleClick()
+
+                if not self.animacaoRodando():
+                    self.checaClique(posicaoMouse)
+
+            elif not self.animacaoRodando():
+                skill = self.__batalhaModel.inimigoAtaca()
+                self.__batalhaView.projetilInimigo = skill
+
+
+            self.__batalhaView.draw(self.__tela.display, self.__batalhaModel.aliados, self.__batalhaModel.inimigos)
+            if self.__batalhaModel.habilidades is not None:
+                self.__batalhaView.mostraHabilidades(self.__batalhaModel.habilidades)
+
+            return run, False
+
+    # Função do model batalha
+    def checaClique(self, posicaoMouse:tuple[int]):
+        habilidades = self.__batalhaModel.personagemClicado(posicaoMouse)
+        if habilidades is not None:
+            self.__batalhaView.mostraHabilidades(habilidades)
+            return
+        else:
+            self.__batalhaModel.habilidadeClicada(posicaoMouse)
+        
+    def animacaoRodando(self):
+        if not Animacao().finished:
+            info = Animacao().info
+            self.__batalhaModel.ataque(*info)
+            return True

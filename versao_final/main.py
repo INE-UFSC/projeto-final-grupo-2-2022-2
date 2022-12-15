@@ -1,5 +1,7 @@
-from Controller.Jogo import Jogo
+from Loop import Loop
+import pygame
 
-jogo = Jogo()
+pygame.init()
 
-jogo.run()
+loop = Loop()
+loop.iniciar()

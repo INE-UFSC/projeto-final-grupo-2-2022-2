@@ -1,4 +1,4 @@
-from Controller.DAO import DAO
+from DAO.DAO import DAO
 from Model.Personagem import Personagem
 from Model.Acao import Acao
 from copy import deepcopy

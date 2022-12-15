@@ -80,11 +80,9 @@ class Acao:
     def sprite(self, novo:str):
         self.__sprite = novo
     
-    def executar(self, alvo):
-        dado = r.randint(1, 20)
-        c = (self.__fator*(dado/20))//1
-        if self.__efeito == 'saude':
-            alvo.afeta_saude(c)
-        elif self.__efeito == 'ataque':
-            alvo.afeta_ataque(c)
-        else: print('efeito invalido')
+    def executar(self, posicao: list[float]):
+        self.__projetil.move(posicao)
+        if Animacao().fase == 2:
+            return self.calculaDano()
+        else:
+            return 0

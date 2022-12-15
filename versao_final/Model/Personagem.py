@@ -2,7 +2,7 @@ import random as r
 import pygame
 from Model.Sprite import Sprite
 from Model.Acao import Acao
-from time import sleep
+from Singleton.Animacao import Animacao
 
 class Personagem:
     def __init__(self, nome:str, nivel:int,
@@ -40,6 +40,19 @@ class Personagem:
         else:
             self.__sprite.kill()
         pass
+
+    def atacar(self, index: int, posicaoAlvo: list[float]):
+        self.__sprite.moveAtacante()
+        if Animacao().fase == 1:
+            dano = self.__habilidades[index].executar(posicaoAlvo)
+            dano *= self.__ataque
+            return dano
+        else:
+            return 0
+    
+    def defender(self, dano: float):
+        self.__sprite.moveAlvo()
+        self.__saude -= dano
 
     @property
     def nome(self) -> str:
