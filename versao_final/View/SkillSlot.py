@@ -13,8 +13,11 @@ class SkillSlot(pygame.sprite.Sprite):
         self.rect.center = posicao
     
     def setImage(self):
-        img = pygame.image.load(os.path.join('assets', f'{self.__filename}.png'))
-        image = pygame.transform.scale(img, (self.__width, self.__height))
+        img = pygame.image.load(os.path.join('assets', 
+                                f'{self.__filename}.png'))
+        image = pygame.transform.scale(img, 
+                                       (self.__width,
+                                        self.__height))
         return image
     
     @property
