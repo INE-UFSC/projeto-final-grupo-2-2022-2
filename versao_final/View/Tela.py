@@ -1,30 +1,26 @@
 import pygame
-import os
 
 class Tela:
-    def __init__(self):
-        self.__largura = 800
-        self.__altura = 500
-        self.__fps = 60
+    def __init__(self) -> None:
+        self.__largura = 1200
+        self.__altura = 600
+        self.__preto = pygame.Color(255, 255, 255)
 
-        self.__preto = pygame.Color(0, 0, 0)
-
-        pygame.init()
         self.__display = pygame.display.set_mode((self.__largura,
-                                                  self.__altura))
+                                                  self.__altura),
+                                                  pygame.RESIZABLE)
         pygame.display.set_caption("mapa")
-        self.__clock = pygame.time.Clock()
-        self.__display.fill(self.__preto)
-
-
-    @property
-    def fps(self):
-        return self.__fps
-
+        self.__display.fill((255, 255, 255))
+    
     @property
     def display(self):
         return self.__display
-
+    
     @property
-    def clock(self):
-        return self.__clock
+    def size(self):
+        return self.__largura, self.__altura
+    @size.setter
+    def size(self, size:tuple[float] | list[float]):
+        self.__largura, self.__altura = size
+        self.__display = pygame.display.set_mode(size,
+                                     pygame.RESIZABLE)
