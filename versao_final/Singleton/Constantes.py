@@ -14,39 +14,20 @@ class Constantes(Singleton):
     ]
 
     @property
-    def posicoesPersonagens(cls) -> tuple[int]:
+    def posicoesPersonagens(cls) -> tuple:
         return cls.__posicoesPersonagens
 
     @property
-    def posicoesSlots(cls) -> tuple[int]:
+    def posicoesSlots(cls) -> tuple:
         return cls.__posicoesSlots
 
     @property
-    def screenSize(cls) -> tuple[int]:
+    def screenSize(cls) -> tuple:
         return cls.__screenSize
     
     @property
-    def defaultSize(cls) -> tuple[int]:
+    def defaultSize(cls) -> tuple:
         return cls.__defaultSize
-
-    @property
-    def slotCounter(cls) -> int:
-        a = cls.__slotCounter
-        cls.__slotCounter += 1
-        if cls.__slotCounter >= 8:
-            cls.__slotCounter = 0
-        return a
-    @slotCounter.setter
-    def slotCounter(cls, count: int):
-        cls.__slotCounter = count
-
-    @property
-    def charCounter(cls) -> int:
-        a = cls.__charCounter
-        cls.__charCounter += 1
-        if cls.__charCounter > 5:
-            cls.__charCounter = 0
-        return a
 
     @property
     def locais(cls) -> list:
