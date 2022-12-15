@@ -1,38 +1,21 @@
 from Model.Personagem import Personagem
 from Singleton.Animacao import Animacao
 from View.Sprite import Sprite
-from Singleton.habilidades import Habilidades
-from Model.Habilidade import Habilidade
-from Singleton.Constantes import Constantes
 from DAO.PersonagemDAO import PersonagemDAO
 from DAO.JogoDAO import JogoDAO
 import random as random
-from Model.Tela import Tela
-import pygame
+from View.Tela import Tela
 
 class BatalhaModel:
     def __init__(self, tela:Tela, inimigos:list[Personagem]) -> None:
 
         self.__personagemSelecionado = None
-        self.__save_A = PersonagemDAO()
+        self.__personagensDAO = PersonagemDAO()
 
-        self.__aliados = self.__save_A.get_all()
+        self.__aliados = self.__personagensDAO.get_all()
         self.__inimigos = inimigos
         
         self.__nivel = JogoDAO().get()
-    
-
-        # self.__aliados = [
-        #     Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills[0:2]]),
-        #     Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills[1:3]]),
-        #     Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills[2:4]])
-        # ]
-
-        # self.__inimigos = [
-        #     Personagem('mago', 1, [Habilidade(*i) for i in Habilidades().skills]),
-        #     Personagem('assassin', 1, [Habilidade(*i) for i in Habilidades().skills]),
-        #     Personagem('goblin', 1, [Habilidade(*i) for i in Habilidades().skills])
-        # ]
 
         w, h = tela.display.get_size()
 
@@ -46,11 +29,9 @@ class BatalhaModel:
         ]
 
         self.__posicoesSlots = [
-            (400, 550), (450, 550), (500, 550), (550, 550),
-            (600, 550), (650, 550), (700, 550), (750, 550)
+            (600, 850), (650, 850), (700, 850), (750, 850),
+            (800, 850), (850, 850), (900, 850), (950, 850)
         ]
-        # self.__aliados = aliados
-        # self.__inimigos = inimigos
 
         self.__setPosicoes()
 
@@ -105,6 +86,7 @@ class BatalhaModel:
     def evoluiAliados(self, nivel:int):
         for aliado in self.__aliados:
             aliado.fim_da_batalha(nivel)
+            self.__personagensDAO.add(aliado)
 
     def selecionaPersonagem(self, personagens: list[Personagem]):
         personagem = random.choice(personagens)
@@ -113,7 +95,6 @@ class BatalhaModel:
         
         return personagem
     
-    # controller?
     def personagemClicado(self, posicao:list[int]):
         for index, aliado in enumerate(self.__spritesAliados):
             cond = posicao is not None
@@ -126,7 +107,6 @@ class BatalhaModel:
                 self.__habilidades = habilidades
                 return habilidades
         
-    # controller?
     def habilidadeClicada(self, posicao:list[int]):
         for index, sprite in enumerate(self.__habilidades):
             if posicao is not None and sprite.rect.collidepoint(posicao):

@@ -9,8 +9,7 @@ class Mapa():
     def __init__(self, tela:Tela):
         self.__tela = tela
         self.__locais = Locais().locais
-        self.__image = pygame.image.load(os.path.join('assets',
-                                                      'mapa.png')
+        self.__image = pygame.image.load(os.path.join('assets', 'mapa.png')
                                          )
         self.__image = pygame.transform.scale(self.__image, tela.display.get_size())
     

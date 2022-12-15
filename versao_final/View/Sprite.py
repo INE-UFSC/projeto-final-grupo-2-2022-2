@@ -30,9 +30,7 @@ class Sprite(pygame.sprite.Sprite):
             if self.__progressoAnimacao == 10:
                 Animacao().fase = 1
 
-        cond = Animacao().fase == 1
-        cond = cond and self.__progressoAnimacao != 0
-        elif cond:
+        elif Animacao().fase == 1 and self.__progressoAnimacao != 0:
             self.rect.x -= 2
             self.__progressoAnimacao -= 1
 

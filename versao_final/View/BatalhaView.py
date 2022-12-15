@@ -13,6 +13,7 @@ class BatalhaView:
                  tela:Tela) -> None:
         self.__aliados = aliados
         self.__inimigos = inimigos
+        self.__tela = tela
         self.__slots = [SkillSlot(i) for i in posicoes]
         self.__spritesSlots = pygame.sprite.Group(self.__slots)
         self.__habilidades = pygame.sprite.Group()
@@ -22,19 +23,18 @@ class BatalhaView:
         self.__rect = self.__image.get_rect()
         
     
-    def draw(self, 
-             screen:pygame.Surface,
+    def draw(self,
              aliados: list[Personagem],
              inimigos: list[Personagem]):
-        screen.blit(self.__image, self.__rect)
-        self.__aliados.draw(screen)
-        self.__inimigos.draw(screen)
-        self.__spritesSlots.draw(screen)
-        self.__habilidades.draw(screen)
-        self.__projetilInimigo.draw(screen)
+        self.__tela.display.blit(self.__image, self.__rect)
+        self.__aliados.draw(self.__tela.display)
+        self.__inimigos.draw(self.__tela.display)
+        self.__spritesSlots.draw(self.__tela.display)
+        self.__habilidades.draw(self.__tela.display)
+        self.__projetilInimigo.draw(self.__tela.display)
         for aliado, inimigo in zip(aliados, inimigos):
-            aliado.criaBarraDeVida(screen)
-            inimigo.criaBarraDeVida(screen)
+            aliado.criaBarraDeVida(self.__tela.display)
+            inimigo.criaBarraDeVida(self.__tela.display)
 
         pygame.display.update()
     

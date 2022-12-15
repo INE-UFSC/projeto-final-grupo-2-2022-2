@@ -3,7 +3,7 @@ from Model.BatalhaModel import BatalhaModel
 from DAO.JogoDAO import JogoDAO
 from DAO.PersonagemDAO import PersonagemDAO
 from View.BatalhaView import BatalhaView
-from Model.Tela import Tela
+from View.Tela import Tela
 from Model.Mapa import Mapa
 from Model.InputHandler import InputHandler
 from Singleton.Animacao import Animacao
@@ -52,6 +52,7 @@ class Controller:
             self.__batalhaModel.reset()
             if vencedor == 'allies':
                 self.__batalhaModel.evoluiAliados(self.__nivel + 1)
+                self.__savePersonagens.add()
                 self.__saveJogo.add(self.__nivel + 1)
             return run, True
         else:
@@ -66,7 +67,7 @@ class Controller:
                 self.__batalhaView.projetilInimigo = skill
 
 
-            self.__batalhaView.draw(self.__tela.display, self.__batalhaModel.aliados, self.__batalhaModel.inimigos)
+            self.__batalhaView.draw(self.__batalhaModel.aliados, self.__batalhaModel.inimigos)
             if self.__batalhaModel.habilidades is not None:
                 self.__batalhaView.mostraHabilidades(self.__batalhaModel.habilidades)
 

@@ -7,8 +7,7 @@ class Cenario(ABC):
                  largura:int, altura:int,
                  eixo_x:int, eixo_y:int):
         self.__id_image = identificador
-        self.__image = pygame.image.load(os.path.join('versao_final',
-                                                      'assets',
+        self.__image = pygame.image.load(os.path.join('assets',
                                                       self.__id_image))
         self.__image = pygame.transform.scale(self.__image,
                                               (largura,

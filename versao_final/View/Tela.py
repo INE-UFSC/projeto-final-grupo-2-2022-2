@@ -2,9 +2,8 @@ import pygame
 
 class Tela:
     def __init__(self) -> None:
-        self.__largura = 1200
-        self.__altura = 600
-        self.__preto = pygame.Color(255, 255, 255)
+        self.__largura = 1600
+        self.__altura = 900
 
         self.__display = pygame.display.set_mode((self.__largura,
                                                   self.__altura),
@@ -15,6 +14,10 @@ class Tela:
     @property
     def display(self):
         return self.__display
+    @display.setter
+    def display(self, display):
+        self.__display = display
+
     
     @property
     def size(self):
@@ -22,5 +25,4 @@ class Tela:
     @size.setter
     def size(self, size:tuple[float] | list[float]):
         self.__largura, self.__altura = size
-        self.__display = pygame.display.set_mode(size,
-                                     pygame.RESIZABLE)
+        self.__display = pygame.display.set_mode(size, pygame.RESIZABLE)
