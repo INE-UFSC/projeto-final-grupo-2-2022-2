@@ -1,45 +1,33 @@
 from Singleton.Singleton import Singleton
-from Model.Acao import Acao
-from Model.Personagem import Personagem
-from View.CenarioBatalha import CenarioBatalha
-from Model.CenarioModel import CenarioModel
-from Controller.PersonagemDAO import PersonagemDAO
-from Controller.JogoDAO import JogoDAO
 
 class Constantes(Singleton):
     __screenSize = (1200, 600)
     __defaultSize = (80, 80)
-    __slotCounter = 0
-    __charCounter = 0
-    __SaveNivel = JogoDAO('Nivel.pkl')
-    __skills = [
-        Acao('fireball', -50, 'saude', 'ofensivo', 'projetil'),
-        Acao('rasengan', -50, 'saude', 'ofensivo', 'projetil'),
-        Acao('earthball', -50, 'saude', 'ofensivo', 'projetil'),
-        Acao('waterball', -50, 'saude', 'ofensivo', 'projetil'),
-        Acao('melee', -500, 'saude', 'ofensivo', 'melee'),
-        Acao('boost', 5, 'ataque', 'suporte', 'projetil')
-        ]
-    __locais = [None]*10
-    for i in range(10):
-        id = "Saffron" + str(i) + ".jpg"
-        __locais[i] = CenarioModel(CenarioBatalha(id, 800,500,
-                                                  400,250, i),
-                                   431,148,75,83)
-    
+
+    __posicoesPersonagens = [
+        (240, 180), (120, 300), (240, 420),
+        (960, 180), (1080, 300), (960, 420)
+    ]
+    __posicoesSlots = [
+        (400, 550), (450, 550), (500, 550), (550, 550),
+        (600, 550), (650, 550), (700, 550), (750, 550)
+    ]
+
     @property
-    def screenSize(cls) -> tuple(int):
+    def posicoesPersonagens(cls) -> tuple[int]:
+        return cls.__posicoesPersonagens
+
+    @property
+    def posicoesSlots(cls) -> tuple[int]:
+        return cls.__posicoesSlots
+
+    @property
+    def screenSize(cls) -> tuple[int]:
         return cls.__screenSize
-    @screenSize.setter
-    def screenSize(cls, size):
-        cls.__screenSize = size
     
     @property
-    def defaultSize(cls) -> tuple(int):
+    def defaultSize(cls) -> tuple[int]:
         return cls.__defaultSize
-    @defaultSize.setter
-    def screenSize(cls, size):
-        cls.__defaultSize = size
 
     @property
     def slotCounter(cls) -> int:
@@ -59,33 +47,7 @@ class Constantes(Singleton):
         if cls.__charCounter > 5:
             cls.__charCounter = 0
         return a
-    @charCounter.setter
-    def charCounter(cls, count:int):
-        cls.__charCounter = count
 
     @property
-    def skills(cls) -> Acao:
-        return cls.__skills
-
-    @property
-    def SaveNivel(cls) -> JogoDAO:
-        return cls.__SaveNivel
-
-    @property
-    def SavePersonagens(cls) -> PersonagemDAO:
-        return cls.__SavePersonagens
-
-    @property
-    def locais(cls) -> list[CenarioModel]:
+    def locais(cls) -> list:
         return cls.__locais
-
-acoes = Constantes().skills
-save = PersonagemDAO()
-aliados = [None]*3
-
-for i in range(3):
-    aliados[i] = Personagem(nome = 'Joao' + str(i), 
-                          nivel = 1,
-                          tecnicas = [acoes[i-1], acoes[i]], 
-                          classe = 'mago')
-    save.add(aliados[i])
