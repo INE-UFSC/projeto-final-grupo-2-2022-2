@@ -63,7 +63,7 @@ class Controller:
         vencedor = self.__batalhaModel.checaVencedor()
         if vencedor != '':
             self.__batalhaView.mostraResultado(self.__tela.display, vencedor)
-            self.__batalhaModel.resetPersonagens(self.__nivel)
+            self.__batalhaModel.reset()
             if vencedor == 'allies':
                 self.__batalhaModel.evoluiAliados(self.__nivel + 1)
                 self.__saveJogo.add(self.__nivel + 1)

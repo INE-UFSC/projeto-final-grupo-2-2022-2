@@ -59,15 +59,15 @@ class Locais(Singleton):
     ]
 
     __inimigosFase5 = [
-        Personagem('orc_mirrored', 3, [Habilidade(*i) for i in __acoes]),
-        Personagem('orc_mirrored', 3, [Habilidade(*i) for i in __acoes]),
-        Personagem('orc_mirrored', 3, [Habilidade(*i) for i in __acoes])
+        Personagem('orc_mirrored', 4, [Habilidade(*i) for i in __acoes]),
+        Personagem('orc_mirrored', 4, [Habilidade(*i) for i in __acoes]),
+        Personagem('orc_mirrored', 4, [Habilidade(*i) for i in __acoes])
     ]
 
     __inimigosFase6 = [
-        Personagem('orc_mirrored', 3, [Habilidade(*i) for i in __acoes]),
-        Personagem('mago_mirrored', 3, [Habilidade(*i) for i in __acoes]),
-        Personagem('orc_mirrored', 3, [Habilidade(*i) for i in __acoes]),
+        Personagem('orc_mirrored', 5, [Habilidade(*i) for i in __acoes]),
+        Personagem('mago_mirrored', 5, [Habilidade(*i) for i in __acoes]),
+        Personagem('orc_mirrored', 5, [Habilidade(*i) for i in __acoes]),
     ]
 
     __reg1 = CenarioBatalha('background.png',
@@ -90,12 +90,12 @@ class Locais(Singleton):
                             4, __inimigosFase6)
 
     __locais = [
-        CenarioModel(__reg1, 40,200,65,60),
-        CenarioModel(__reg2, 348,200,69,100),
-        CenarioModel(__reg3, 312,48,104,89),
-        CenarioModel(__reg4, 349,399,67,57),
-        CenarioModel(__reg5, 349,533,64,57),
-        CenarioModel(__reg6, 643,85,113,59)
+        CenarioModel(__reg1, 58,263,64,47),
+        CenarioModel(__reg2, 360,264,67,80),
+        CenarioModel(__reg3, 325,135,101,73),
+        CenarioModel(__reg4, 362,427,64,45),
+        CenarioModel(__reg5, 652,166,113,48),
+        CenarioModel(__reg6, 657,245,102,73)
     ]
     
     @property

@@ -38,8 +38,7 @@ class Mapa():
                 if cond:
                     at = self.__locais.index(lugar)
                     lugar.clicked = False
-                    nivel = JogoDAO()
-                    nivel = nivel.get()
+                    nivel = JogoDAO().get()
                     cond2 = at <= nivel
                 if cond2:
                     print(nivel)

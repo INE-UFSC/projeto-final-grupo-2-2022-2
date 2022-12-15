@@ -98,9 +98,9 @@ class BatalhaModel:
         
         return ''
     
-    def resetPersonagens(self, nivel:int):
+    def reset(self):
         for inimigo in self.__inimigos:
-            inimigo.fim_da_batalha(nivel)
+            inimigo.reset()
 
     def evoluiAliados(self, nivel:int):
         for aliado in self.__aliados:

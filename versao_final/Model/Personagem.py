@@ -62,15 +62,23 @@ class Personagem:
 
 # resetam os status e evoluem depois da batalha
 
+    def reset(self):
+        self.__saude = self.__saude_max
+
     def fim_da_batalha(self, nivel:int):
 
         self.__nivel = nivel
 
-        var = r.choice(['ataque', 'saude'])
-        self.evoluir_atributo(var)
+        # var = r.choice(['ataque', 'saude'])
+        # self.evoluir_atributo(var)
 
-        self.__saude = self.__saude_max
-        self.__ataque = self.__ataque
+        print(self.__saude_max)
+        print(self.__ataque)
+        self.__saude = nivel*100
+        self.__saude_max = nivel*100
+        self.__ataque = nivel
+        print(self.__saude_max)
+        print(self.__ataque)
 
         var = r.choice(self.__habilidades)
         self.evoluir_tecnica(var)
@@ -81,16 +89,16 @@ class Personagem:
             tecnica.evolucao()
         else: print("tecnica invalida")
 
-    def evoluir_atributo(self, atributo: str):
-        if atributo == 'ataque':
-            self.__ataque += 5
-        if atributo == 'saude':
-            self.__saude_max += 5
-        else:
-            print('argumento invalido')
+    # def evoluir_atributo(self, atributo: str):
+    #     if atributo == 'ataque':
+    #         self.__ataque += 5
+    #     if atributo == 'saude':
+    #         self.__saude_max += 5
+    #     else:
+    #         print('argumento invalido')
 
-        self.__saude_max += (100*self.__nivel/10)//1
-        self.__ataque += (100*self.__nivel/10)//1
+    #     self.__saude_max += (100*self.__nivel/10)//1
+    #     self.__ataque += (100*self.__nivel/10)//1
 
     @property
     def nome(self) -> str:
