@@ -1,64 +1,58 @@
-import PySimpleGUI as sg
-from Singleton.Constantes import Constantes
+from Model.Botao import Botao
+import pygame
+from View.Tela import Tela
+#from Singleton.Constantes import Constantes
+import os
+
 
 class Menu():
-    def __init__(self) -> None:
-        self.__container = []
-        self.__screenSize = Constantes().screenSize
-    
-    def draw(self, comandos:list):
-        self.__container = []
-        self.__container.append([sg.VPush()])
+    def __init__(self, tela:Tela):
+        self.__tela = tela
+        self.__size = self.__tela.display.get_size()
+        self.__botoes = [Botao('play', self.__size[0]/2, self.__size[1]/2)]
+        self.__image = pygame.image.load(os.path.join('assets','menu.jpeg')).convert()
+        self.__image = pygame.transform.scale(self.__image, self.__size)
+        self.__rect = self.__image.get_rect()
+        self.__centro_largura,self.__centro_altura = self.__size
+        self.__rect.center = (self.__centro_largura/2,self.__centro_altura/2)
 
-        for i in comandos:
-            self.__container.append(
-                [sg.Button(
-                    button_text = i.upper(),
-                    key = i,
-                    size = (30, 1.2),
-                    use_ttk_buttons= True,
-                    pad = 30,
-                )
-            ])
-
-        self.__container.append([sg.VPush()])
-        
-        self.__window = sg.Window(
-            title = "Menu", 
-            layout = self.__container, 
-            font = ("Helvetica", 14),
-            size = self.__screenSize,
-            element_justification='c',
-            resizable = True,
-            finalize = True
-        )
-
-    def setScreenSize(self):
-        if isinstance(self.__window, sg.Window):
-            self.__screenSize = self.__window.size
-            Constantes().screenSize = self.__screenSize
-            print(self.__screenSize, Constantes().screenSize)
-
-    def main(self) -> bool:
-        self.draw(['Play', 'Options', 'Quit'])
+    def run(self):
         run = True
-        while run:
-            event, values = self.__window.read()
-            self.setScreenSize()
+        play = False
 
-            if event == sg.WIN_CLOSED or event == 'Quit':
+        self.__tela.display.blit(self.image, self.rect)
+
+        for botao in range(len(self.botoes)):
+            pygame.draw.rect(self.__tela.display, self.botoes[botao].cor_fundo, self.botoes[botao].rect)
+            self.__tela.display.blit(self.botoes[botao].texto, self.botoes[botao].rect_texto)
+
+        for event in pygame.event.get():
+            if event.type == pygame.VIDEORESIZE:
+                self.__tela.size = event.w, event.h
+            if event.type == pygame.QUIT:
                 run = False
-            
-            if event == 'Options':
-                self.__window.close()
-                self.draw(['Vídeo', 'Áudio', 'Teclado e Mouse', 'Voltar'])
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                posicao = pygame.mouse.get_pos()
+                if event.button == 1:
+                    for botao in range(len(self.botoes)):
+                        if self.botoes[botao].rect.collidepoint(posicao):
+                            play = True
+        
+        pygame.display.flip()
+        return (run, play)
 
-            if event == 'Play':
-                self.__window.close()
-                return True
-            
-            if event == 'Voltar':
-                self.__window.close()
-                self.draw(['Play', 'Options', 'Quit'])
+    @property
+    def botoes(self) -> list[Botao]:
+        return self.__botoes
 
-    
+    @property
+    def rect(self):
+        return self.__rect
+
+    @property
+    def image(self):
+        return self.__image
+
+
+    def inicia(self):
+        pass
