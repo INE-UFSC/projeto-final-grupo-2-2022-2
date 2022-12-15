@@ -1,20 +1,25 @@
-from View.Cenario import Cenario
+from Model.Cenario import Cenario
 from Model.Personagem import Personagem
-from Singleton.Constantes import Constantes
+import pygame, os
 
 class CenarioBatalha(Cenario):
-    def __init__(self,identificador:str, largura:int,
-                 altura:int, eixo_x:int, eixo_y:int,
-                 nivel:int=1):
-        super().__init__(identificador, largura,
+    def __init__(self,
+                 filename:str, 
+                 largura:int,
+                 altura:int, 
+                 eixo_x:int, 
+                 eixo_y:int,
+                 nivel:int,
+                 inimigos):
+        super().__init__(filename, largura,
                          altura, eixo_x, eixo_y)
-        self.__inimigos = [None]*3
-        for i in range(3):
-            nome = 'Inimigo' + str(nivel) + str(i)
-            self.__inimigos[i] = Personagem(nome, 
-                                nivel = nivel,
-                                tecnicas = Constantes().skills,
-                                classe = 'troll')
+
+        self.__background = self.setBackground(filename)
+        self.__inimigos = inimigos
+    
+    def setBackground(self, filename):
+        image = pygame.image.load(os.path.join('assets', filename))
+        return image
 
     @property
     def inimigos(self) -> list[Personagem]:
