@@ -14,8 +14,11 @@ class Sprite(pygame.sprite.Sprite):
         self.__progressoAnimacao = 0
     
     def setImage(self):
-        img = pygame.image.load(os.path.join('assets', f'{self.__filename}.png'))
-        image = pygame.transform.scale(img, (self.__width, self.__height))
+        img = pygame.image.load(os.path.join('assets',
+                            f'{self.__filename}.png'))
+        image = pygame.transform.scale(img,
+                                       (self.__width,
+                                        self.__height))
         self.rect = image.get_rect()
         return image
 
@@ -27,7 +30,9 @@ class Sprite(pygame.sprite.Sprite):
             if self.__progressoAnimacao == 10:
                 Animacao().fase = 1
 
-        elif Animacao().fase == 1 and self.__progressoAnimacao != 0:
+        cond = Animacao().fase == 1
+        cond = cond and self.__progressoAnimacao != 0
+        elif cond:
             self.rect.x -= 2
             self.__progressoAnimacao -= 1
 
