@@ -52,7 +52,6 @@ class Controller:
             self.__batalhaModel.reset()
             if vencedor == 'allies':
                 self.__batalhaModel.evoluiAliados(self.__nivel + 1)
-                self.__savePersonagens.add()
                 self.__saveJogo.add(self.__nivel + 1)
             return run, True
         else:
